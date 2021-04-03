@@ -21,9 +21,10 @@ class Deployment(Enum):
     AZURE = 3
 
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEPLOYMENT = Deployment[os.getenv("DEPLOYMENT", "LOCAL")]
 LOCAL = DEPLOYMENT == Deployment.LOCAL
+
+# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = LOCAL
 
 # SECURITY WARNING: keep the secret key used in production secret!
