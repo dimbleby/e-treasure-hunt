@@ -11,48 +11,57 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from enum import Enum
 
-# Read environment variables saying where we are deployed.
-development = bool(os.getenv("DEVELOPMENT_SERVER", ""))
-azure = bool(os.getenv("AZURE", ""))
-heroku = not azure and not development
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Where is the app being deployed?
+class Deployment(Enum):
+    LOCAL = 1
+    HEROKU = 2
+    AZURE = 3
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJ_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = development
-ALLOWED_HOSTS = ["localhost"] if development else [os.environ.get("APP_URL", "")]
+DEPLOYMENT = Deployment[os.getenv("DEPLOYMENT", "LOCAL")]
+LOCAL = DEPLOYMENT == Deployment.LOCAL
+DEBUG = LOCAL
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get("SECRET_KEY", "insecure" if LOCAL else "")
+
+ALLOWED_HOSTS = ["localhost"] if LOCAL else [os.environ.get("APP_URL", "")]
 
 # Extra settings from security check
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = heroku
-SESSION_COOKIE_SECURE = not development
-CSRF_COOKIE_SECURE = not development
+SECURE_SSL_REDIRECT = DEPLOYMENT == Deployment.HEROKU
+SESSION_COOKIE_SECURE = not LOCAL
+CSRF_COOKIE_SECURE = not LOCAL
 X_FRAME_OPTIONS = "DENY"
 
 # Close the session when user closes the browser
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 CSRF_COOKIE_AGE = 5184000
 
-# Image storage.
+# Storage.
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-if development:
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+if DEPLOYMENT == Deployment.LOCAL:
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-elif azure:
+elif DEPLOYMENT == Deployment.AZURE:
     DEFAULT_FILE_STORAGE = "hunt.backend.AzureMediaStorage"
+    STATICFILES_STORAGE = "hunt.backend.AzureStaticStorage"
     AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME", "etreasurehuntstorage")
     AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
     AZURE_MEDIA_CONTAINER = os.getenv("AZURE_MEDIA_CONTAINER", "media")
     AZURE_STATIC_CONTAINER = os.getenv("AZURE_STATIC_CONTAINER", "static")
-else:
+elif DEPLOYMENT == Deployment.HEROKU:
     DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
-    DROPBOX_OAUTH2_TOKEN = os.environ.get("DB_TOKEN", "")
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+    DROPBOX_OAUTH2_TOKEN = os.environ.get("DROPBOX_OAUTH2_TOKEN", "")
     DROPBOX_ROOT_PATH = "/"
 
 # Application definition
@@ -70,6 +79,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,8 +87,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-if not azure:
-    MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 
 ROOT_URLCONF = "treasure.urls"
 
@@ -112,7 +120,7 @@ LOGGING = {
     },
 }
 
-if heroku:
+if DEPLOYMENT == Deployment.HEROKU:
     import django_heroku
 
     django_heroku.settings(locals(), logging=False)
@@ -137,38 +145,31 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_URL = "/static/"
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_STORAGE = (
-    "hunt.backend.AzureStaticStorage"
-    if azure
-    else "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
-
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAdminUser"],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,
 }
 
-if development:
+if DEPLOYMENT == Deployment.LOCAL:
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": "treasure.sqlite",
         }
     }
-elif azure:
-    user = os.getenv("DBUSER")
-    host = os.getenv("DBHOST")
+elif DEPLOYMENT == Deployment.AZURE:
+    user = os.getenv("DBUSER", "")
+    host = os.getenv("DBHOST", "")
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
             "NAME": os.getenv("DBNAME", "treasurehuntdb"),
             "USER": f"{user}@{host}",
-            "PASSWORD": os.getenv("DBPASS"),
+            "PASSWORD": os.getenv("DBPASS", ""),
             "HOST": host,
         }
     }
+elif DEPLOYMENT == Deployment.HEROKU:
+    # Heroku takes care of this automatically.
+    pass
