@@ -12,8 +12,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-# Set the environment variable DEVELOPMENT_SERVER for local development.
+# Read environment variables saying where we are deployed.
 development = bool(os.getenv("DEVELOPMENT_SERVER", ""))
+azure = bool(os.getenv("AZURE", ""))
+heroku = not azure and not development
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,12 +25,12 @@ SECRET_KEY = os.environ.get("DJ_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = development
-ALLOWED_HOSTS = ["localhost"] if development else ["e-treasure-hunt.azurewebsites.net"]
+ALLOWED_HOSTS = ["localhost"] if development else [os.environ.get("APP_URL", "")]
 
 # Extra settings from security check
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = False
+SECURE_SSL_REDIRECT = heroku
 SESSION_COOKIE_SECURE = not development
 CSRF_COOKIE_SECURE = not development
 X_FRAME_OPTIONS = "DENY"
@@ -42,12 +44,16 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 if development:
     DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
-else:
+elif azure:
+    DEFAULT_FILE_STORAGE = "hunt.backend.AzureMediaStorage"
     AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME", "etreasurehuntstorage")
     AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
     AZURE_MEDIA_CONTAINER = os.getenv("AZURE_MEDIA_CONTAINER", "media")
     AZURE_STATIC_CONTAINER = os.getenv("AZURE_STATIC_CONTAINER", "static")
-    DEFAULT_FILE_STORAGE = "hunt.backend.AzureMediaStorage"
+else:
+    DEFAULT_FILE_STORAGE = "storages.backends.dropbox.DropBoxStorage"
+    DROPBOX_OAUTH2_TOKEN = os.environ.get("DB_TOKEN", "")
+    DROPBOX_ROOT_PATH = "/"
 
 # Application definition
 INSTALLED_APPS = [
@@ -71,7 +77,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-if development:
+if not azure:
     MIDDLEWARE.append("whitenoise.middleware.WhiteNoiseMiddleware")
 
 ROOT_URLCONF = "treasure.urls"
@@ -106,6 +112,11 @@ LOGGING = {
     },
 }
 
+if heroku:
+    import django_heroku
+
+    django_heroku.settings(locals(), logging=False)
+
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -131,9 +142,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-    if development
-    else "hunt.backend.AzureStaticStorage"
+    "hunt.backend.AzureStaticStorage"
+    if azure
+    else "whitenoise.storage.CompressedManifestStaticFilesStorage"
 )
 
 REST_FRAMEWORK = {
@@ -149,13 +160,13 @@ if development:
             "NAME": "treasure.sqlite",
         }
     }
-else:
+elif azure:
     user = os.getenv("DBUSER")
     host = os.getenv("DBHOST")
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "treasurehuntdb",
+            "NAME": os.getenv("DBNAME", "treasurehuntdb"),
             "USER": f"{user}@{host}",
             "PASSWORD": os.getenv("DBPASS"),
             "HOST": host,
