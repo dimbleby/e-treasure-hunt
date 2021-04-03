@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 
-import django_heroku
-
 # Set the environment variable DEVELOPMENT_SERVER for local development.
 development = bool(os.getenv("DEVELOPMENT_SERVER", ""))
 
@@ -25,12 +23,12 @@ SECRET_KEY = os.environ.get("DJ_KEY", "")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = development
-ALLOWED_HOSTS = ["localhost"] if development else [os.environ.get("APP_URL", "")]
+ALLOWED_HOSTS = ["localhost"] if development else ["e-treasure-hunt.azurewebsites.net"]
 
 # Extra settings from security check
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
-SECURE_SSL_REDIRECT = not development
+SECURE_SSL_REDIRECT = False
 SESSION_COOKIE_SECURE = not development
 CSRF_COOKIE_SECURE = not development
 X_FRAME_OPTIONS = "DENY"
@@ -42,13 +40,14 @@ CSRF_COOKIE_AGE = 5184000
 # Image storage.
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-DEFAULT_FILE_STORAGE = (
-    "django.core.files.storage.FileSystemStorage"
-    if development
-    else "storages.backends.dropbox.DropBoxStorage"
-)
-DROPBOX_OAUTH2_TOKEN = os.environ.get("DB_TOKEN", "")
-DROPBOX_ROOT_PATH = "/"
+if development:
+    DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+else:
+    AZURE_ACCOUNT_NAME = os.getenv("AZURE_ACCOUNT_NAME", "etreasurehuntstorage")
+    AZURE_ACCOUNT_KEY = os.getenv("AZURE_ACCOUNT_KEY")
+    AZURE_MEDIA_CONTAINER = os.getenv("AZURE_MEDIA_CONTAINER", "media")
+    AZURE_STATIC_CONTAINER = os.getenv("AZURE_STATIC_CONTAINER", "static")
+    DEFAULT_FILE_STORAGE = "hunt.backend.AzureMediaStorage"
 
 # Application definition
 INSTALLED_APPS = [
@@ -65,7 +64,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -106,9 +104,6 @@ LOGGING = {
     },
 }
 
-# Activate Django-Heroku.
-django_heroku.settings(locals(), logging=False)
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -133,7 +128,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "hunt.backend.AzureStaticStorage"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.IsAdminUser"],
@@ -146,5 +141,17 @@ if development:
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": "treasure.sqlite",
+        }
+    }
+else:
+    user = os.getenv("DBUSER")
+    host = os.getenv("DBHOST")
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": "treasurehuntdb",
+            "USER": f"{user}@{host}",
+            "PASSWORD": os.getenv("DBPASS"),
+            "HOST": host,
         }
     }
