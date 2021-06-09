@@ -8,18 +8,18 @@ from hunt.constants import HINTS_PER_LEVEL
 from hunt.models import Hint, Level
 
 
-def upload_new_hint(request: HttpRequest) -> str:
+def upload_new_level(request: HttpRequest) -> str:
     if not request.user.has_perm("hunt.add_level"):
-        return "/hint-mgmt?success=False"
+        return "/level-mgmt?success=False"
 
     if not request.POST:
-        return "/hint-mgmt?success=False"
+        return "/level-mgmt?success=False"
 
     lvl_num = request.POST.get("lvl-num")
     if lvl_num is None:
-        return "/hint-mgmt?success=False"
+        return "/level-mgmt?success=False"
 
-    fail_str = "/hint-mgmt?success=False&next=" + lvl_num
+    fail_str = "/level-mgmt?success=False&next=" + lvl_num
 
     # Get the existing level, or create a new one.
     try:
@@ -56,10 +56,11 @@ def upload_new_hint(request: HttpRequest) -> str:
     level.latitude = lvl_info.get("latitude")
     level.longitude = lvl_info.get("longitude")
     level.tolerance = lvl_info.get("tolerance")
+    level.full_clean()
     level.save()
 
     # Delete old hints.
-    old_hints = level.hint_set.all()
+    old_hints = level.hints.all()
     for old_hint in old_hints:
         old_hint.image.delete()
     old_hints.delete()
@@ -72,4 +73,4 @@ def upload_new_hint(request: HttpRequest) -> str:
         hint.number = number
         hint.image.save(filename, file_)
 
-    return "/hint-mgmt?success=True&next=" + str(int(lvl_num) + 1)
+    return "/level-mgmt?success=True&next=" + str(int(lvl_num) + 1)

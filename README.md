@@ -5,10 +5,10 @@ this app are set up with adequate security measures and usage caps, such that if
 they are compromised, no charges or problems will arise.**
 
 You can check where a given credential is used by searching the code for the
-name of the environment variable that holds it (see Setup below).
+name of the environment variable that holds it.
 
-Due to the the terms of certain dependencies, this application may **not** be
-used to generate revenue.
+Due to the terms of certain dependencies, this application may not be used to
+generate revenue.
 
 ---
 
@@ -16,10 +16,11 @@ used to generate revenue.
 
 You can either deploy this app hosted (on Heroku) or locally.
 
-If you are deploying on Heroku you will need a Dropbox account, with an app set
-up with read/write permission to a specific folder to hold the level images, and
-a corresponding OAuth key.
-See <https://www.dropbox.com/developers/apps>.
+Either way, you will need an [ArcGIS for Developers
+account](https://developers.arcgis.com/en/plans).
+This is a [condition of
+use](https://github.com/Esri/esri-leaflet-geocoder#terms-and-conditions) of the
+esri-leaflet-geocoder project; see also the ArcGIS website.
 
 If you are using Google Maps you will need a Google Cloud account with Places
 and Maps JavaScript APIs enabled, and an API key.
@@ -36,16 +37,21 @@ and Maps JavaScript APIs enabled, and an API key.
 
 - Heroku account
 - Heroku CLI installed
+- Dropbox account
+  - an app set up with read/write permission to a specific folder (to hold
+    images), and a corresponding OAuth key.
+  - See <https://www.dropbox.com/developers/apps>.
 
 ### Setup
 
 - Create your Heroku app
-- Set the `DJ_KEY` environment variable to a secret string
-- Set the `DB_TOKEN` environment variable to your DropBox OAuth token
+- Set the `DEPLOYMENT` environment variable to `HEROKU`
+- Set the `SECRET_KEY` environment variable to a secret string
+- Set the `DROPBOX_OAUTH2_TOKEN` environment variable to your DropBox OAuth token
 - If you are using Google Maps: Set the `GM_API_KEY` environment variable to your
   Google API key
 - Set the `APP_URL` environment variable to the root domain for your app (e.g.
-  example.com)
+  `e-treasure-hunt.herokuapp.com`)
 - Add a Heroku Postgres add-on to your app
 
 ### Deploy
@@ -59,6 +65,7 @@ and Maps JavaScript APIs enabled, and an API key.
 Commands that I have previously searched for, dumped here to jog the memory
 later.
 
+- `heroku git:remote -a <app_name>`
 - `heroku maintenance:on` and `heroku maintenance:off`
 - `heroku ps:scale web=0` and `heroku ps:scale web=1`
 - `heroku pg:reset`
@@ -71,16 +78,6 @@ Build the image:
 
 ```
 docker build --tag e-treasure-hunt .
-```
-
-Collect static files (you should re-run this if you change the templates):
-
-```
-docker run \
-  --user "$EUID":"${GROUPS[0]}" \
-  --rm \
-  --mount type=bind,source=$PWD,target=/usr/src/app \
-  e-treasure-hunt collectstatic --no-input
 ```
 
 Run database migrations and create the admin user:
@@ -102,14 +99,14 @@ docker run \
 ```
 
 With this setup done you can run the app as below, and should find it in your
-browser at <https://localhost:80>.
+browser at <http://localhost:8000>.
 
 ```
 docker run \
   --user "$EUID":"${GROUPS[0]}" \
   --rm \
   --mount type=bind,source=$PWD,target=/usr/src/app \
-  --publish 80:8000 \
+  --publish 8000:8000 \
   e-treasure-hunt
 ```
 
@@ -117,12 +114,6 @@ To use Google maps, you will also need to pass `GM_API_KEY` to this container as
 an environment variable.
 
 # Initiating the app
-
-## Admin initiation
-
-- Navigate to <domain>/admin
-- Create an AppSetting object - tick "active"
-  - Here you can force use of the alternate map
 
 ## Create levels
 
@@ -135,8 +126,13 @@ an environment variable.
 - `hint1.png`-`hint4.png` are the hints, in order
   - The five images must be in alphabetical order, but otherwise the exact
     filenames are not important
+  - `.png` and `.jpg` are acceptable formats
 
 ## Level upload
+
+Levels can be uploaded either through the UI or via a REST API.
+
+### Level upload through the UI
 
 - Navigate to <domain>/mgmt
 - Upload a dummy level 0 using the dummy level files - replace blurb.txt and the
@@ -145,6 +141,25 @@ an environment variable.
 - Upload a dummy level N+1 using the dummy level files - replace clue with an
   image for the final page
 - Navigate to <domain>/home and check your level(s) display correctly
+
+### Level upload through the API
+
+[upload.py](upload.py) contains utilities for uploading levels and hints.
+
+You'll need to update the `PASSWORD` at the top of the file, and then re-arrange
+`main()` as needed to upload your levels.
+
+### Troubleshooting
+
+The server is not very helpful if you don't get things just right, especially
+via the UI.
+
+- If level upload is failing:
+  - Make sure that you are uploading exactly one `.txt` file, one `.json` file
+    and five images
+  - Make sure that the contents of the JSON file describing the level match the
+    example `about.json`
+- You really do need to upload both the dummy levels 0 and N+1
 
 ## Create users
 

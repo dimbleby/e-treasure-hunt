@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path
+from django.urls import include, path
+from rest_framework import routers
 
-from . import views
+from hunt import views
+from hunt.apiviews import LevelViewSet
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register("levels", LevelViewSet, basename="level")
 
 urlpatterns = [
     path("", views.go_home, name="go-home"),
@@ -33,8 +38,9 @@ urlpatterns = [
     path("oops", views.oops, name="oops"),
     path("events", views.get_hunt_events, name="events"),
     path("mgmt", views.mgmt, name="mgmt"),
-    path("hint-mgmt", views.hint_mgmt, name="hint-mgmt"),
-    path("add-hint", views.add_new_hint, name="new-hint"),
+    path("level-mgmt", views.level_mgmt, name="level-mgmt"),
+    path("add-level", views.add_new_level, name="new-level"),
+    path("api/", include(router.urls)),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

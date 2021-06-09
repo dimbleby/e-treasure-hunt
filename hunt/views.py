@@ -7,8 +7,8 @@ from django.http.response import HttpResponse
 from django.shortcuts import redirect
 from django.template import loader
 
-from hunt.hint_mgr import upload_new_hint
 from hunt.hint_request import maybe_release_hint, prepare_next_hint, request_hint
+from hunt.level_mgr import upload_new_level
 from hunt.levels import list_levels, look_for_level, maybe_load_level
 from hunt.models import AppSetting, HuntEvent
 from hunt.utils import AuthenticatedHttpRequest, max_level, not_in_working_hours
@@ -90,12 +90,18 @@ def oops(request: AuthenticatedHttpRequest) -> HttpResponse:
 @login_required
 @not_in_working_hours
 def map(request: AuthenticatedHttpRequest) -> HttpResponse:
-    # If we're configured to use the alt map, or if we don't have a Google Maps API key,
-    # then use the alt map.
-    settings = AppSetting.objects.get(active=True)
-    if settings.use_alternative_map:
+    # If we're configured to use the alt map, do so.
+    settings = None
+    try:
+        settings = AppSetting.objects.get(active=True)
+    except AppSetting.DoesNotExist:
+        pass
+
+    use_alternative_map = False if settings is None else settings.use_alternative_map
+    if use_alternative_map:
         return alt_map(request)
 
+    # If we don't have a Google Maps API key, use the alt map.
     gm_api_key = os.environ.get("GM_API_KEY")
     if gm_api_key is None:
         return alt_map(request)
@@ -174,8 +180,8 @@ def mgmt(request: HttpRequest) -> HttpResponse:
 
 # Level uploader page.
 @user_passes_test(lambda u: u.is_staff)
-def hint_mgmt(request: HttpRequest) -> HttpResponse:
-    template = loader.get_template("hint-mgmt.html")
+def level_mgmt(request: HttpRequest) -> HttpResponse:
+    template = loader.get_template("level-mgmt.html")
 
     next_level = request.GET.get("next")
     if next_level is None:
@@ -187,5 +193,5 @@ def hint_mgmt(request: HttpRequest) -> HttpResponse:
 
 # Upload level endpoint.
 @user_passes_test(lambda u: u.is_staff)
-def add_new_hint(request: HttpRequest) -> HttpResponse:
-    return redirect(upload_new_hint(request))
+def add_new_level(request: HttpRequest) -> HttpResponse:
+    return redirect(upload_new_level(request))
