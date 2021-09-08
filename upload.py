@@ -17,6 +17,9 @@ CONTENT_TYPES = {
     ".jpeg": "image/jpeg",
     ".jpg": "image/jpeg",
     ".png": "image/png",
+    ".JPEG": "image/jpeg",
+    ".JPG": "image/jpeg",
+    ".PNG": "image/png",
 }
 
 
@@ -78,6 +81,8 @@ def upload_directory(level: int, dir: str) -> None:
     :param level: The level to upload.
     :param dir: A directory, containing about.json, blurb.txt, and five images.
     """
+    print(f"Attempting to upload level {level}")
+
     # Create the level.
     upload_level(
         level,
@@ -98,6 +103,8 @@ def upload_directory(level: int, dir: str) -> None:
     images.sort()
     for hint, image in enumerate(images):
         upload_hint(level, hint, image)
+
+    print(f"Successfully uploaded level {level}")
 
 
 def main() -> None:
