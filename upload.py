@@ -94,8 +94,8 @@ def upload_directory(level: int, dir: str) -> None:
     if len(images) != HINTS_PER_LEVEL:
         raise RuntimeError(f"Found {len(images)} images in {dir}")
 
-    # Upload them.
-    images.sort()
+    # Upload them, sort them by name but sanitize case (since uppercase sorts before lowercase)
+    images.sort(key=lambda x: x.lower())
     for hint, image in enumerate(images):
         upload_hint(level, hint, image)
 
