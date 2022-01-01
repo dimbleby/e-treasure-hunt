@@ -25,8 +25,7 @@ RequestHandler = Callable[..., HttpResponse]
 
 
 def max_level() -> int:
-    max_level: int = Level.objects.all().aggregate(Max("number"))["number__max"]
-    return max_level
+    return Level.objects.all().aggregate(Max("number"))["number__max"]
 
 
 # Are we in (UK) working hours?

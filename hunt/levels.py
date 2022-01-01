@@ -124,8 +124,7 @@ def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
         template = loader.get_template("oops.html")
         context = {"team_level": team_level}
 
-    rendered: str = template.render(context, request)
-    return rendered
+    return template.render(context, request)
 
 
 def list_levels(request: AuthenticatedHttpRequest) -> str:
@@ -137,5 +136,4 @@ def list_levels(request: AuthenticatedHttpRequest) -> str:
     template = loader.get_template("levels.html")
     context = {"team_level": team_level, "levels": levels}
 
-    rendered: str = template.render(context, request)
-    return rendered
+    return template.render(context, request)
