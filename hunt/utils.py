@@ -15,7 +15,7 @@ from hunt.models import AppSetting, Level
 try:
     import zoneinfo
 except ImportError:
-    from backports import zoneinfo
+    from backports import zoneinfo  # type: ignore[no-redef]
 
 
 class AuthenticatedHttpRequest(HttpRequest):
