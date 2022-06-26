@@ -1,13 +1,17 @@
+from __future__ import annotations
+
 import json
 import os
-from typing import List, cast
+from typing import TYPE_CHECKING, List, cast
 from uuid import uuid4
 
 from django.core.files.uploadedfile import UploadedFile
-from django.http.request import HttpRequest
 
 from hunt.constants import HINTS_PER_LEVEL
 from hunt.models import Hint, Level
+
+if TYPE_CHECKING:
+    from django.http.request import HttpRequest
 
 
 class NamedFile(UploadedFile):

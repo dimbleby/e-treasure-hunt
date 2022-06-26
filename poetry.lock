@@ -10,6 +10,14 @@ python-versions = ">=3.7"
 tests = ["pytest", "pytest-asyncio", "mypy (>=0.800)"]
 
 [[package]]
+name = "aspy.refactor-imports"
+version = "3.0.1"
+description = "Utilities for refactoring imports in python-like syntax."
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "azure-core"
 version = "1.24.1"
 description = "Microsoft Azure Core Library for Python"
@@ -307,6 +315,18 @@ python-versions = ">=3.6"
 mccabe = ">=0.6.0,<0.7.0"
 pycodestyle = ">=2.8.0,<2.9.0"
 pyflakes = ">=2.4.0,<2.5.0"
+
+[[package]]
+name = "flake8-type-checking"
+version = "2.0.1"
+description = "A flake8 plugin for managing type-checking imports & forward references"
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+"aspy.refactor-imports" = "*"
+flake8 = "*"
 
 [[package]]
 name = "geographiclib"
@@ -840,12 +860,16 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "ea6451e5433187a1d98b4ae26a7cd7bc46d337d9533a2d6138ea326bae7b7795"
+content-hash = "94ca1379568bc6606a9abcef6717247633a8820c3e97df7079a2a3c1dd1962b8"
 
 [metadata.files]
 asgiref = [
     {file = "asgiref-3.5.2-py3-none-any.whl", hash = "sha256:1d2880b792ae8757289136f1db2b7b99100ce959b2aa57fd69dab783d05afac4"},
     {file = "asgiref-3.5.2.tar.gz", hash = "sha256:4a29362a6acebe09bf1d6640db38c1dc3d9217c68e6f9f6204d72667fc19a424"},
+]
+"aspy.refactor-imports" = [
+    {file = "aspy.refactor_imports-3.0.1-py2.py3-none-any.whl", hash = "sha256:bc257946fdf5abd9c60393cfb8d0b5d45a2b87d1ee0ede46584c8be5567bc669"},
+    {file = "aspy.refactor_imports-3.0.1.tar.gz", hash = "sha256:df497c3726ee2931b03d403e58a4590f7f4e60059b115cf5df0e07e70c7c73be"},
 ]
 azure-core = [
     {file = "azure-core-1.24.1.zip", hash = "sha256:39c5d59d04209bb70a1a7ee879cef05d07bc76472cd3fb5eaa2e607a90d312bb"},
@@ -1033,6 +1057,10 @@ djangorestframework-stubs = [
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
     {file = "flake8-4.0.1.tar.gz", hash = "sha256:806e034dda44114815e23c16ef92f95c91e4c71100ff52813adf7132a6ad870d"},
+]
+flake8-type-checking = [
+    {file = "flake8-type-checking-2.0.1.tar.gz", hash = "sha256:df2c1df62edc61126dd331e9303f98e759f38de0240e4d7ee47cd3dba597f702"},
+    {file = "flake8_type_checking-2.0.1-py3-none-any.whl", hash = "sha256:fa6caf524767a0e04285f910fce8a667372e4572a6081170cd613bb819a1d8fd"},
 ]
 geographiclib = [
     {file = "geographiclib-1.52-py3-none-any.whl", hash = "sha256:8f441c527b0b8a26cd96c965565ff0513d1e4d9952b704bf449409e5015c77b7"},
