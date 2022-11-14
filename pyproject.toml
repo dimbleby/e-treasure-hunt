@@ -13,7 +13,7 @@ django-storages = [
 ]
 djangorestframework = "^3.14.0"
 geopy = "^2.2.0"
-holidays = "^0.16"
+holidays = "^0.17"
 pillow = "^9.3.0"
 whitenoise = "^6.2.0"
 
