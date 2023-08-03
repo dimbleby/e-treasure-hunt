@@ -1,5 +1,4 @@
 import json
-from typing import Any
 
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
@@ -10,12 +9,21 @@ from hunt.models import ChatMessage
 
 class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
     async def connect(self) -> None:
-        self.room_name = self.scope["url_route"]["kwargs"]["room_name"]
-        self.room_group_name = "chat_%s" % self.room_name
+        # Verify that the user is authenticated and is allowed into this room.
+        room_name: str = self.scope["url_route"]["kwargs"]["room_name"]
+        user: User = self.scope["user"]
+        if not user.is_authenticated:
+            await self.close()
+
+        username = user.get_username()
+        if not room_name.startswith(f"{username}_"):
+            await self.close()
+
+        self.room_name = room_name
+        self.room_group_name = f"chat_{self.room_name}"
 
         # Join room group
         await self.channel_layer.group_add(self.room_group_name, self.channel_name)
-
         await self.accept()
 
     async def disconnect(
@@ -42,7 +50,7 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
         )
 
     # Receive message from room group
-    async def chat_message(self, event: dict[Any, Any]) -> None:
+    async def chat_message(self, event: dict[str, str]) -> None:
         message = event["message"]
         username = event["username"]
 

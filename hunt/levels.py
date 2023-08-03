@@ -115,7 +115,7 @@ def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
         desc_paras = previous_level.description.splitlines()
 
         template = loader.get_template("level.html")
-        chatroom_name = request.user.username + "_" + str(current_level.number)
+        chatroom_name = f"{request.user.get_username()}_{current_level.number}"
         context = {
             "team_level": team_level,
             "level_number": current_level.number,

@@ -169,7 +169,9 @@ REST_FRAMEWORK = {
 }
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
+CHANNEL_LAYERS: dict[str, Any]
 DATABASES: dict[str, Any]
+
 if deployment_type == Deployment.LOCAL:
     DATABASES = {
         "default": {
@@ -179,10 +181,7 @@ if deployment_type == Deployment.LOCAL:
     }
     CHANNEL_LAYERS = {
         "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [("localhost", 6379)],
-            },
+            "BACKEND": "channels.layers.InMemoryChannelLayer",
         },
     }
 elif deployment_type == Deployment.AZURE:
