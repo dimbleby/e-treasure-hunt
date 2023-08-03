@@ -91,9 +91,9 @@ resource "azurerm_mssql_database" "treasure" {
 }
 
 resource "azurerm_redis_cache" "cache" {
-  name                  = "${var.app_name}-cache"
-  location              = var.region
-  resource_group_name   = azurerm_resource_group.treasure.name
+  name                = "${var.app_name}-cache"
+  location            = var.region
+  resource_group_name = azurerm_resource_group.treasure.name
   capacity            = 0
   family              = "C"
   sku_name            = "Basic"
@@ -164,7 +164,8 @@ resource "azurerm_role_assignment" "storage_contributor" {
   principal_id         = azurerm_linux_web_app.treasure.identity.0.principal_id
 }
 
-# Run terraform apply twice, first with the more permissive block, and then with the targeted rules.
+# Run terraform apply twice, first with the more permissive block, and then with the two sets of
+# targeted rules.
 #
 # Only make this change after using Cloud Shell to grant permissions to the app service identity,
 # per instructions given by the outputs.
@@ -182,4 +183,13 @@ resource "azurerm_mssql_firewall_rule" "treasure" {
   server_id        = azurerm_mssql_server.treasure.id
   start_ip_address = each.key
   end_ip_address   = each.key
+}
+
+resource "azurerm_redis_firewall_rule" "treasure" {
+  for_each            = toset(azurerm_linux_web_app.treasure.possible_outbound_ip_address_list)
+  name                = "appservice_${replace(each.key, "/\\./", "_")}"
+  resource_group_name = azurerm_resource_group.treasure.name
+  redis_cache_name    = azurerm_redis_cache.cache.name
+  start_ip            = each.key
+  end_ip              = each.key
 }
