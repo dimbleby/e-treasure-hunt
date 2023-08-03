@@ -83,6 +83,7 @@ if deployment_type == Deployment.AZURE:
 
 # Application definition
 INSTALLED_APPS = [
+    "daphne",
     "whitenoise.runserver_nostatic",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -93,6 +94,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "storages",
     "hunt",
+    "channels",
 ]
 
 MIDDLEWARE = [
@@ -125,6 +127,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "treasure.wsgi.application"
+ASGI_APPLICATION = "treasure.asgi.application"
 
 LOGGING = {
     "version": 1,
@@ -174,6 +177,14 @@ if deployment_type == Deployment.LOCAL:
             "NAME": "treasure.sqlite",
         }
     }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("localhost", 6379)],
+            },
+        },
+    }
 elif deployment_type == Deployment.AZURE:
     DATABASES = {
         "default": {
@@ -185,4 +196,14 @@ elif deployment_type == Deployment.AZURE:
                 "extra_params": "Authentication=ActiveDirectoryMsi",
             },
         }
+    }
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [
+                    f"rediss://:{os.environ['CACHE_PASSWORD']}@{os.environ['CACHE_URL']}:6380/0"
+                ],
+            },
+        },
     }
