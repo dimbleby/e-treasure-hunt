@@ -82,7 +82,17 @@
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
 
-        document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
+        var name = document.createElement('b');
+        name.innerText = data.username;
+
+        var message = document.createTextNode(': ' + data.message)
+        var linebreak = document.createElement('br')
+
+        var messages = document.querySelector('#chat-messages');
+        messages.appendChild(name);
+        messages.appendChild(message);
+        messages.appendChild(linebreak);
+
         scrollToBottom();
     };
 
