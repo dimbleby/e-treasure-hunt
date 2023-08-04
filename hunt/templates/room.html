@@ -60,7 +60,7 @@
 <script>
     const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    var userName = ""
+    var userName = "";
 
     const chatSocket = new WebSocket(
         ws_scheme
@@ -82,11 +82,7 @@
     chatSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
 
-        if (data.message) {
-            document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
-        } else {
-            alert('The message was empty!')
-        }
+        document.querySelector('#chat-messages').innerHTML += ('<b>' + data.username + '</b>: ' + data.message + '<br>');
         scrollToBottom();
     };
 
@@ -106,12 +102,14 @@
         const messageInputDom = document.querySelector('#chat-message-input');
         const message = messageInputDom.value;
 
-        chatSocket.send(JSON.stringify({
-            'message': message,
-            'username': userName,
-            'room': roomName,
-            'team': "{{ team }}"
-        }));
+        if (message) {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'username': userName,
+                'room': roomName,
+                'team': "{{ team }}"
+            }));
+        }
 
         messageInputDom.value = '';
     };
