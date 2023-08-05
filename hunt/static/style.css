@@ -126,6 +126,17 @@ body {
   align-items: center;
 }
 
+.chat-container {
+  max-width: 100%;
+}
+
+.chat-messages {
+  max-height: 300px;
+  overflow-y: scroll;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
 .heading {
   padding: 0 5vw;
   display: flex;
