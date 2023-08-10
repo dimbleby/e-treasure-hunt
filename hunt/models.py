@@ -7,6 +7,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
+from typing_extensions import override
 
 
 # Team hunt progress info.
@@ -17,6 +18,7 @@ class HuntInfo(models.Model):
     hint_requested = models.BooleanField(default=False)
     next_hint_release = models.DateTimeField(null=True, blank=True)
 
+    @override
     def __str__(self) -> str:
         return self.user.get_username()
 
@@ -49,6 +51,7 @@ class Level(models.Model):
     )
     tolerance = models.IntegerField()
 
+    @override
     def __str__(self) -> str:
         return f"Level {self.number}"
 
@@ -64,6 +67,7 @@ class Hint(models.Model):
             models.UniqueConstraint(fields=["level", "number"], name="unique hint")
         ]
 
+    @override
     def __str__(self) -> str:
         return f"Level {self.level.number}, hint {self.number}"
 
@@ -84,6 +88,7 @@ class AppSetting(models.Model):
     use_alternative_map = models.BooleanField(default=False)
     start_time = models.DateTimeField(null=True, blank=True)
 
+    @override
     def __str__(self) -> str:
         return f"App setting (active={self.active})"
 
@@ -104,6 +109,7 @@ class HuntEvent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.IntegerField()
 
+    @override
     def __str__(self) -> str:
         actions = {
             HuntEvent.HINT_REQ: "requested a hint on",
@@ -125,5 +131,6 @@ class ChatMessage(models.Model):
     class Meta:
         ordering = ("date_added",)
 
+    @override
     def __str__(self) -> str:
         return f"Room: {self.room}, User: {self.name}, Message: {self.content}"
