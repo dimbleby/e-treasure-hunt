@@ -38,7 +38,7 @@ azure = ["azure-identity", "channels-redis", "mssql-django"]
 
 [tool.poetry.group.lint.dependencies]
 black = ">=23.3.0"
-mypy = ">=1.2.0"
+mypy = ">=1.5.0"
 ruff = ">=0.0.262"
 
 [tool.poetry.group.misc.dependencies]
