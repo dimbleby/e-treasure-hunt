@@ -20,7 +20,8 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
             return
 
         username = user.get_username()
-        if not room_name.startswith(f"{username}_"):
+        room_user, _room_level = room_name.rsplit("_", 1)
+        if username != room_user:
             await self.close()
             return
 
