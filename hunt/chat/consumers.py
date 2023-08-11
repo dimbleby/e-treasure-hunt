@@ -10,8 +10,10 @@ from hunt.models import ChatMessage
 class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
     async def connect(self) -> None:
         room_name: str = self.scope["url_route"]["kwargs"]["room_name"]
+        room_team, _room_level = room_name.rsplit("_", 1)
         self.room_name = room_name
         self.room_group_name = f"chat_{room_name}"
+        self.team = room_team
 
         # Verify that the user is authenticated and is allowed into this room.
         user: User = self.scope["user"]
@@ -19,9 +21,8 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
             await self.close()
             return
 
-        username = user.get_username()
-        room_user, _room_level = room_name.rsplit("_", 1)
-        if username != room_user:
+        team = user.get_username()
+        if team != self.team:
             await self.close()
             return
 
@@ -41,10 +42,8 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
         data = json.loads(text_data)
         message = data["message"]
         username = data["username"]
-        room = data["room"]
-        team = data["team"]
 
-        await self.save_message(username, team, room, message)
+        await self.save_message(username, message)
 
         # Send message to room group
         await self.channel_layer.group_send(
@@ -63,15 +62,13 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
         )
 
     @sync_to_async
-    def save_message(
-        self, username: str, team: str, room_name: str, message: str
-    ) -> None:
+    def save_message(self, username: str, message: str) -> None:
         try:
-            team_user = User.objects.get(username=team)
+            team_user = User.objects.get(username=self.team)
             ChatMessage.objects.create(
                 name=username,
                 team=team_user,
-                room=room_name,
+                room=self.room_name,
                 content=message,
             )
         except User.DoesNotExist:
