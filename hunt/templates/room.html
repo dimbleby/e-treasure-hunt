@@ -40,7 +40,7 @@
       <div id="username">
         <div class="field">
           <div class="control">
-            <input class="input" type="text" placeholder="Anonymous" id="username-input">
+            <input class="input" type="text" placeholder="Username" id="username-input">
           </div>
         </div>
 
@@ -55,10 +55,7 @@
   </div>
 </div>
 
-{{ room_name|json_script:"json-roomname" }}
-
 <script>
-    const roomName = JSON.parse(document.getElementById('json-roomname').textContent);
     var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
     var userName = "";
 
@@ -66,9 +63,7 @@
         ws_scheme
         + '://'
         + window.location.host
-        + '/ws/'
-        + roomName
-        + '/'
+        + '/level/{{ level_number }}/'
     );
 
     chatSocket.onclose = function(e) {
@@ -119,7 +114,11 @@
     };
 
     document.querySelector('#username-submit').onclick = function(e) {
-        userName = document.querySelector('#username-input').value;
+        const value = document.querySelector('#username-input').value;
+        if ((value.length === 0) || (value.length > 32)) {
+            return;
+        }
+        userName = value;
         document.querySelector('#chat').removeAttribute("hidden");
         document.querySelector('#username').setAttribute("hidden", true);
         document.querySelector('#username-display').innerHTML = "Your username: " + userName

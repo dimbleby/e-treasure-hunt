@@ -115,7 +115,6 @@ def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
         desc_paras = previous_level.description.splitlines()
 
         template = loader.get_template("level.html")
-        chatroom_name = f"{request.user.get_username()}_{current_level.number}"
         context = {
             "team_level": team_level,
             "level_number": current_level.number,
@@ -127,10 +126,7 @@ def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
             "latitude": previous_level.latitude,
             "longitude": previous_level.longitude,
             "is_last": is_last_level,
-            "chatroom": chatroom_name,
-            "messages": ChatMessage.objects.filter(
-                room=chatroom_name, team=request.user
-            ),
+            "messages": ChatMessage.objects.filter(team=user, level=current_level),
         }
     else:
         # Shouldn't be here. Show an error page.

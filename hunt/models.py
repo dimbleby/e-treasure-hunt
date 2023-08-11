@@ -122,9 +122,9 @@ class HuntEvent(models.Model):
 
 
 class ChatMessage(models.Model):
-    name = models.CharField(max_length=255)
     team = models.ForeignKey(User, on_delete=models.CASCADE, related_name="+")
-    room = models.CharField(max_length=255)
+    level = models.ForeignKey(Level, on_delete=models.CASCADE, related_name="+")
+    name = models.CharField(max_length=32)
     content = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -133,4 +133,12 @@ class ChatMessage(models.Model):
 
     @override
     def __str__(self) -> str:
-        return f"Room: {self.room}, User: {self.name}, Message: {self.content}"
+        text = ", ".join(
+            [
+                f"{self.team.get_username()}",
+                f"{self.level}",
+                f"User: {self.name}",
+                f"Message: {self.content}",
+            ]
+        )
+        return text
