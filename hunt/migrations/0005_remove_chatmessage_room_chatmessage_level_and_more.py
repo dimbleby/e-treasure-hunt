@@ -50,9 +50,4 @@ class Migration(migrations.Migration):
             ),
             preserve_default=False,
         ),
-        migrations.AlterField(
-            model_name="chatmessage",
-            name="name",
-            field=models.CharField(max_length=32),
-        ),
     ]
