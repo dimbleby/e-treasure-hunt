@@ -77,24 +77,29 @@ class LevelViewSet(AllowPUTAsCreateMixin, ModelViewSet[Level]):
             number = details["number"]
         except (KeyError, ValueError):
             return Response(
-                "hint number not provided", status=status.HTTP_400_BAD_REQUEST
+                "Hint number not provided", status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if not isinstance(number, int):
+            return Response(
+                f"Hint '{number}' is not an integer", status=status.HTTP_400_BAD_REQUEST
             )
 
         if number >= HINTS_PER_LEVEL:
             return Response(
-                f"Hint {number} is too high", status=status.HTTP_400_BAD_REQUEST
+                f"Hint '{number}' is too high", status=status.HTTP_400_BAD_REQUEST
             )
 
         # Check that we have a file, and that it seems to be an image.
         try:
             upload = request.data["file"]
         except KeyError:
-            return Response("no file attached", status=status.HTTP_400_BAD_REQUEST)
+            return Response("No file attached", status=status.HTTP_400_BAD_REQUEST)
 
         extension = EXTENSIONS.get(upload.content_type)
         if extension is None:
             return Response(
-                f"bad content type: {upload.content_type}",
+                f"Bad content type: {upload.content_type}",
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
