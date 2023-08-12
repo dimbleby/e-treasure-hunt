@@ -1,13 +1,10 @@
 import json
-from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
+from django.contrib.auth.models import User
 
 from hunt.models import ChatMessage, Level
-
-if TYPE_CHECKING:
-    from django.contrib.auth.models import User
 
 
 class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
@@ -25,8 +22,13 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
             await self.close()
             return
 
+        allowed = await async_is_level_allowed(user, level)
+        if not allowed:
+            await self.close()
+            return
+
         self.team = user
-        self.level = await self.get_level(level)
+        self.level = await async_get_level(level)
         self.room_group = f"{user.get_username()}_{level}"
 
         # Join room group
@@ -76,6 +78,18 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
         chat_message.full_clean()
         chat_message.save()
 
-    @sync_to_async
-    def get_level(self, number: int) -> Level:
-        return Level.objects.get(number=number)
+
+@sync_to_async
+def async_get_level(number: int) -> Level:
+    return Level.objects.get(number=number)
+
+
+@sync_to_async
+def async_is_level_allowed(user: User, level: int) -> int:
+    if level <= 0:
+        return False
+
+    if user.is_staff:
+        return True
+
+    return level <= user.huntinfo.level
