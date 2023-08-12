@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -8,6 +8,9 @@ from django.db import models
 from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from typing_extensions import override
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
 
 
 # Team hunt progress info.
@@ -82,7 +85,6 @@ def hint_delete(
         instance.image.delete(False)
 
 
-# App settings. Use Boolean primary key to ensure there's only one active.
 class AppSetting(models.Model):
     active = models.BooleanField(primary_key=True, default=True)
     use_alternative_map = models.BooleanField(default=False)
@@ -91,6 +93,22 @@ class AppSetting(models.Model):
     @override
     def __str__(self) -> str:
         return f"App setting (active={self.active})"
+
+    @override
+    def save(
+        self,
+        force_insert: bool = False,
+        force_update: bool = False,
+        using: str | None = None,
+        update_fields: Iterable[str] | None = None,
+    ) -> None:
+        self.__class__.objects.exclude(active=self.active).delete()
+        super().save(
+            force_insert=force_insert,
+            force_update=force_update,
+            using=using,
+            update_fields=update_fields,
+        )
 
 
 # Event log for the hunt.
