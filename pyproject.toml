@@ -17,10 +17,7 @@ python = ">=3.10"
 channels = "^4.0.0"
 daphne = "^4.0.0"
 django = "^4.2"
-django-storages = [
-  { version = "^1.13.1" },
-  { version = "^1.13.1", extras = ["azure"], markers = "extra == 'azure'" },
-]
+django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.3.0"
 holidays = "^0.31"
