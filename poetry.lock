@@ -877,13 +877,13 @@ timezone = ["pytz"]
 
 [[package]]
 name = "holidays"
-version = "0.30"
+version = "0.31"
 description = "Generate and work with holidays in Python"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "holidays-0.30-py3-none-any.whl", hash = "sha256:ee4fc4b0476d10b59629e6690d6f480667c06b360172d6ea659c0a3e735bc5ec"},
-    {file = "holidays-0.30.tar.gz", hash = "sha256:eb40aae8236fa4ac7fe862dbcec3b10311c94c8310cea9e77e6b1aae63c312d4"},
+    {file = "holidays-0.31-py3-none-any.whl", hash = "sha256:b7aaa67130d76a3e9493b16aed26f493135f88d88017e1d7262d52afb32352bb"},
+    {file = "holidays-0.31.tar.gz", hash = "sha256:d0850ded09350982752ee3630676846e3dc6345b4798534639b7c56ce95e62dc"},
 ]
 
 [package.dependencies]
@@ -2166,4 +2166,4 @@ azure = ["azure-identity", "channels-redis", "mssql-django"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10"
-content-hash = "2b3c9a2e0d2fd1d0e7a91fdca387c7d6763d649edd4ac16e5bfb655e5482cef5"
+content-hash = "da4a7862e601b0921ef1d8ff546289a31be9db97da1787ea310979fed1cc53a3"
