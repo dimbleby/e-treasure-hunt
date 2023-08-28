@@ -40,7 +40,7 @@ ruff = ">=0.0.262"
 
 [tool.poetry.group.misc.dependencies]
 requests = "^2.28.1"
-pydantic = "^2.2.1"
+pydantic = "^2.3.0"
 aiohttp = "^3.8.5"
 aiodns = "^3.0.0"
 
