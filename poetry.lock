@@ -854,13 +854,13 @@ files = [
 
 [[package]]
 name = "geopy"
-version = "2.3.0"
+version = "2.4.0"
 description = "Python Geocoding Toolbox"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "geopy-2.3.0-py3-none-any.whl", hash = "sha256:4a29a16d41d8e56ba8e07310802a1cbdf098eeb6069cc3d6d3068fc770629ffc"},
-    {file = "geopy-2.3.0.tar.gz", hash = "sha256:228cd53b6eef699b2289d1172e462a90d5057779a10388a7366291812601187f"},
+    {file = "geopy-2.4.0-py3-none-any.whl", hash = "sha256:d2639a46d0ce4c091e9688b750ba94348a14b898a1e55c68f4b4a07e7d1afa20"},
+    {file = "geopy-2.4.0.tar.gz", hash = "sha256:a59392bf17adb486b25dbdd71fbed27733bdf24a2dac588047a619de56695e36"},
 ]
 
 [package.dependencies]
@@ -2171,4 +2171,4 @@ azure = ["azure-identity", "channels-redis", "mssql-django"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10"
-content-hash = "9f0055623c0d75f88c2103fc0441ec1a6713520f5ffc5d24b32955ec80583b58"
+content-hash = "82169455a314e2bf9fec02fbac81bd16cf521d5c38eb8b9890c12cb48620585f"

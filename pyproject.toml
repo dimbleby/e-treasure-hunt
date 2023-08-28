@@ -19,7 +19,7 @@ daphne = "^4.0.0"
 django = "^4.2"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
-geopy = "^2.3.0"
+geopy = "^2.4.0"
 holidays = "^0.31"
 pillow = "^10.0.0"
 typing-extensions = "^4.7.1"
