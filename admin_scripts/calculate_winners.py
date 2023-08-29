@@ -8,6 +8,8 @@ REQ = team requested a hint
 Edit the values of the constants at the top of this file for your purposes, e.g.
 START_TIME, TEAM_NAMES, etc.
 """
+from __future__ import annotations
+
 import csv
 from collections import defaultdict
 from datetime import datetime, timezone
@@ -23,7 +25,7 @@ PENALTY_PER_HINT_IN_HOURS = 2.0
 # "Final" level, the advance to which encodes that the team finished
 FINAL_LEVEL = "51"
 # List of team names as strings
-TEAM_NAMES: list["TeamName"] = []
+TEAM_NAMES: list[TeamName] = []
 # Path to hunt event csv taken from the website
 CSV_FILE_PATH = r"C:\Users\username\Downloads\hunt.huntevent.csv"
 

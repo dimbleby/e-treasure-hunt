@@ -1,10 +1,15 @@
+from __future__ import annotations
+
 import json
+from typing import TYPE_CHECKING
 
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncWebsocketConsumer
-from django.contrib.auth.models import User
 
 from hunt.models import ChatMessage, Level
+
+if TYPE_CHECKING:
+    from django.contrib.auth.models import User
 
 
 class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]

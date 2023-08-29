@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from django.contrib import admin
 
 from hunt.models import AppSetting, ChatMessage, Hint, HuntEvent, HuntInfo, Level
