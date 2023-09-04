@@ -135,8 +135,7 @@ class HuntEvent(models.Model):
             HuntEvent.CLUE_ADV: "progressed to",
         }
         user = self.user.get_username()
-        text = f"At {self.time} {user} {actions[self.type]} level {self.level}"
-        return text
+        return f"At {self.time} {user} {actions[self.type]} level {self.level}"
 
 
 class ChatMessage(models.Model):
@@ -151,7 +150,7 @@ class ChatMessage(models.Model):
 
     @override
     def __str__(self) -> str:
-        text = ", ".join(
+        return ", ".join(
             [
                 f"{self.team.get_username()}",
                 f"{self.level}",
@@ -159,4 +158,3 @@ class ChatMessage(models.Model):
                 f"Message: {self.content}",
             ]
         )
-        return text

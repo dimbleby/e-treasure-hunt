@@ -20,7 +20,7 @@ django = "^4.2"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.4.0"
-holidays = "^0.31"
+holidays = "^0.32"
 pillow = "^10.0.0"
 typing-extensions = "^4.7.1"
 whitenoise = "^6.4.0"
@@ -101,6 +101,7 @@ select = [
   "PLE", # pylint errors
   "PLW", # pylint warnings
   "PTH", # flake8-use-pathlib
+  "RET", # flake8-return
   "RUF", # ruff
   "SIM", # flake8-simplify
   "TCH", # flake8-type-checking

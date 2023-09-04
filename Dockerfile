@@ -15,7 +15,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
       --output install-poetry.py \
       https://install.python-poetry.org && \
     python3 install-poetry.py && \
-    python3 -m venv /opt/venv
+    python3 -m venv --without-pip /opt/venv
 
 ENV VIRTUAL_ENV=/opt/venv \
     PATH="/opt/venv/bin:$PATH"
