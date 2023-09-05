@@ -673,13 +673,13 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 name = "django-storages"
-version = "1.13.2"
+version = "1.14"
 description = "Support for many storage backends in Django"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "django-storages-1.13.2.tar.gz", hash = "sha256:cbadd15c909ceb7247d4ffc503f12a9bec36999df8d0bef7c31e57177d512688"},
-    {file = "django_storages-1.13.2-py3-none-any.whl", hash = "sha256:31dc5a992520be571908c4c40d55d292660ece3a55b8141462b4e719aa38eab3"},
+    {file = "django-storages-1.14.tar.gz", hash = "sha256:6c97e5faad829c923a1262206281742c484d76d43b332a196ddcc242b909c551"},
+    {file = "django_storages-1.14-py3-none-any.whl", hash = "sha256:11280a883b13812df548f3cfe9c10280afc0d4727c8babdee369a75e71158f16"},
 ]
 
 [package.dependencies]
@@ -692,7 +692,8 @@ boto3 = ["boto3 (>=1.4.4)"]
 dropbox = ["dropbox (>=7.2.1)"]
 google = ["google-cloud-storage (>=1.27.0)"]
 libcloud = ["apache-libcloud"]
-sftp = ["paramiko (>=1.10.0)"]
+s3 = ["boto3 (>=1.4.4)"]
+sftp = ["paramiko (>=1.15.0)"]
 
 [[package]]
 name = "django-stubs"
@@ -1671,13 +1672,13 @@ six = ">=1.5"
 
 [[package]]
 name = "pytz"
-version = "2023.3"
+version = "2023.3.post1"
 description = "World timezone definitions, modern and historical"
 optional = false
 python-versions = "*"
 files = [
-    {file = "pytz-2023.3-py2.py3-none-any.whl", hash = "sha256:a151b3abb88eda1d4e34a9814df37de2a80e301e68ba0fd856fb9b46bfbbbffb"},
-    {file = "pytz-2023.3.tar.gz", hash = "sha256:1d8ce29db189191fb55338ee6d0387d82ab59f3d00eac103412d64e0ebd0c588"},
+    {file = "pytz-2023.3.post1-py2.py3-none-any.whl", hash = "sha256:ce42d816b81b68506614c11e8937d3aa9e41007ceb50bfdcb0749b921bf646c7"},
+    {file = "pytz-2023.3.post1.tar.gz", hash = "sha256:7b4fddbeb94a1eba4b557da24f19fdf9db575192544270a9101d8509f9f43d7b"},
 ]
 
 [[package]]
