@@ -116,14 +116,14 @@ class HuntEvent(models.Model):
     HINT_REQ = "REQ"
     HINT_REL = "REL"
     CLUE_ADV = "ADV"
-    EVENT_TYPES = (
+    EVENT_KINDS = (
         (HINT_REQ, "Hint requested"),
         (HINT_REL, "Hints released"),
         (CLUE_ADV, "Advanced level"),
     )
 
     time = models.DateTimeField()
-    type = models.CharField(max_length=3, choices=EVENT_TYPES)
+    kind = models.CharField(max_length=3, choices=EVENT_KINDS)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.IntegerField()
 
@@ -135,7 +135,7 @@ class HuntEvent(models.Model):
             HuntEvent.CLUE_ADV: "progressed to",
         }
         user = self.user.get_username()
-        return f"At {self.time} {user} {actions[self.type]} level {self.level}"
+        return f"At {self.time} {user} {actions[self.kind]} level {self.level}"
 
 
 class ChatMessage(models.Model):

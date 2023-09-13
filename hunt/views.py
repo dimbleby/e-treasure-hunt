@@ -97,7 +97,7 @@ def oops(request: AuthenticatedHttpRequest) -> HttpResponse:
 # Map (or alt map).
 @login_required
 @no_players_during_lockout
-def map(request: AuthenticatedHttpRequest) -> HttpResponse:
+def default_map(request: AuthenticatedHttpRequest) -> HttpResponse:
     # If we're configured to use the alt map, do so.
     settings = None
     with contextlib.suppress(AppSetting.DoesNotExist):

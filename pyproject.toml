@@ -85,28 +85,31 @@ warn_required_dynamic_aliases = true
 
 [tool.ruff]
 select = [
-  "ARG", # flake8-unused-arguments
-  "B",   # flake8-bugbear
-  "C4",  # flake8-comprehensions
-  "DJ",  # flake8-django
-  "DTZ", # flake8-datetimez
-  "E",   # pycodestyle
-  "EXE", # flake8-executable
-  "F",   # pyflakes
-  "I",   # isort
-  "ICN", # flake8-import-conventions
-  "ISC", # flake8-implicit-string-concat
-  "N",   # pep8-naming
-  "PIE", # flake8-pie
-  "PLE", # pylint errors
-  "PLW", # pylint warnings
-  "PTH", # flake8-use-pathlib
-  "RET", # flake8-return
-  "RUF", # ruff
-  "SIM", # flake8-simplify
-  "TCH", # flake8-type-checking
-  "UP",  # pyupgrade
-  "W",   # pycodestyle
+  "A",     # flake8-builtins
+  "ARG",   # flake8-unused-arguments
+  "ASYNC", # flake8-async
+  "B",     # flake8-bugbear
+  "C4",    # flake8-comprehensions
+  "DJ",    # flake8-django
+  "DTZ",   # flake8-datetimez
+  "E",     # pycodestyle
+  "EXE",   # flake8-executable
+  "FURB",  # refurb
+  "F",     # pyflakes
+  "I",     # isort
+  "ICN",   # flake8-import-conventions
+  "ISC",   # flake8-implicit-string-concat
+  "N",     # pep8-naming
+  "PIE",   # flake8-pie
+  "PLE",   # pylint errors
+  "PLW",   # pylint warnings
+  "PTH",   # flake8-use-pathlib
+  "RET",   # flake8-return
+  "RUF",   # ruff
+  "SIM",   # flake8-simplify
+  "TCH",   # flake8-type-checking
+  "UP",    # pyupgrade
+  "W",     # pycodestyle
 ]
 extend-exclude = [
   "hunt/migrations",

@@ -49,7 +49,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     # Log an event to say there's been a hint request.
     event = HuntEvent()
     event.time = timezone.now()
-    event.type = HuntEvent.HINT_REQ
+    event.kind = HuntEvent.HINT_REQ
     event.user = request.user
     event.level = hunt_info.level
     event.save()
@@ -120,7 +120,7 @@ def maybe_release_hint(user: User) -> None:
         event = HuntEvent()
         event.time = now
         event.user = user
-        event.type = HuntEvent.HINT_REL
+        event.kind = HuntEvent.HINT_REL
         event.level = hunt_info.level
         event.save()
 

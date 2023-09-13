@@ -30,7 +30,7 @@ class Level(BaseModel):
 
 
 class Page(BaseModel):
-    next: HttpUrl | None = None
+    next: HttpUrl | None = None  # noqa: A003
     results: list[Level] = []
 
 
