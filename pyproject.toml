@@ -108,6 +108,7 @@ select = [
   "RUF",   # ruff
   "SIM",   # flake8-simplify
   "TCH",   # flake8-type-checking
+  "TID",   # flake8-tidy-imports
   "UP",    # pyupgrade
   "W",     # pycodestyle
 ]
@@ -118,6 +119,9 @@ target-version = "py310"
 unfixable = [
   "F841", # unused-variable
 ]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
 
 [tool.ruff.flake8-type-checking]
 strict = true

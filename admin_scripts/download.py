@@ -81,7 +81,7 @@ async def main(path: Path) -> None:
 
         while next_page is not None:
             async with session.get(
-                str(next_page), auth=aiohttp.BasicAuth(USERNAME, PASSWORD)
+                next_page.unicode_string(), auth=aiohttp.BasicAuth(USERNAME, PASSWORD)
             ) as r:
                 if not r.ok:
                     print("Error downloading levels")
@@ -93,7 +93,7 @@ async def main(path: Path) -> None:
 
             hint_downloads = []
             for level in page.results:
-                level_dir = path / f"{level.number:02d}"
+                level_dir = path / f"level-{level.number:02d}"
                 download_level(level_dir, level)
                 for hint in level.hints:
                     hint_download = download_hint(session, level_dir, level, hint)
