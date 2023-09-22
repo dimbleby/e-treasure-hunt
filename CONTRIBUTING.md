@@ -11,6 +11,6 @@ commands run by the CI on Github, such as:
 
 ```shell
 $ poetry run ruff .
-$ poetry run black --check .
+$ poetry run ruff format --check .
 $ poetry run mypy .
 ```

@@ -43,8 +43,8 @@ jobs:
       - name: ruff
         run: poetry run ruff .
 
-      - name: black
-        run: poetry run black --check .
+      - name: ruff format
+        run: poetry run ruff format --check .
 
       - name: mypy
         run: poetry run mypy .
