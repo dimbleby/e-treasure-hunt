@@ -65,7 +65,8 @@ def upload_hint(level: int, hint: int, image: Path) -> None:
     suffix = image.suffix
     content_type = CONTENT_TYPES.get(suffix.lower())
     if content_type is None:
-        raise RuntimeError(f"unrecognized suffix: {suffix}")
+        msg = f"unrecognized suffix: {suffix}"
+        raise RuntimeError(msg)
 
     url = f"{SERVER}/api/levels/{level}/hint"
     payload = {"number": hint}
@@ -103,7 +104,8 @@ def upload_level(level: int, path: Path) -> None:
 
     # Should find exactly the right number - check the file extensions if not.
     if len(images) != HINTS_PER_LEVEL:
-        raise RuntimeError(f"Found {len(images)} images in {path}")
+        msg = f"Found {len(images)} images in {path}"
+        raise RuntimeError(msg)
 
     # Create the level.
     upload_level_without_hints(level, path)

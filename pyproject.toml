@@ -89,6 +89,7 @@ select = [
   "DJ",    # flake8-django
   "DTZ",   # flake8-datetimez
   "E",     # pycodestyle
+  "EM",    # flake8-errmsg
   "EXE",   # flake8-executable
   "FURB",  # refurb
   "F",     # pyflakes
@@ -102,6 +103,7 @@ select = [
   "PLW",   # pylint warnings
   "PTH",   # flake8-use-pathlib
   "RET",   # flake8-return
+  "RSE",   # flake8-raise
   "RUF",   # ruff
   "SIM",   # flake8-simplify
   "TCH",   # flake8-type-checking
