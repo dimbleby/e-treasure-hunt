@@ -20,7 +20,7 @@ django = "^4.2"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.4.0"
-holidays = "^0.32"
+holidays = "^0.33"
 pillow = "^10.0.0"
 typing-extensions = "^4.8.0"
 whitenoise = "^6.4.0"
