@@ -1,18 +1,21 @@
 from __future__ import annotations
 
-import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 from asgiref.sync import sync_to_async
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import AsyncJsonWebsocketConsumer
 
 from hunt.models import ChatMessage, Level
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
 
+    class UserMessage(TypedDict):
+        username: str
+        message: str
 
-class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
+
+class ChatConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
     def __init__(self) -> None:
         super().__init__()
         self.team: User | None = None
@@ -48,10 +51,9 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
             await self.channel_layer.group_discard(self.room_group, self.channel_name)
 
     # Receive message from WebSocket
-    async def receive(self, text_data: str) -> None:
-        data = json.loads(text_data)
-        message = data["message"]
-        username = data["username"]
+    async def receive_json(self, content: UserMessage) -> None:
+        message = content["message"]
+        username = content["username"]
 
         await self.save_message(username, message)
 
@@ -59,18 +61,16 @@ class ChatConsumer(AsyncWebsocketConsumer):  # type: ignore[misc]
         assert self.room_group is not None
         await self.channel_layer.group_send(
             self.room_group,
-            {"type": "chat_message", "message": message, "username": username},
+            {"type": "chat.message", "message": message, "username": username},
         )
 
     # Receive message from room group
-    async def chat_message(self, event: dict[str, str]) -> None:
+    async def chat_message(self, event: UserMessage) -> None:
         message = event["message"]
         username = event["username"]
 
         # Send message to WebSocket
-        await self.send(
-            text_data=json.dumps({"message": message, "username": username})
-        )
+        await self.send_json(content={"message": message, "username": username})
 
     @sync_to_async
     def save_message(self, username: str, message: str) -> None:
