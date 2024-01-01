@@ -56,8 +56,8 @@ async def download_hint(
                 f.write(chunk)
 
 
-def download_level(path: Path, level: Level) -> None:
-    print(f"Downloading level {level.number}")
+def save_level(path: Path, level: Level) -> None:
+    print(f"Saving level {level.number}")
     path.mkdir(parents=True, exist_ok=True)
 
     about = {
@@ -83,18 +83,19 @@ async def main(path: Path) -> None:
             async with session.get(
                 next_page.unicode_string(), auth=aiohttp.BasicAuth(USERNAME, PASSWORD)
             ) as r:
+                body = await r.text()
                 if not r.ok:
                     print("Error downloading levels")
-                    print(await r.text())
+                    print(body)
 
                 r.raise_for_status()
 
-                page = Page.model_validate_json(await r.text())
+                page = Page.model_validate_json(body)
 
             hint_downloads = []
             for level in page.results:
                 level_dir = path / f"level-{level.number:02d}"
-                download_level(level_dir, level)
+                save_level(level_dir, level)
                 for hint in level.hints:
                     hint_download = download_hint(session, level_dir, level, hint)
                     hint_downloads.append(hint_download)
