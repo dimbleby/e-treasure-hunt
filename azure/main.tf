@@ -149,7 +149,7 @@ resource "azurerm_linux_web_app" "treasure" {
     http2_enabled       = true
     app_command_line    = "daphne -b 0.0.0.0 treasure.asgi:application"
     application_stack {
-      python_version = "3.11"
+      python_version = "3.12"
     }
   }
 

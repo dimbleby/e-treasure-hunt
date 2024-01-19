@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.5
-FROM python:3.11-slim AS builder
+FROM python:3.12-slim AS builder
 
 RUN --mount=type=cache,target=/var/cache/apt \
     --mount=type=cache,target=/var/lib/apt \
@@ -25,7 +25,7 @@ COPY --link pyproject.toml poetry.lock /
 RUN --mount=type=cache,target=/root/.cache/pypoetry \
     /root/.local/bin/poetry install --no-root --only=main
 
-FROM python:3.11-slim
+FROM python:3.12-slim
 
 COPY --link --from=builder /opt/venv /opt/venv
 
