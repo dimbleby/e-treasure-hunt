@@ -35,7 +35,7 @@ def go_home(request: AuthenticatedHttpRequest) -> HttpResponse:
 # Admin-only page to download hunt event logs.
 @user_passes_test(lambda u: u.is_staff)  # type: ignore[union-attr]
 def get_hunt_events(_request: HttpRequest) -> HttpResponse:
-    meta = HuntEvent._meta
+    meta = HuntEvent._meta  # noqa: SLF001
     field_names = [field.name for field in meta.fields]
 
     response = HttpResponse(content_type="text/csv")

@@ -10,7 +10,7 @@ from hunt.constants import HINTS_PER_LEVEL
 
 SERVER = "http://localhost:8000"
 USERNAME = "admin"
-PASSWORD = "adminpasswordhere"
+PASSWORD = "adminpasswordhere"  # noqa: S105
 
 
 CONTENT_TYPES = {

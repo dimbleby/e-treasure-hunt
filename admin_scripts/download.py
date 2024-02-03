@@ -11,7 +11,7 @@ from pydantic import BaseModel, HttpUrl
 
 SERVER = "http://localhost:8000"
 USERNAME = "admin"
-PASSWORD = "adminpasswordhere"
+PASSWORD = "adminpasswordhere"  # noqa: S105
 
 
 class Hint(BaseModel):
