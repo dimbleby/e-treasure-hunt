@@ -3,14 +3,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry]
-name = "e-treasure-hunt"
-version = "0.1.0"
-description = ""
-authors = ["David Hotham <david.hotham@blueyonder.co.uk>"]
-packages = [
-  { include = "hunt" },
-  { include = "treasure" },
-]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = ">=3.10"
