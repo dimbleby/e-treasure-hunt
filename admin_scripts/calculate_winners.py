@@ -8,6 +8,7 @@ REQ = team requested a hint
 Edit the values of the constants at the top of this file for your purposes, e.g.
 START_TIME, TEAM_NAMES, etc.
 """
+
 from __future__ import annotations
 
 import csv

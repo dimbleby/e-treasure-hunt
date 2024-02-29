@@ -19,6 +19,7 @@ However, this strict checking does serve to remind the admin to make sure that t
 level setter has not come up with their own novel image-naming scheme that wouldn't
 work once the server considers the images alphabetically.
 """
+
 from __future__ import annotations
 
 import argparse
