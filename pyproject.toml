@@ -13,7 +13,7 @@ django = "^5.0"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.4.0"
-holidays = "^0.41"
+holidays = "^0.43"
 pillow = "^10.0.0"
 typing-extensions = "^4.8.0"
 whitenoise = "^6.4.0"
@@ -93,6 +93,7 @@ select = [
   "EXE",   # flake8-executable
   "FURB",  # refurb
   "F",     # pyflakes
+  "FLY",   # flynt
   "I",     # isort
   "ICN",   # flake8-import-conventions
   "ISC",   # flake8-implicit-string-concat

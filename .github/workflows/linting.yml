@@ -40,7 +40,7 @@ jobs:
         run: poetry install --extras azure
 
       - name: ruff
-        run: poetry run ruff .
+        run: poetry run ruff check .
 
       - name: ruff format
         run: poetry run ruff format --check .
