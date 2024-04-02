@@ -36,6 +36,9 @@ jobs:
       - name: Install poetry
         uses: snok/install-poetry@v1
 
+      - name: poetry check
+        run: poetry check --lock
+
       - name: Install project
         run: poetry install --extras azure
 
