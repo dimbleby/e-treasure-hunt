@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import csv
 from collections import defaultdict
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TypeAlias
 
@@ -35,7 +35,7 @@ TeamName: TypeAlias = str
 
 def parse_timestamp(timestamp: str) -> datetime:
     return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").replace(
-        tzinfo=timezone.utc
+        tzinfo=UTC
     )
 
 
