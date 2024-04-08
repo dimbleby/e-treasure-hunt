@@ -38,6 +38,9 @@ jobs:
       - name: poetry check
         run: poetry check --lock
 
+      - name: set python environment
+        run: poetry env use ${{ matrix.python-version }}
+
       - name: Install project
         run: poetry install --extras azure
 
