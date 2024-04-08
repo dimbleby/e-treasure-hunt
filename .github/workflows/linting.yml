@@ -33,7 +33,7 @@ jobs:
           allow-prereleases: true
 
       - name: Install poetry
-        uses: snok/install-poetry@v1
+        run: pipx install poetry
 
       - name: poetry check
         run: poetry check --lock
