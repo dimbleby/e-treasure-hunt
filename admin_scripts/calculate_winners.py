@@ -34,9 +34,7 @@ TeamName: TypeAlias = str
 
 
 def parse_timestamp(timestamp: str) -> datetime:
-    return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").replace(
-        tzinfo=UTC
-    )
+    return datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S").replace(tzinfo=UTC)
 
 
 def main(csv_file: str) -> None:
