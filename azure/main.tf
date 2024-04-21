@@ -90,7 +90,7 @@ resource "azurerm_mssql_database" "treasure" {
   transparent_data_encryption_enabled = true
 }
 
-resource "azurerm_redis_cache" "cache" {
+resource "azurerm_redis_cache" "treasure" {
   name                = "${var.app_name}-cache"
   location            = var.region
   resource_group_name = azurerm_resource_group.treasure.name
@@ -101,6 +101,8 @@ resource "azurerm_redis_cache" "cache" {
   minimum_tls_version = "1.2"
 
   redis_configuration {
+    # active_directory_authentication_enabled = true
+    enable_authentication = true
   }
 }
 
@@ -136,8 +138,8 @@ resource "azurerm_linux_web_app" "treasure" {
     GM_API_KEY         = var.google_maps_api_key
     PRE_BUILD_COMMAND  = "prebuild.sh"
     SECRET_KEY         = random_password.secret_key.result
-    CACHE_PASSWORD     = azurerm_redis_cache.cache.primary_access_key
-    CACHE_URL          = azurerm_redis_cache.cache.hostname
+    CACHE_PASSWORD     = azurerm_redis_cache.treasure.primary_access_key
+    CACHE_URL          = azurerm_redis_cache.treasure.hostname
   }
 
   https_only = true
@@ -157,6 +159,15 @@ resource "azurerm_linux_web_app" "treasure" {
     type = "SystemAssigned"
   }
 }
+
+# Pointless without <https://github.com/django/channels_redis/issues/386>.
+# resource "azurerm_redis_cache_access_policy_assignment" "treasure" {
+#   name               = var.app_name
+#   redis_cache_id     = azurerm_redis_cache.treasure.id
+#   access_policy_name = "Data Owner"
+#   object_id          = azurerm_linux_web_app.treasure.identity.0.principal_id
+#   object_id_alias    = "Treasure hunt"
+# }
 
 resource "azurerm_role_assignment" "storage_contributor" {
   scope                = azurerm_storage_account.treasure.id
@@ -189,7 +200,7 @@ resource "azurerm_redis_firewall_rule" "treasure" {
   for_each            = toset(azurerm_linux_web_app.treasure.possible_outbound_ip_address_list)
   name                = "appservice_${replace(each.key, "/\\./", "_")}"
   resource_group_name = azurerm_resource_group.treasure.name
-  redis_cache_name    = azurerm_redis_cache.cache.name
+  redis_cache_name    = azurerm_redis_cache.treasure.name
   start_ip            = each.key
   end_ip              = each.key
 }

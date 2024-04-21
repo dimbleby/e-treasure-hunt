@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 
 import aiohttp
-from pydantic import BaseModel, HttpUrl
+from pydantic import BaseModel, HttpUrl, TypeAdapter
 
 SERVER = "http://localhost:8000"
 USERNAME = "admin"
@@ -77,7 +77,9 @@ def save_level(path: Path, level: Level) -> None:
 
 async def main(path: Path) -> None:
     async with aiohttp.ClientSession() as session:
-        next_page: HttpUrl | None = HttpUrl(f"{SERVER}/api/levels")
+        next_page: HttpUrl | None = TypeAdapter(HttpUrl).validate_strings(
+            f"{SERVER}/api/levels"
+        )
 
         while next_page is not None:
             async with session.get(

@@ -13,7 +13,7 @@ django = "^5.0"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.4.0"
-holidays = "^0.45"
+holidays = "^0.47"
 pillow = "^10.0.0"
 whitenoise = "^6.4.0"
 
@@ -119,7 +119,7 @@ select = [
 ignore = [
   "E203",  # whitespace before ':'
   "S101",  # assert-used
-  "UP040", # 'type' keyword (not yet supported by mypy)
+  "UP040", # 'type' keyword - https://github.com/python/mypy/issues/15238
 ]
 extend-safe-fixes = [
   "TCH", # flake8-type-checking

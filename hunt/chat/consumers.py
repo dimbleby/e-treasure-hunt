@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from asgiref.sync import sync_to_async
 from channels.generic.websocket import AsyncJsonWebsocketConsumer
@@ -8,6 +8,7 @@ from channels.generic.websocket import AsyncJsonWebsocketConsumer
 from hunt.models import ChatMessage, Level
 
 if TYPE_CHECKING:
+    from channels.layers import BaseChannelLayer
     from django.contrib.auth.models import User
 
     class UserMessage(TypedDict):
@@ -21,6 +22,7 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
         self.team: User | None = None
         self.level: Level | None = None
         self.room_group: str | None = None
+        self.channel_layer: BaseChannelLayer
 
     async def connect(self) -> None:
         user: User = self.scope["user"]
@@ -51,7 +53,11 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
             await self.channel_layer.group_discard(self.room_group, self.channel_name)
 
     # Receive message from WebSocket
-    async def receive_json(self, content: UserMessage) -> None:
+    async def receive_json(
+        self,
+        content: UserMessage,
+        **kwargs: Any,  # noqa: ARG002
+    ) -> None:
         message = content["message"]
         username = content["username"]
 
