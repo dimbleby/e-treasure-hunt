@@ -96,7 +96,7 @@ class AppSetting(models.Model):
     @override
     def save(
         self,
-        force_insert: bool = False,
+        force_insert: bool | tuple[models.base.ModelBase, ...] = False,
         force_update: bool = False,
         using: str | None = None,
         update_fields: Iterable[str] | None = None,
