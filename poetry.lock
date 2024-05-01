@@ -978,13 +978,13 @@ files = [
 
 [[package]]
 name = "mssql-django"
-version = "1.4.2"
+version = "1.5"
 description = "Django backend for Microsoft SQL Server"
 optional = true
 python-versions = "*"
 files = [
-    {file = "mssql-django-1.4.2.tar.gz", hash = "sha256:430b7e19eaec1396c9ab32abb4d3378fec375fb23bf93f61140fdcaaa7052d6c"},
-    {file = "mssql_django-1.4.2-py3-none-any.whl", hash = "sha256:a9934f3fc9a507a7ac5be21ad02109ba5352e56bf17959de7f29bbc5ad97e762"},
+    {file = "mssql_django-1.5-py3-none-any.whl", hash = "sha256:528adbd095b8ac908951898a57ca854276e64e231355f8c7cdee24fca695d857"},
+    {file = "mssql_django-1.5.tar.gz", hash = "sha256:14a2111bd126c4eaad230df8677b003a4d57b9616a9412247fb468e3ea68ed16"},
 ]
 
 [package.dependencies]
@@ -2064,4 +2064,4 @@ azure = ["azure-identity", "channels-redis", "mssql-django"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12"
-content-hash = "5b0e6e246ee9446494815473c6a6ccd2d03bd128cd7cc52c3aa730a27d846377"
+content-hash = "cf8ecd8e6bbc7ae469b083f9e07281e1e05787d87e0357576bccc775a8db9da0"
