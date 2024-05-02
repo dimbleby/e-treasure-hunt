@@ -29,9 +29,7 @@ else:
     class ModelViewSet(Generic[T], viewsets.ModelViewSet):
         pass
 
-    class ModelSerializer(
-        Generic[T], serializers.ModelSerializer
-    ):
+    class ModelSerializer(Generic[T], serializers.ModelSerializer):
         pass
 
 
