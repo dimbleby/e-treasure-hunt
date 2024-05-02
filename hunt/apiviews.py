@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     class ModelViewSet(viewsets.ModelViewSet[T]):
         pass
 
-    class HyperlinkedModelSerializer(serializers.HyperlinkedModelSerializer[T]):
+    class ModelSerializer(serializers.ModelSerializer[T]):
         pass
 
 else:
@@ -29,8 +29,8 @@ else:
     class ModelViewSet(Generic[T], viewsets.ModelViewSet):
         pass
 
-    class HyperlinkedModelSerializer(
-        Generic[T], serializers.HyperlinkedModelSerializer
+    class ModelSerializer(
+        Generic[T], serializers.ModelSerializer
     ):
         pass
 
@@ -38,13 +38,13 @@ else:
 EXTENSIONS = {"image/jpeg": ".jpg", "image/png": ".png"}
 
 
-class HintSerializer(serializers.HyperlinkedModelSerializer[Hint]):
+class HintSerializer(serializers.ModelSerializer[Hint]):
     class Meta:
         model = Hint
         fields = ["number", "image"]  # noqa: RUF012
 
 
-class LevelSerializer(HyperlinkedModelSerializer[Level]):
+class LevelSerializer(ModelSerializer[Level]):
     hints = HintSerializer(many=True, read_only=True)
 
     class Meta:
