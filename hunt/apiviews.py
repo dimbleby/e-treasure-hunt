@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     class ModelViewSet(viewsets.ModelViewSet[T]):
         pass
 
-    class HyperlinkedModelSerializer(serializers.ModelSerializer[T]):
+    class HyperlinkedModelSerializer(serializers.HyperlinkedModelSerializer[T]):
         pass
 
 else:
@@ -29,7 +29,9 @@ else:
     class ModelViewSet(Generic[T], viewsets.ModelViewSet):
         pass
 
-    class HyperlinkedModelSerializer(Generic[T], serializers.ModelSerializer):
+    class HyperlinkedModelSerializer(
+        Generic[T], serializers.HyperlinkedModelSerializer
+    ):
         pass
 
 
