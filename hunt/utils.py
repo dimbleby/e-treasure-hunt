@@ -61,7 +61,7 @@ def players_are_locked_out() -> bool:
     if datetime.time(9, 0) < clock < datetime.time(12, 30):
         return True
 
-    if datetime.time(13, 30) < clock < datetime.time(17, 30):
+    if datetime.time(13, 30) < clock < datetime.time(17, 30):  # noqa: SIM103
         return True
 
     # Allow access.
