@@ -4,10 +4,7 @@
 <div class="level-list">
   {% for level in levels %}
   <a class="gobutton" href="/level/{{ level.number }}">
-    <div style="display: flex">
-      <div class="level-label">LEVEL</div>
-      {{ level.number }}: {{ level.name }}
-    </div>
+    {{ level.number }}: {{ level.name }}
   </a>
   {% endfor %}
 </div>

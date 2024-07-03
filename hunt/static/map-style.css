@@ -68,6 +68,14 @@ body {
   background-color: #e63768;
 }
 
+.alt-gobutton {
+    font-size: 0.9rem;
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .disabled {
   background-color: #ddd !important;
   cursor: default;
