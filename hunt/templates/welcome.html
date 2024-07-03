@@ -3,10 +3,8 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="{% static "welcome-style.css" %}">
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat|Raleway&amp;display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Raleway&amp;display=swap"
+          rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eTreasure Hunt</title>
     <style>
@@ -15,7 +13,6 @@
       }
     </style>
   </head>
-
   <body>
     <div class="top">
       <form class="logout-form" method="post" action="{% url 'logout' %}">
@@ -23,7 +20,6 @@
         <button type="submit">Log out</button>
       </form>
     </div>
-
     <div class="content">
       <h1>{{ display_name }}</h1>
       <a class="gobutton" href="{% url 'level' level=team_level %}">LATEST LEVEL</a>

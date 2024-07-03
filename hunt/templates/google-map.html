@@ -3,10 +3,8 @@
 <html lang="en">
   <head>
     <link rel="stylesheet" href="{% static "map-style.css" %}">
-    <link
-      href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&amp;display=swap"
+          rel="stylesheet" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eTreasure Hunt</title>
     <style>
@@ -15,15 +13,16 @@
       }
     </style>
   </head>
-
   <body>
     <header class="top">
-      <div class="left"><a href="{% url 'go-home' %}">HOME</a></div>
+      <div class="left">
+        <a href="{% url 'go-home' %}">HOME</a>
+      </div>
       <div class="left">
         {% if lvl %}
-        <a href="{% url 'alt-map' %}?lvl={{ lvl }}">ALT MAP</a>
+          <a href="{% url 'alt-map' %}?lvl={{ lvl }}">ALT MAP</a>
         {% else %}
-        <a href="{% url 'alt-map' %}">ALT MAP</a>
+          <a href="{% url 'alt-map' %}">ALT MAP</a>
         {% endif %}
       </div>
       <form class="logout-form" method="post" action="{% url 'logout' %}">
@@ -31,30 +30,16 @@
         <button type="submit">Log out</button>
       </form>
     </header>
-
-    <input
-      id="autocomplete"
-      class="controls"
-      type="text"
-      placeholder="Search"
-    />
-    <button
-      id="search-button"
-      class="gobutton google-gobutton"
-      onclick="searchHere()"
-    >
-      SEARCH HERE
-    </button>
-
+    <input id="autocomplete" class="controls" type="text" placeholder="Search" />
+    <button id="search-button"
+            class="gobutton google-gobutton"
+            onclick="searchHere()">SEARCH HERE</button>
     <section class="special">
       <div id="map"></div>
     </section>
-
     <script src="{% static "google-map.js" %}"></script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&amp;libraries=places&amp;callback=initAutocomplete"
-      async
-      defer
-    ></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&amp;libraries=places&amp;callback=initAutocomplete"
+            async
+            defer></script>
   </body>
 </html>
