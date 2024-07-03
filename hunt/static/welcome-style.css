@@ -37,10 +37,6 @@ body {
   .gobutton {
     padding: 15px !important;
   }
-
-  .right {
-    padding-right: 15px !important;
-  }
 }
 
 .top {
@@ -59,12 +55,23 @@ body {
   text-decoration: none;
 }
 
-.right {
+.logout-form {
   display: flex;
   flex-direction: row;
   width: 100%;
   padding-right: 30px;
   justify-content: flex-end;
+}
+
+.logout-form button {
+  color: #fff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 .content {

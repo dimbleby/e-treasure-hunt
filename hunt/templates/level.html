@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 {% block content %}
 {% if level_number != team_level %}
 <div class="banner">
   Your team is on Level {{ team_level }}!
-  <a href="/level/{{ team_level }}">Join them</a>
+  <a href="{% url 'level' level=team_level %}">Join them</a>
 </div>
 {% endif %}
 
@@ -31,21 +31,21 @@
   </div>
 
   {% if is_last is not True %}
-  <a class="gobutton" href="/map?lvl={{ level_number }}">
+  <a class="gobutton" href="{% url 'map' %}?lvl={{ level_number }}">
     SEARCH MAP
   </a>
-  <a class="gobutton" href="/search?lvl={{ level_number }}">
+  <a class="gobutton" href="{% url 'search' %}?lvl={{ level_number }}">
     SEARCH CO-ORDINATES
   </a>
 
   {% if level_number != team_level %}
-  <a class="gobutton" href="/level/{{ level_number|add:"1" }}">
+  <a class="gobutton" href="{% url 'level' level=level_number|add:'1' %}">
     NEXT LEVEL
   </a>
   {% elif allow_hint %}
   <a
     class="gobutton"
-    href="/hint?lvl={{ level_number }}&hint={{ hints|length }}"
+    href="{% url 'hint' %}?lvl={{ level_number }}&hint={{ hints|length }}"
     onclick="return confirm(' Are you sure you want to request a hint?')"
   >
     REQUEST HINT
@@ -57,4 +57,4 @@
   {% endif %}
 </div>
 {% include "room.html" %}
-{% endblock %}
+{% endblock content %}

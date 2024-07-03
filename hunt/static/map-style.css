@@ -41,14 +41,6 @@ body {
   letter-spacing: 0.2em;
 }
 
-.right {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding-right: 30px;
-  justify-content: flex-end;
-}
-
 .gobutton {
   margin: 15px;
   padding: 25px;
@@ -89,6 +81,25 @@ section.special {
   height: 100%;
   padding-top: 101px;
   box-sizing: border-box;
+}
+
+.logout-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  padding-right: 30px;
+  justify-content: flex-end;
+}
+
+.logout-form button {
+  color: #fff;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 #map {
@@ -202,11 +213,5 @@ section.special {
 
   .geocoder-control-suggestions {
     width: 200px !important;
-  }
-}
-
-@media only screen and (max-width: 350px) {
-  .top .right {
-    display: none !important;
   }
 }

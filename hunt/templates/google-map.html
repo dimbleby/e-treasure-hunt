@@ -18,15 +18,18 @@
 
   <body>
     <header class="top">
-      <div class="left"><a href="/">HOME</a></div>
+      <div class="left"><a href="{% url 'go-home' %}">HOME</a></div>
       <div class="left">
         {% if lvl %}
-        <a href="/alt-map?lvl={{ lvl }}">ALT MAP</a>
+        <a href="{% url 'alt-map' %}?lvl={{ lvl }}">ALT MAP</a>
         {% else %}
-        <a href="/alt-map">ALT MAP</a>
+        <a href="{% url 'alt-map' %}">ALT MAP</a>
         {% endif %}
       </div>
-      <div class="right"><a href="/accounts/logout?next=/">Log out</a></div>
+      <form class="logout-form" method="post" action="{% url 'admin:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log out</button>
+      </form>
     </header>
 
     <input

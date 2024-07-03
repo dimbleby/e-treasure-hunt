@@ -111,6 +111,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "treasure.urls"
 
+LOGOUT_REDIRECT_URL = "go-home"
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
