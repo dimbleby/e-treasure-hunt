@@ -26,7 +26,7 @@
         <a href="{% url 'alt-map' %}">ALT MAP</a>
         {% endif %}
       </div>
-      <form class="logout-form" method="post" action="{% url 'admin:logout' %}">
+      <form class="logout-form" method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Log out</button>
       </form>
