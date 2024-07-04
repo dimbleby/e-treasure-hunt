@@ -18,7 +18,7 @@
     <div class="hints">
       {% for hint in hints %}<img class="hint" src="{{ hint }}" alt="Hint" />{% endfor %}
     </div>
-    {% if is_last is not True %}
+    {% if not is_last %}
       <a class="gobutton" href="{% url 'map' %}?lvl={{ level_number }}">SEARCH MAP</a>
       <a class="gobutton" href="{% url 'search' %}?lvl={{ level_number }}">SEARCH CO-ORDINATES</a>
       {% if level_number != team_level %}

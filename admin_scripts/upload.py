@@ -6,7 +6,7 @@ from pathlib import Path
 
 import requests
 
-from hunt.constants import HINTS_PER_LEVEL
+HINTS_PER_LEVEL = 5
 
 SERVER = "http://localhost:8000"
 USERNAME = "admin"
