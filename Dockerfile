@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.7
+# syntax=docker/dockerfile:1.9
 FROM python:3.12 AS builder
 
 RUN --mount=type=cache,target=/root/.cache/pip \
