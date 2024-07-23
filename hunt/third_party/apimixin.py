@@ -2,23 +2,19 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+from django.db.models import Model
 from django.http import Http404
 from rest_framework import status
 from rest_framework.request import clone_request
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
 if TYPE_CHECKING:
-    from django.db.models import Model
     from rest_framework.request import Request
-    from rest_framework.viewsets import GenericViewSet
-
-    type _Base = GenericViewSet[Model]
-else:
-    type _Base = object
 
 
 # https://gist.github.com/tomchristie/a2ace4577eff2c603b1b
-class AllowPUTAsCreateMixin(_Base):
+class AllowPUTAsCreateMixin(GenericViewSet[Model]):
     """
     The following mixin class may be used in order to support PUT-as-create
     behavior for incoming requests.
