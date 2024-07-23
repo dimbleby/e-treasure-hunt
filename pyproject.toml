@@ -13,7 +13,7 @@ django = "^5.0"
 django-storages = { version = "^1.13.1", extras = ["azure"] }
 djangorestframework = "^3.14.0"
 geopy = "^2.4.0"
-holidays = "^0.52"
+holidays = "^0.53"
 pillow = "^10.0.0"
 whitenoise = "^6.4.0"
 
@@ -55,6 +55,7 @@ plugins = [
   "mypy_drf_plugin.main",
   "pydantic.mypy",
 ]
+enable_incomplete_feature = "NewGenericSyntax"
 
 [[tool.mypy.overrides]]
 module = [
@@ -119,7 +120,6 @@ select = [
 ignore = [
   "E203",  # whitespace before ':'
   "S101",  # assert-used
-  "UP040", # 'type' keyword - https://github.com/python/mypy/issues/15238
 ]
 extend-safe-fixes = [
   "TCH", # flake8-type-checking

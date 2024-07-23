@@ -4,7 +4,7 @@ import contextlib
 import datetime
 import zoneinfo
 from functools import wraps
-from typing import TYPE_CHECKING, Concatenate, ParamSpec, TypeAlias
+from typing import TYPE_CHECKING, Concatenate, ParamSpec
 
 import holidays
 from django.db.models import Max
@@ -23,7 +23,7 @@ if TYPE_CHECKING:
         user: User
 
     P = ParamSpec("P")
-    AuthenticatedRequestHandler: TypeAlias = Callable[
+    type AuthenticatedRequestHandler[**P] = Callable[
         Concatenate[AuthenticatedHttpRequest, P], HttpResponse
     ]
 
