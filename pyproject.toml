@@ -79,16 +79,16 @@ target-version = "py312"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-  "ANN",   # flake8-annotations
-  "C90",   # mccabe
-  "COM",   # flake8-commas
-  "D",     # pydocstyle
-  "ERA",   # eradicate
-  "PD",    # pandas-vet
-  "PLR",   # pylint-refactor
-  "T20",   # flake8-print
-  "E203",  # whitespace before ':'
-  "S101",  # assert-used
+  "C90",    # mccabe
+  "COM",    # flake8-commas
+  "D",      # pydocstyle
+  "ERA",    # eradicate
+  "PD",     # pandas-vet
+  "PLR",    # pylint-refactor
+  "T20",    # flake8-print
+  "ANN401", # any-type
+  "E203",   # whitespace before ':'
+  "S101",   # assert-used
 ]
 extend-safe-fixes = [
   "TCH", # flake8-type-checking

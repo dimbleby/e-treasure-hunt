@@ -33,7 +33,7 @@ class Level:
 
 
 class Uploader:
-    def __init__(self, session: aiohttp.ClientSession):
+    def __init__(self, session: aiohttp.ClientSession) -> None:
         self.session = session
 
     async def upload_level_without_hints(self, level: Level) -> None:
