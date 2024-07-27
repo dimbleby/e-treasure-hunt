@@ -2063,4 +2063,4 @@ azure = ["azure-identity", "channels-redis", "mssql-django"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.12"
-content-hash = "5c9ed707fe3d8d90082ca90ddd3dccff4e4a0a2063f81a00e2db84e07811bf8d"
+content-hash = "3a41823f18588b6ee098e41ac9337acac89bafb7a043a18dff5454f349d2ce40"
