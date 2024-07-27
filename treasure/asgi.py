@@ -21,7 +21,7 @@ from django.core.asgi import get_asgi_application
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "treasure.settings")
 app = get_asgi_application()
 
-from hunt.chat import routing  # noqa
+from hunt.chat import routing  # noqa: E402
 
 application = ProtocolTypeRouter(
     {

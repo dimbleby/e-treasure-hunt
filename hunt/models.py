@@ -28,6 +28,7 @@ class HuntInfo(models.Model):
 @receiver(post_save, sender=User)
 def create_hunt_info(
     sender: type[User],  # noqa: ARG001
+    *,
     instance: User,
     created: bool,
     **kwargs: Any,  # noqa: ARG001
@@ -81,7 +82,7 @@ def hint_delete(
     **kwargs: Any,  # noqa: ARG001
 ) -> None:
     if instance.image:
-        instance.image.delete(False)
+        instance.image.delete(save=False)
 
 
 class AppSetting(models.Model):

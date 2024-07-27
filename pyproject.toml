@@ -79,45 +79,16 @@ extend-exclude = [
 target-version = "py312"
 
 [tool.ruff.lint]
-select = [
-  "A",     # flake8-builtins
-  "ARG",   # flake8-unused-arguments
-  "ASYNC", # flake8-async
-  "B",     # flake8-bugbear
-  "BLE",   # flake8-blind-except
-  "C4",    # flake8-comprehensions
-  "DJ",    # flake8-django
-  "DTZ",   # flake8-datetimez
-  "E",     # pycodestyle
-  "EM",    # flake8-errmsg
-  "EXE",   # flake8-executable
-  "F",     # pyflakes
-  "FLY",   # flynt
-  "FURB",  # refurb
-  "I",     # isort
-  "ICN",   # flake8-import-conventions
-  "ISC",   # flake8-implicit-string-concat
-  "N",     # pep8-naming
-  "PERF",  # perflint
-  "PIE",   # flake8-pie
-  "PLC",   # pylint conventions
-  "PLE",   # pylint errors
-  "PLW",   # pylint warnings
-  "PTH",   # flake8-use-pathlib
-  "Q",     # flake8-quotes
-  "RET",   # flake8-return
-  "RSE",   # flake8-raise
-  "RUF",   # ruff
-  "S",     # flake8-bandit
-  "SIM",   # flake8-simplify
-  "SLF",   # flake8-self
-  "TCH",   # flake8-type-checking
-  "TID",   # flake8-tidy-imports
-  "TRY",   # tryceratops
-  "UP",    # pyupgrade
-  "W",     # pycodestyle
-]
+select = ["ALL"]
 ignore = [
+  "ANN",   # flake8-annotations
+  "C90",   # mccabe
+  "COM",   # flake8-commas
+  "D",     # pydocstyle
+  "ERA",   # eradicate
+  "PD",    # pandas-vet
+  "PLR",   # pylint-refactor
+  "T20",   # flake8-print
   "E203",  # whitespace before ':'
   "S101",  # assert-used
 ]
