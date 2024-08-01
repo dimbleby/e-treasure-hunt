@@ -25,6 +25,7 @@ terraform {
 provider "azurerm" {
   features {}
   storage_use_azuread = true
+  subscription_id = var.subscription_id
 }
 
 resource "random_password" "azuread_password" {
@@ -56,7 +57,7 @@ resource "azurerm_storage_account" "treasure" {
   account_replication_type        = "LRS"
   account_tier                    = "Standard"
   min_tls_version                 = "TLS1_2"
-  enable_https_traffic_only       = true
+  https_traffic_only_enabled      = true
   shared_access_key_enabled       = false
   allow_nested_items_to_be_public = false
   default_to_oauth_authentication = true
@@ -91,18 +92,18 @@ resource "azurerm_mssql_database" "treasure" {
 }
 
 resource "azurerm_redis_cache" "treasure" {
-  name                = "${var.app_name}-cache"
-  location            = var.region
-  resource_group_name = azurerm_resource_group.treasure.name
-  capacity            = 0
-  family              = "C"
-  sku_name            = "Basic"
-  enable_non_ssl_port = false
-  minimum_tls_version = "1.2"
+  name                 = "${var.app_name}-cache"
+  location             = var.region
+  resource_group_name  = azurerm_resource_group.treasure.name
+  capacity             = 0
+  family               = "C"
+  sku_name             = "Basic"
+  non_ssl_port_enabled = false
+  minimum_tls_version  = "1.2"
 
   redis_configuration {
     # active_directory_authentication_enabled = true
-    enable_authentication = true
+    authentication_enabled = true
   }
 }
 

@@ -1,3 +1,4 @@
 app_name = "best-app-name-ever"
 # arcgis_api_key = "<ARCGIS_API_KEY>"
 # google_maps_api_key = "<GOOGLE_MAPS_API_KEY>"
+# subscription_id = "<SUBSCRIPTION_ID>"
