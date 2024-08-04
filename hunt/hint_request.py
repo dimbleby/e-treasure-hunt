@@ -61,8 +61,8 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     return "/level/" + lvl
 
 
-def determine_hint_delay(hunt_info: HuntInfo) -> int:
-    """Determine how long a user has to wait before seeing the next hint, in minutes."""
+def determine_hint_delay(hunt_info: HuntInfo) -> timedelta:
+    """Determine how long a user has to wait before seeing the next hint."""
     # Default to 30 minutes, tweak according to the team's position in the race:
     #
     # - leaders get a ten minute extra delay
@@ -80,7 +80,7 @@ def determine_hint_delay(hunt_info: HuntInfo) -> int:
         elif user_place < (hunts[count - 2].level, hunts[count - 2].hints_shown):
             delay -= 10
 
-    return delay
+    return timedelta(minutes=delay)
 
 
 def prepare_next_hint(hunt_info: HuntInfo) -> None:
@@ -96,7 +96,7 @@ def prepare_next_hint(hunt_info: HuntInfo) -> None:
     # Calculate when to release the next hint.
     now = timezone.now()
     delay = determine_hint_delay(hunt_info)
-    hunt_info.next_hint_release = now + timedelta(minutes=delay)
+    hunt_info.next_hint_release = now + delay
     hunt_info.save()
 
 
