@@ -19,10 +19,7 @@ else:
 
 # https://gist.github.com/tomchristie/a2ace4577eff2c603b1b
 class AllowPUTAsCreateMixin(_Base):
-    """
-    The following mixin class may be used in order to support PUT-as-create
-    behavior for incoming requests.
-    """
+    """Mixin supporting PUT-as-create behavior."""
 
     def update(
         self,

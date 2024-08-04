@@ -66,9 +66,9 @@ class Hint(models.Model):
     image = models.ImageField(upload_to="hints")
 
     class Meta:
-        constraints = [  # noqa: RUF012
-            models.UniqueConstraint(fields=["level", "number"], name="unique hint")
-        ]
+        constraints = (
+            models.UniqueConstraint(fields=["level", "number"], name="unique hint"),
+        )
 
     @override
     def __str__(self) -> str:

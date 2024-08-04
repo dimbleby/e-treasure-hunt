@@ -46,7 +46,7 @@ def get_hunt_events(_request: HttpRequest) -> HttpResponse:
 
     queryset = HuntEvent.objects.all()
     for obj in queryset:
-        writer.writerow([getattr(obj, field) for field in field_names])
+        writer.writerow(getattr(obj, field) for field in field_names)
 
     return response
 

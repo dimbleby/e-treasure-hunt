@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Parse the hunt events CSV from the hunt website to see who won by various metrics
+"""
+Parse the hunt events CSV from the hunt website to see who won by various metrics.
 
 ADV = team advanced to that level
 REQ = team requested a hint

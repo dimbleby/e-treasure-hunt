@@ -1,6 +1,4 @@
-"""
-Functions for requesting hints.
-"""
+"""Functions for requesting hints."""
 
 from __future__ import annotations
 
@@ -64,9 +62,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
 
 
 def determine_hint_delay(hunt_info: HuntInfo) -> int:
-    """
-    Determine how long a user has to wait before seeing the next hint, in minutes.
-    """
+    """Determine how long a user has to wait before seeing the next hint, in minutes."""
     # Default to 30 minutes, tweak according to the team's position in the race:
     #
     # - leaders get a ten minute extra delay
@@ -88,9 +84,7 @@ def determine_hint_delay(hunt_info: HuntInfo) -> int:
 
 
 def prepare_next_hint(hunt_info: HuntInfo) -> None:
-    """
-    Prepare to release the next hint, by calculating when it will become available.
-    """
+    """Prepare to release the next hint, by calculating when it becomes available."""
     # Don't try to release more hints than there are.
     if hunt_info.hints_shown >= HINTS_PER_LEVEL:
         return
@@ -107,9 +101,7 @@ def prepare_next_hint(hunt_info: HuntInfo) -> None:
 
 
 def maybe_release_hint(user: User) -> None:
-    """
-    Release any requested hint that has been delayed for the appropriate length of time.
-    """
+    """Release any requested hint that has become available."""
     hunt_info = user.huntinfo
     now = timezone.now()
     if (

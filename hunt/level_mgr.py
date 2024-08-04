@@ -38,7 +38,7 @@ def upload_new_level(request: HttpRequest) -> str:
         level = Level(number=lvl_num)
 
     def suffix(file: NamedFile) -> str:
-        """Return normalized filename suffix"""
+        """Return normalized filename suffix."""
         return Path(file.name).suffix.lower()
 
     # Gather up the needed information.

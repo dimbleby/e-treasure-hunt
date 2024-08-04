@@ -39,7 +39,7 @@ EXTENSIONS = {"image/jpeg": ".jpg", "image/png": ".png"}
 class HintSerializer(serializers.ModelSerializer[Hint]):
     class Meta:
         model = Hint
-        fields = ["number", "image"]  # noqa: RUF012
+        fields = ("number", "image")
 
 
 class LevelSerializer(ModelSerializer[Level]):
@@ -47,7 +47,7 @@ class LevelSerializer(ModelSerializer[Level]):
 
     class Meta:
         model = Level
-        fields = [  # noqa: RUF012
+        fields = (
             "number",
             "name",
             "description",
@@ -55,20 +55,20 @@ class LevelSerializer(ModelSerializer[Level]):
             "longitude",
             "tolerance",
             "hints",
-        ]
+        )
 
 
 class LevelViewSet(AllowPUTAsCreateMixin, ModelViewSet[Level]):
     queryset = Level.objects.all().order_by("number")
     serializer_class = LevelSerializer
-    http_method_names = [  # noqa: RUF012
+    http_method_names = (
         "delete",
         "get",
         "head",
         "patch",
         "post",
         "put",
-    ]
+    )
 
     @action(
         detail=True,
