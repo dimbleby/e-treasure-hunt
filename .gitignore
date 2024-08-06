@@ -1,8 +1,5 @@
-/**/__pycache__/
+__pycache__/
 /.mypy_cache/
 /media/
 /static/
 /treasure.sqlite
-
-# e.g. Pycharm config
-.idea/

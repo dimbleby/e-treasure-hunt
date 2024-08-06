@@ -46,8 +46,10 @@ enable_error_code = [
   "ignore-without-code",
   "redundant-expr",
   "truthy-bool",
+  "truthy-iterable",
+  "unused-awaitable",
 ]
-show_error_codes = true
+warn_unreachable = true
 plugins = [
   "mypy_django_plugin.main",
   "mypy_drf_plugin.main",

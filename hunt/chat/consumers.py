@@ -28,10 +28,6 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):  # type: ignore[misc]
         user: User = self.scope["user"]
         level: int = self.scope["url_route"]["kwargs"]["level"]
 
-        if not user.is_authenticated:
-            await self.close()
-            return
-
         allowed = await async_is_level_allowed(user, level)
         if not allowed:
             await self.close()
