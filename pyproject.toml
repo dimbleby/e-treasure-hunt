@@ -82,7 +82,9 @@ select = ["ALL"]
 ignore = [
   "C90",    # mccabe
   "COM",    # flake8-commas
+  "CPY",    # flake8-copyright
   "D",      # pydocstyle
+  "DOC",    # pydoclint
   "ERA",    # eradicate
   "PD",     # pandas-vet
   "PLR",    # pylint-refactor

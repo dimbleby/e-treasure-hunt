@@ -12,7 +12,7 @@ if TYPE_CHECKING:
     from rest_framework.request import Request
     from rest_framework.viewsets import GenericViewSet
 
-    type _Base = GenericViewSet[Model]
+    _Base = GenericViewSet[Model]
 else:
     _Base = object
 

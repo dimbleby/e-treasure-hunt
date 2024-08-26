@@ -26,10 +26,10 @@ if TYPE_CHECKING:
 
 else:
 
-    class ModelViewSet(Generic[T], viewsets.ModelViewSet):
+    class ModelViewSet(viewsets.ModelViewSet, Generic[T]):
         pass
 
-    class ModelSerializer(Generic[T], serializers.ModelSerializer):
+    class ModelSerializer(serializers.ModelSerializer, Generic[T]):
         pass
 
 
