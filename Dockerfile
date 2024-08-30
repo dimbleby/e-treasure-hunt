@@ -1,23 +1,18 @@
 # syntax=docker/dockerfile:1.9
-FROM python:3.12 AS builder
-
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install poetry==1.8.3 && \
-    python3 -m venv --without-pip /opt/venv
-
-ENV VIRTUAL_ENV=/opt/venv \
-    PATH="/opt/venv/bin:$PATH"
-
-COPY --link pyproject.toml poetry.lock /
-
-RUN --mount=type=cache,target=/root/.cache/pypoetry \
-    poetry install --only=main
-
 FROM python:3.12-slim
 
-COPY --link --from=builder /opt/venv /opt/venv
+WORKDIR /venv
 
-WORKDIR /usr/src/app
+COPY --link pyproject.toml uv.lock /venv/
+
+RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
+    --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-install-project --no-dev
+
+ENV PATH="/venv/.venv/bin:$PATH"
+
+WORKDIR /app
+
 EXPOSE 8000
-ENTRYPOINT ["/opt/venv/bin/python", "manage.py"]
+ENTRYPOINT ["python", "manage.py"]
 CMD ["runserver", "0.0.0.0:8000"]
