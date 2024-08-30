@@ -49,7 +49,7 @@ Run database migrations and create the admin user:
 docker run \
   --user "$EUID":"${GROUPS[0]}" \
   --rm \
-  --mount type=bind,source=$PWD,target=/usr/src/app \
+  --mount type=bind,source=$PWD,target=/app \
   e-treasure-hunt migrate
 
 docker run \
@@ -57,7 +57,7 @@ docker run \
   --interactive \
   --tty \
   --rm \
-  --mount type=bind,source=$PWD,target=/usr/src/app \
+  --mount type=bind,source=$PWD,target=/app \
   e-treasure-hunt createsuperuser
 ```
 
@@ -70,7 +70,7 @@ docker run \
   --env ARCGIS_API_KEY \
   --user "$EUID":"${GROUPS[0]}" \
   --rm \
-  --mount type=bind,source="$PWD",target=/usr/src/app \
+  --mount type=bind,source="$PWD",target=/app \
   --publish 8000:8000 \
   e-treasure-hunt
 ```

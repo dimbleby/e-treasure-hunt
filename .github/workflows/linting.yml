@@ -35,23 +35,17 @@ jobs:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: poetry check
-        run: poetry check --lock
-
-      - name: set python environment
-        run: poetry env use ${{ matrix.python-version }}
+      - name: Install uv
+        run: curl -LsSf https://astral.sh/uv/install.sh | sh
 
       - name: Install project
-        run: poetry install --extras azure
+        run: uv sync -p ${{ matrix.python-version }} --extra azure
 
       - name: ruff
-        run: poetry run ruff check .
+        run: uv run ruff check .
 
       - name: ruff format
-        run: poetry run ruff format --check .
+        run: uv run ruff format --check .
 
       - name: mypy
-        run: poetry run mypy .
+        run: uv run mypy .
