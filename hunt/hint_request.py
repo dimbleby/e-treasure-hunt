@@ -63,22 +63,30 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
 
 def determine_hint_delay(hunt_info: HuntInfo) -> timedelta:
     """Determine how long a user has to wait before seeing the next hint."""
-    # Default to 30 minutes, tweak according to the team's position in the race:
-    #
-    # - leaders get a ten minute extra delay
-    # - outright last place gets a ten minute reduction.
-    delay = 30
 
+    # Figure out where everyone stands.
     hunts = HuntInfo.objects.filter(user__is_staff=False).order_by(
         "-level", "-hints_shown"
     )
-    count = len(hunts)
-    if count > 1:
-        user_place = (hunt_info.level, hunt_info.hints_shown)
-        if user_place == (hunts[0].level, hunts[0].hints_shown):
-            delay += 10
-        elif user_place < (hunts[count - 2].level, hunts[count - 2].hints_shown):
-            delay -= 10
+    places = [(h.level, h.hints_shown) for h in hunts]
+    user_place = (hunt_info.level, hunt_info.hints_shown)
+
+    # Default to a 30 minute delay and tweak according to the user's place.
+    #
+    # If everyone is in the same place, no tweaks.
+    #
+    # Leaders are delayed by an additional ten minutes.
+    #
+    # Last place gets a ten minute reduction.
+    delay = 30
+    if places[0] == places[-1]:
+        pass
+
+    elif user_place == places[0]:
+        delay += 10
+
+    elif user_place == places[-1]:
+        delay -= 10
 
     return timedelta(minutes=delay)
 
