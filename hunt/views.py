@@ -33,7 +33,7 @@ def go_home(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 # Admin-only page to download hunt event logs.
-@user_passes_test(lambda u: u.is_staff)  # type: ignore[union-attr]
+@user_passes_test(lambda u: u.is_staff)
 def get_hunt_events(_request: HttpRequest) -> HttpResponse:
     meta = HuntEvent._meta  # noqa: SLF001
     field_names = [field.name for field in meta.fields]
@@ -177,7 +177,7 @@ def hint(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 # Management home.
-@user_passes_test(lambda u: u.is_staff)  # type: ignore[union-attr]
+@user_passes_test(lambda u: u.is_staff)
 def mgmt(request: HttpRequest) -> HttpResponse:
     template = loader.get_template("mgmt.html")
 
@@ -186,7 +186,7 @@ def mgmt(request: HttpRequest) -> HttpResponse:
 
 
 # Level uploader page.
-@user_passes_test(lambda u: u.is_staff)  # type: ignore[union-attr]
+@user_passes_test(lambda u: u.is_staff)
 def level_mgmt(request: HttpRequest) -> HttpResponse:
     template = loader.get_template("level-mgmt.html")
     next_level = request.GET.get("next", 1)
@@ -196,6 +196,6 @@ def level_mgmt(request: HttpRequest) -> HttpResponse:
 
 
 # Upload level endpoint.
-@user_passes_test(lambda u: u.is_staff)  # type: ignore[union-attr]
+@user_passes_test(lambda u: u.is_staff)
 def add_new_level(request: HttpRequest) -> HttpResponse:
     return redirect(upload_new_level(request))

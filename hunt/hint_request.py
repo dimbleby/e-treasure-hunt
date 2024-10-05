@@ -103,22 +103,27 @@ def prepare_next_hint(hunt_info: HuntInfo) -> None:
 def maybe_release_hint(user: User) -> None:
     """Release any requested hint that has become available."""
     hunt_info = user.huntinfo
-    now = timezone.now()
-    if (
-        hunt_info.hint_requested
-        and hunt_info.next_hint_release is not None
-        and now > hunt_info.next_hint_release
-    ):
-        # Record the event.
-        event = HuntEvent()
-        event.time = now
-        event.user = user
-        event.kind = HuntEvent.HINT_REL
-        event.level = hunt_info.level
-        event.save()
 
-        # Release this hint.
-        hunt_info.hints_shown += 1
-        hunt_info.hint_requested = False
-        hunt_info.next_hint_release = None
-        hunt_info.save()
+    if not hunt_info.hint_requested:
+        return
+
+    if hunt_info.next_hint_release is None:
+        return
+
+    now = timezone.now()
+    if now < hunt_info.next_hint_release:
+        return
+
+    # Record the event.
+    event = HuntEvent()
+    event.time = now
+    event.user = user
+    event.kind = HuntEvent.HINT_REL
+    event.level = hunt_info.level
+    event.save()
+
+    # Release this hint.
+    hunt_info.hints_shown += 1
+    hunt_info.hint_requested = False
+    hunt_info.next_hint_release = None
+    hunt_info.save()

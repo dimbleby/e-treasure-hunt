@@ -10,7 +10,7 @@ ENV UV_PROJECT_ENVIRONMENT="/venv/" \
 
 RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
     --mount=type=cache,target=/root/.cache/uv \
-    uv sync --frozen --no-install-project --no-dev
+    uv sync --frozen --no-dev
 
 EXPOSE 8000
 ENTRYPOINT ["python", "manage.py"]
