@@ -22,8 +22,8 @@ azure = [
   "mssql-django>=1.4",
 ]
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
   "ruff>=0.5.6",
   "mypy>=1.11.1",
   "aiodns>=3.0.0",
