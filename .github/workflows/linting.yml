@@ -21,6 +21,7 @@ jobs:
           - Ubuntu
         python-version:
           - "3.13"
+          - "3.14"
         include:
           - os: Ubuntu
             image: ubuntu-latest
@@ -35,6 +36,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
+
+      # For building pillow from source
+      # - name: Install libjpeg headers
+      #   run: sudo apt-get install libjpeg-dev
+      #   if: matrix.python-version == '3.14'
+
+      # For building pyodbc from source
+      - name: Install unixodbc headers
+        run: sudo apt-get install unixodbc-dev
+        if: matrix.python-version == '3.14'
 
       - name: Install uv
         uses: astral-sh/setup-uv@557e51de59eb14aaaba2ed9621916900a91d50c6 # v6.6.1
