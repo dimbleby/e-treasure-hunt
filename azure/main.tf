@@ -3,11 +3,11 @@ terraform {
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 2.47"
+      version = "~> 3.0"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 3.85"
+      version = "~> 4.8"
     }
     random = {
       source  = "hashicorp/random"
@@ -147,7 +147,7 @@ resource "azurerm_linux_web_app" "treasure" {
 
   site_config {
     always_on           = false
-    minimum_tls_version = "1.2"
+    minimum_tls_version = "1.3"
     ftps_state          = "Disabled"
     http2_enabled       = true
     app_command_line    = "daphne -b 0.0.0.0 treasure.asgi:application"
