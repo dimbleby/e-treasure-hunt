@@ -7,7 +7,7 @@ terraform {
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.8"
+      version = "~> 4.9"
     }
     random = {
       source  = "hashicorp/random"
@@ -25,7 +25,7 @@ terraform {
 provider "azurerm" {
   features {}
   storage_use_azuread = true
-  subscription_id = var.subscription_id
+  subscription_id     = var.subscription_id
 }
 
 resource "random_password" "azuread_password" {
@@ -65,7 +65,7 @@ resource "azurerm_storage_account" "treasure" {
 
 resource "azurerm_storage_container" "media" {
   name                  = "media"
-  storage_account_name  = azurerm_storage_account.treasure.name
+  storage_account_id    = azurerm_storage_account.treasure.id
   container_access_type = "private"
 }
 
