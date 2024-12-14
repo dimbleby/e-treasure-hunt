@@ -12,13 +12,16 @@ if TYPE_CHECKING:
     from rest_framework.request import Request
     from rest_framework.viewsets import GenericViewSet
 
-    _Base = GenericViewSet[Model]
+    class _Base[T: Model](GenericViewSet[T]):
+        pass
 else:
-    _Base = object
+
+    class _Base[T: Model]:
+        pass
 
 
 # https://gist.github.com/tomchristie/a2ace4577eff2c603b1b
-class AllowPUTAsCreateMixin(_Base):
+class AllowPUTAsCreateMixin[T: Model](_Base[T]):
     """Mixin supporting PUT-as-create behavior."""
 
     def update(
