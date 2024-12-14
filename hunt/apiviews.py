@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 from rest_framework import serializers, status, viewsets
@@ -13,24 +13,8 @@ from hunt.constants import HINTS_PER_LEVEL
 from hunt.models import Hint, Level
 from hunt.third_party.apimixin import AllowPUTAsCreateMixin
 
-T = TypeVar("T", bound="Model")
 if TYPE_CHECKING:
-    from django.db.models import Model
     from rest_framework.request import Request
-
-    class ModelViewSet(viewsets.ModelViewSet[T]):
-        pass
-
-    class ModelSerializer(serializers.ModelSerializer[T]):
-        pass
-
-else:
-
-    class ModelViewSet(viewsets.ModelViewSet, Generic[T]):
-        pass
-
-    class ModelSerializer(serializers.ModelSerializer, Generic[T]):
-        pass
 
 
 EXTENSIONS = {"image/jpeg": ".jpg", "image/png": ".png"}
@@ -42,7 +26,7 @@ class HintSerializer(serializers.ModelSerializer[Hint]):
         fields = ("number", "image")
 
 
-class LevelSerializer(ModelSerializer[Level]):
+class LevelSerializer(serializers.ModelSerializer[Level]):
     hints = HintSerializer(many=True, read_only=True)
 
     class Meta:
@@ -58,7 +42,7 @@ class LevelSerializer(ModelSerializer[Level]):
         )
 
 
-class LevelViewSet(AllowPUTAsCreateMixin, ModelViewSet[Level]):
+class LevelViewSet(AllowPUTAsCreateMixin[Level], viewsets.ModelViewSet[Level]):
     queryset = Level.objects.all().order_by("number")
     serializer_class = LevelSerializer
     http_method_names = (
