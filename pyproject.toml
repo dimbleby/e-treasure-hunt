@@ -37,6 +37,7 @@ dev = [
 files = "."
 strict = true
 enable_error_code = [
+  "deprecated",
   "explicit-override",
   "ignore-without-code",
   "redundant-expr",
