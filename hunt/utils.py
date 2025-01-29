@@ -4,7 +4,7 @@ import contextlib
 import datetime
 import zoneinfo
 from functools import wraps
-from typing import TYPE_CHECKING, Concatenate, ParamSpec
+from typing import TYPE_CHECKING, Concatenate
 
 import holidays
 from django.db.models import Max
@@ -22,7 +22,6 @@ if TYPE_CHECKING:
     class AuthenticatedHttpRequest(HttpRequest):
         user: User
 
-    P = ParamSpec("P")
     type AuthenticatedRequestHandler[**P] = Callable[
         Concatenate[AuthenticatedHttpRequest, P], HttpResponse
     ]
@@ -70,7 +69,7 @@ def players_are_locked_out() -> bool:
 
 # Decorator that prevents players from accessing the site when they should be locked
 # out.
-def no_players_during_lockout(
+def no_players_during_lockout[**P](
     f: AuthenticatedRequestHandler[P],
 ) -> AuthenticatedRequestHandler[P]:
     @wraps(f)
