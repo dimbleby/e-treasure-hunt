@@ -71,7 +71,6 @@ warn_required_dynamic_aliases = true
 extend-exclude = [
   "hunt/migrations",
 ]
-target-version = "py312"
 
 [tool.ruff.lint]
 select = ["ALL"]
