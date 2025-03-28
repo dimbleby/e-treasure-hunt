@@ -1,8 +1,7 @@
 # Setting up a development environment
 
-1. Install Python 3.12
-2. Install uv - see [the uv docs](https://docs.astral.sh/uv/#getting-started)
-3. Run `uv sync --extra azure` to install the project's dependencies
+1. Install uv - see [the uv docs](https://docs.astral.sh/uv/#getting-started)
+2. Run `uv sync --extra azure` to install the project's dependencies
 
 # Running the CI lints locally
 
