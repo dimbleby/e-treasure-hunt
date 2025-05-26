@@ -21,6 +21,7 @@ jobs:
           - Ubuntu
         python-version:
           - "3.13"
+          - "3.14"
         include:
           - os: Ubuntu
             image: ubuntu-latest
@@ -35,6 +36,11 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           allow-prereleases: true
+
+      # pyodbc, pillow do not yet have built distributions for python 3.14.
+      - name: Install SQL headers
+        run: sudo apt-get install libjpeg-dev unixodbc-dev
+        if: matrix.python-version == '3.14'
 
       - name: Install uv
         run: curl -LsSf https://astral.sh/uv/install.sh | sh
