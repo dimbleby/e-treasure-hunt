@@ -93,10 +93,11 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "storages",
     "hunt",
     "channels",
 ]
+if deployment_type == Deployment.AZURE:
+    INSTALLED_APPS += ["storages"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
