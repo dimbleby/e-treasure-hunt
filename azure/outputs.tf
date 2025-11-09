@@ -18,8 +18,8 @@ output "database_commands" {
     -G \
     -l 30
 
-    CREATE USER [${azurerm_linux_web_app.treasure.name}] FROM EXTERNAL PROVIDER;
-    ALTER ROLE db_owner ADD MEMBER [${azurerm_linux_web_app.treasure.name}];
+    CREATE USER [${azurerm_user_assigned_identity.webapp.name}] FROM EXTERNAL PROVIDER;
+    ALTER ROLE db_owner ADD MEMBER [${azurerm_user_assigned_identity.webapp.name}];
     GO
 EOT
 }

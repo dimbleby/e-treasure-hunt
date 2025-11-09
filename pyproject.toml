@@ -19,6 +19,7 @@ azure = [
   "channels-redis>=4.1.0",
   "django-storages[azure]>=1.13.1",
   "mssql-django>=1.4",
+  "redis-entraid>=1.0.0",
 ]
 
 [dependency-groups]
@@ -57,6 +58,7 @@ plugins = [
 module = [
   "channels.*",
   "geopy.*",
+  "redis_entraid.*",
 ]
 ignore_missing_imports = true
 
