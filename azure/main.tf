@@ -173,10 +173,11 @@ resource "azurerm_private_endpoint" "sql" {
 # NB need manually to disable public network access
 # <https://github.com/hashicorp/terraform-provider-azurerm/issues/31010>
 resource "azurerm_managed_redis" "treasure" {
-  name                = "${var.app_name}-cache"
-  location            = azurerm_resource_group.treasure.location
-  resource_group_name = azurerm_resource_group.treasure.name
-  sku_name            = "Balanced_B0"
+  name                      = "${var.app_name}-cache"
+  location                  = azurerm_resource_group.treasure.location
+  resource_group_name       = azurerm_resource_group.treasure.name
+  sku_name                  = "Balanced_B0"
+  high_availability_enabled = false
 
   default_database {
     access_keys_authentication_enabled = false
