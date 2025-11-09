@@ -169,6 +169,9 @@ resource "azurerm_private_endpoint" "sql" {
 
 # NB need manually to grant access to the web app identity
 # <https://github.com/hashicorp/terraform-provider-azurerm/issues/30938>
+#
+# NB need manually to disable public network access
+# <https://github.com/hashicorp/terraform-provider-azurerm/issues/31010>
 resource "azurerm_managed_redis" "treasure" {
   name                = "${var.app_name}-cache"
   location            = azurerm_resource_group.treasure.location
