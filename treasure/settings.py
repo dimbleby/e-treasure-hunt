@@ -77,9 +77,9 @@ STORAGES = {
 if deployment_type == Deployment.AZURE:
     from azure.identity import ManagedIdentityCredential
 
-    AZURE_TOKEN_CREDENTIAL = ManagedIdentityCredential(
-        client_id=os.environ["WEBAPP_CLIENT_ID"]
-    )
+    WEBAPP_CLIENT_ID = os.environ["WEBAPP_CLIENT_ID"]
+
+    AZURE_TOKEN_CREDENTIAL = ManagedIdentityCredential(client_id=WEBAPP_CLIENT_ID)
     AZURE_ACCOUNT_NAME = os.environ["AZURE_ACCOUNT_NAME"]
     AZURE_CONTAINER = os.environ["AZURE_CONTAINER"]
     AZURE_URL_EXPIRATION_SECS = 900
@@ -197,7 +197,7 @@ elif deployment_type == Deployment.AZURE:
             "HOST": os.environ["DBHOST"],
             "NAME": os.environ["DBNAME"],
             "Trusted_Connection": "no",
-            "USER": os.environ["WEBAPP_CLIENT_ID"],
+            "USER": WEBAPP_CLIENT_ID,
             "OPTIONS": {
                 "extra_params": "Authentication=ActiveDirectoryMsi",
             },
@@ -214,7 +214,7 @@ elif deployment_type == Deployment.AZURE:
     creds_provider = create_from_managed_identity(
         identity_type=ManagedIdentityType.USER_ASSIGNED,
         id_type=ManagedIdentityIdType.CLIENT_ID,
-        id_value=os.environ["WEBAPP_CLIENT_ID"],
+        id_value=WEBAPP_CLIENT_ID,
         resource="https://redis.azure.com/",
     )
 
@@ -224,7 +224,7 @@ elif deployment_type == Deployment.AZURE:
             "CONFIG": {
                 "hosts": [
                     {
-                        "host": os.environ["CACHE_URL"],
+                        "host": os.environ["CACHE_HOST"],
                         "port": 10000,
                         "credential_provider": creds_provider,
                         "connection_class": SSLConnection,

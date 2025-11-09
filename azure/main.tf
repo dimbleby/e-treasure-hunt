@@ -3,15 +3,15 @@ terraform {
   required_providers {
     azuread = {
       source  = "hashicorp/azuread"
-      version = "~> 3.0"
+      version = "~> 3.6"
     }
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "~> 4.9"
+      version = "~> 4.52"
     }
     random = {
       source  = "hashicorp/random"
-      version = "~> 3.6"
+      version = "~> 3.7"
     }
   }
   backend "azurerm" {
@@ -233,13 +233,13 @@ resource "azurerm_linux_web_app" "treasure" {
     ARCGIS_API_KEY     = var.arcgis_api_key
     AZURE_ACCOUNT_NAME = azurerm_storage_account.treasure.name
     AZURE_CONTAINER    = azurerm_storage_container.media.name
+    CACHE_HOST         = azurerm_managed_redis.treasure.hostname
     DBHOST             = azurerm_mssql_server.treasure.fully_qualified_domain_name
     DBNAME             = azurerm_mssql_database.treasure.name
     DEPLOYMENT         = "AZURE"
     GM_API_KEY         = var.google_maps_api_key
     PRE_BUILD_COMMAND  = "prebuild.sh"
     SECRET_KEY         = random_password.secret_key.result
-    CACHE_URL          = azurerm_managed_redis.treasure.hostname
     WEBAPP_CLIENT_ID   = azurerm_user_assigned_identity.webapp.client_id
   }
 
