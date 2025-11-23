@@ -63,26 +63,11 @@ MEDIA_ROOT = BASE_DIR / "media"
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "static"
 
-storage_backends = {
-    Deployment.AZURE: "storages.backends.azure_storage.AzureStorage",
-    Deployment.LOCAL: "django.core.files.storage.FileSystemStorage",
-}
 STORAGES = {
-    "default": {"BACKEND": storage_backends[deployment_type]},
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"
     },
 }
-
-if deployment_type == Deployment.AZURE:
-    from azure.identity import ManagedIdentityCredential
-
-    WEBAPP_CLIENT_ID = os.environ["WEBAPP_CLIENT_ID"]
-
-    AZURE_TOKEN_CREDENTIAL = ManagedIdentityCredential(client_id=WEBAPP_CLIENT_ID)
-    AZURE_ACCOUNT_NAME = os.environ["AZURE_ACCOUNT_NAME"]
-    AZURE_CONTAINER = os.environ["AZURE_CONTAINER"]
-    AZURE_URL_EXPIRATION_SECS = 900
 
 # Application definition
 INSTALLED_APPS = [
@@ -98,8 +83,6 @@ INSTALLED_APPS = [
     "hunt",
     "channels",
 ]
-if deployment_type == Deployment.AZURE:
-    INSTALLED_APPS += ["storages"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -179,6 +162,8 @@ CHANNEL_LAYERS: dict[str, Any]
 DATABASES: dict[str, Any]
 
 if deployment_type == Deployment.LOCAL:
+    STORAGES["default"] = {"BACKEND": "django.core.files.storage.FileSystemStorage"}
+
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -190,7 +175,20 @@ if deployment_type == Deployment.LOCAL:
             "BACKEND": "channels.layers.InMemoryChannelLayer",
         },
     }
+
 elif deployment_type == Deployment.AZURE:
+    from azure.identity import ManagedIdentityCredential
+
+    WEBAPP_CLIENT_ID = os.environ["WEBAPP_CLIENT_ID"]
+
+    AZURE_TOKEN_CREDENTIAL = ManagedIdentityCredential(client_id=WEBAPP_CLIENT_ID)
+    AZURE_ACCOUNT_NAME = os.environ["AZURE_ACCOUNT_NAME"]
+    AZURE_CONTAINER = os.environ["AZURE_CONTAINER"]
+    AZURE_URL_EXPIRATION_SECS = 900
+
+    STORAGES["default"] = {"BACKEND": "storages.backends.azure_storage.AzureStorage"}
+    INSTALLED_APPS += ["storages"]
+
     DATABASES = {
         "default": {
             "ENGINE": "mssql",
