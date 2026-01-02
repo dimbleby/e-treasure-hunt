@@ -56,11 +56,14 @@ jobs:
       - name: Install project
         run: uv sync -p ${{ matrix.python-version }} --extra azure
 
-      - name: ruff
-        run: uv run ruff check .
+      - name: Install ruff
+        uses: astral-sh/ruff-action@57714a7c8a2e59f32539362ba31877a1957dded1 # v3.5.1
+
+      - name: ruff check
+        run: ruff check .
 
       - name: ruff format
-        run: uv run ruff format --check .
+        run: ruff format --check .
 
       - name: mypy
         run: uv run mypy .
