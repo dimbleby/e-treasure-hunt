@@ -77,6 +77,9 @@ def look_for_level(request: AuthenticatedHttpRequest) -> str:
     return f"/nothing-here?lvl={search_level}"
 
 
+
+
+
 def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
     # Get the user details.
     user = request.user
@@ -89,8 +92,12 @@ def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
     # Only load the level if it's one the team has access to.
     if 0 < level_num <= team_level:
         # Get this level and the one before.
-        current_level = Level.objects.get(number=level_num)
-        previous_level = Level.objects.get(number=level_num - 1)
+        levels_dict = {
+            lvl.number: lvl
+            for lvl in Level.objects.filter(number__in=[level_num, level_num - 1])
+        }
+        current_level = levels_dict[level_num]
+        previous_level = levels_dict[level_num - 1]
 
         # Decide how many images to display.  Show all hints for solved levels.
         num_hints = HINTS_PER_LEVEL if level_num < team_level else team.hints_shown
