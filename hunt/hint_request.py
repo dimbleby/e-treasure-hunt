@@ -34,7 +34,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
         return "/oops"
 
     if int(hint) != hunt_info.hints_shown:
-        return "/level/" + lvl
+        return f"/level/{lvl}"
 
     # Prevent requesting more hints than there are.
     if hunt_info.hints_shown >= HINTS_PER_LEVEL:
@@ -43,7 +43,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     # If a hint request is already in progress, there's nothing to do here.
     # Just send the user back to the level they're on.
     if hunt_info.hint_requested:
-        return "/level/" + lvl
+        return f"/level/{lvl}"
 
     # Log an event to say there's been a hint request.
     event = HuntEvent()
@@ -58,7 +58,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     hunt_info.save()
 
     # Redirect back to the level in question.
-    return "/level/" + lvl
+    return f"/level/{lvl}"
 
 
 def determine_hint_delay(hunt_info: HuntInfo) -> timedelta:
