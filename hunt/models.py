@@ -147,6 +147,7 @@ class ChatMessage(models.Model):
 
     class Meta:
         ordering = ("date_added",)
+        indexes = (models.Index(fields=["team", "level"]),)
 
     @override
     def __str__(self) -> str:
