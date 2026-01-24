@@ -77,9 +77,6 @@ def look_for_level(request: AuthenticatedHttpRequest) -> str:
     return f"/nothing-here?lvl={search_level}"
 
 
-
-
-
 def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> str:
     # Get the user details.
     user = request.user
