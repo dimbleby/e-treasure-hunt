@@ -92,7 +92,7 @@ def async_get_level(number: int) -> Level:
 
 
 @sync_to_async
-def async_is_level_allowed(user: User, level: int) -> int:
+def async_is_level_allowed(user: User, level: int) -> bool:
     if level <= 0:
         return False
 
