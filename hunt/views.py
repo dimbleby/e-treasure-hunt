@@ -43,7 +43,7 @@ def get_hunt_events(_request: HttpRequest) -> HttpResponse:
 
     writer.writerow(field_names)
 
-    queryset = HuntEvent.objects.all()
+    queryset = HuntEvent.objects.all().select_related("user")
     for obj in queryset:
         writer.writerow(getattr(obj, field) for field in field_names)
 

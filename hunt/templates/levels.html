@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Unlocked Levels</h1>
-<div class="level-list">
+<nav class="level-list" aria-label="Available levels">
 {% for level in levels %}
   <a class="gobutton" href="{% url 'level' level=level.number %}">{{ level.number }}: {{ level.name }}</a>
 {% endfor %}
-</div>
+</nav>
 {% endblock content %}

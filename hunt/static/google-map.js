@@ -83,7 +83,7 @@ function initAutocomplete() {
   // Create the autocomplete object, restricting the search predictions to
   // geographical location types.
   autocomplete = new google.maps.places.Autocomplete(input);
-  autocomplete.setFields(["geometry"]);
+  autocomplete.setOptions({ fields: ["geometry"] });
   autocomplete.addListener("place_changed", setMarkerToResult);
 
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);

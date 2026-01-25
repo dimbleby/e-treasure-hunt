@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="{% static "base.css" %}">
-    <link rel="stylesheet" href="{% static "welcome-style.css" %}">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eTreasure Hunt</title>
+    <link rel="stylesheet" href="{% static "base.css" %}">
+    <link rel="stylesheet" href="{% static "welcome-style.css" %}">
     <style>
       body {
         background-image: url("{% static "colors.png" %}");
@@ -13,23 +14,26 @@
     </style>
   </head>
   <body>
-    <div class="content">
+    <main class="content">
       <!-- <h1>Please sign in</h1> -->
       <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <div>
-          <div class="form-label">Username</div>
-          <div class="form-field">{{ form.username }}</div>
-        </div>
-        <div>
-          <div class="form-label">Password</div>
-          <div class="form-field">{{ form.password }}</div>
-        </div>
+        <fieldset>
+          <legend class="visually-hidden">Login Credentials</legend>
+          <div>
+            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+            <div class="form-field">{{ form.username }}</div>
+          </div>
+          <div>
+            <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+            <div class="form-field">{{ form.password }}</div>
+          </div>
+        </fieldset>
         <div class="submit">
           <input type="submit" value="LOG IN" />
           <input type="hidden" name="next" value="{{ next }}" />
         </div>
       </form>
-    </div>
+    </main>
   </body>
 </html>

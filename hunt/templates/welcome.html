@@ -2,10 +2,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="stylesheet" href="{% static "base.css" %}">
-    <link rel="stylesheet" href="{% static "welcome-style.css" %}">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eTreasure Hunt</title>
+    <link rel="stylesheet" href="{% static "base.css" %}">
+    <link rel="stylesheet" href="{% static "welcome-style.css" %}">
     <style>
       body {
         background-image: url("{% static "colors.png" %}");
@@ -13,16 +14,17 @@
     </style>
   </head>
   <body>
-    <div class="top">
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <header class="top" style="--top-bg: url({% static "colors.png" %})">
       <form class="logout-form" method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Log out</button>
       </form>
-    </div>
-    <div class="content">
+    </header>
+    <main id="main-content" class="content">
       <h1>{{ display_name }}</h1>
       <a class="gobutton" href="{% url 'level' level=team_level %}">LATEST LEVEL</a>
       <a class="gobutton" href="{% url 'levels' %}">LEVEL LIST</a>
-    </div>
+    </main>
   </body>
 </html>

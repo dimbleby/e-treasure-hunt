@@ -31,7 +31,7 @@ L.control.scale().addTo(map);
 searchControl.on("results", function (data) {
   results.clearLayers();
   latlng = data.results[0].latlng;
-  results.addLayer(L.marker(latlng, { draggable: "true" }));
+  results.addLayer(L.marker(latlng, { draggable: true }));
 
   search_button.disabled = false;
   search_button.classList.remove("disabled");
@@ -40,7 +40,7 @@ searchControl.on("results", function (data) {
 map.on("click", function (e) {
   results.clearLayers();
   latlng = e.latlng;
-  results.addLayer(L.marker(latlng, { draggable: "true" }));
+  results.addLayer(L.marker(latlng, { draggable: true }));
   search_button.disabled = false;
   search_button.classList.remove("disabled");
 });

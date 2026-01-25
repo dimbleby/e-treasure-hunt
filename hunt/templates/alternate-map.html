@@ -2,18 +2,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eTreasure Hunt - Map Search</title>
+    <link rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
     <link rel="stylesheet" href="{% static "base.css" %}">
     <link rel="stylesheet" href="{% static "map-style.css" %}">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eTreasure Hunt</title>
-    <style>
-      .top {
-        background-image: url("{% static "colors.png" %}");
-      }
-    </style>
   </head>
   <body>
-    <header class="top">
+    <a href="#map" class="skip-link">Skip to map</a>
+    <header class="top" style="--top-bg: url({% static "colors.png" %})">
       <div class="left">
         <a href="{% url 'go-home' %}">HOME</a>
       </div>
@@ -22,15 +23,10 @@
         <button type="submit">Log out</button>
       </form>
     </header>
-    <div id="map"></div>
+    <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
     <button id="searchbutton"
             class="gobutton alt-gobutton"
-            onclick="searchHere()">SEARCH HERE</button>
-    <!-- Load Leaflet from CDN -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-          crossorigin="" />
+            aria-label="Search at current map location">SEARCH HERE</button>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
@@ -46,5 +42,9 @@
     </script>
     <script>const api_key = "{{ api_key }}";</script>
     <script src="{% static "alternate-map.js" %}"></script>
+    <script>
+      // Attach event listener unobtrusively
+      document.getElementById('searchbutton').addEventListener('click', searchHere);
+    </script>
   </body>
 </html>
