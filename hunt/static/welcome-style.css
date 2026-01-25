@@ -1,103 +1,29 @@
-/* Page-specific styles - requires base.css */
-
-html {
-  font-size: 17px;
-}
+/* Page-specific styles for welcome/login pages - requires base.css */
 
 body {
+  background: no-repeat center/cover;
   color: var(--color-white);
-  font-size: 16px;
-  background-repeat: no-repeat;
-  background-size: cover;
-  overflow-y: hidden;
 }
 
 h1 {
   color: var(--color-white);
-  font-size: 1.8rem;
-  padding: 0 5vw;
 }
 
+label,
 .form-label {
-  display: flex;
-  justify-content: center;
   color: var(--color-white);
-}
-
-@media only screen and (max-height: 800px) {
-  .top {
-    height: 80px;
-  }
-
-  h1 {
-    margin-bottom: 30px;
-  }
-}
-
-@media only screen and (max-height: 450px) {
-  .top {
-    height: 50px;
-  }
-
-  h1 {
-    margin-bottom: 10px;
-  }
-
-  .gobutton {
-    padding: 15px;
-  }
-}
-
-.top {
-  background-color: transparent;
-}
-
-.content {
-  width: 100%;
-  height: 100%;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  gap: var(--spacing-md);
-}
-
-.gobutton {
-  font-size: 0.9rem;
 }
 
 .form-field input {
-  border: none;
-  height: 2.1em;
-  width: 9em;
-  border-radius: var(--radius-sm);
-  margin-bottom: 20px;
-  margin-top: 5px;
   background-color: var(--color-white);
-  text-align: center;
+  border-radius: var(--radius-sm);
+  border: none;
   color: var(--color-text-dark);
   font-size: 0.9em;
-}
-
-.submit {
-  display: flex;
-  justify-content: center;
-}
-
-.submit input {
-  margin: var(--spacing-md);
-  padding: 15px 25px;
-  border-radius: var(--radius-md);
-  background-color: var(--color-primary);
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--color-white);
-  cursor: pointer;
-  text-decoration: none;
-  letter-spacing: 0.2em;
-  border: none;
-}
-
-.submit input:hover {
-  background-color: var(--color-primary-hover);
+  height: 2.1em;
+  margin: 5px 0 20px 0;
+  text-align: center;
+  width: 9em;
 }

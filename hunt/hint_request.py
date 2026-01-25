@@ -26,7 +26,12 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     if lvl is None:
         return reverse("oops")
 
-    if int(lvl) != hunt_info.level:
+    try:
+        lvl_int = int(lvl)
+    except ValueError:
+        return reverse("oops")
+
+    if lvl_int != hunt_info.level:
         return reverse("oops")
 
     # Check that this request is for the expected hint.
@@ -34,7 +39,12 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     if hint is None:
         return reverse("oops")
 
-    if int(hint) != hunt_info.hints_shown:
+    try:
+        hint_int = int(hint)
+    except ValueError:
+        return reverse("oops")
+
+    if hint_int != hunt_info.hints_shown:
         return reverse("level", args=[lvl])
 
     # Prevent requesting more hints than there are.

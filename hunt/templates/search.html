@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Search by Coordinates</h1>
+<h1>Search by coordinates</h1>
 <form action="{% url 'do-search' %}" method="get">
-  <div class="label">Lat</div>
-  <input class="numinput" name="lat" type="text" />
-  <div class="label">Long</div>
-  <input class="numinput" name="long" type="text" />
+  <fieldset>
+    <legend class="visually-hidden">Location Coordinates</legend>
+    <div class="form-row">
+      <label for="lat">Latitude</label>
+      <input class="numinput" id="lat" name="lat" type="text"
+             placeholder="e.g., 51.5074"
+             required />
+    </div>
+    <div class="form-row">
+      <label for="long">Longitude</label>
+      <input class="numinput" id="long" name="long" type="text"
+             placeholder="e.g., -0.1278"
+             required />
+    </div>
+  </fieldset>
   {% if lvl %}<input name="lvl" type="hidden" value="{{ lvl }}" />{% endif %}
   <div class="coord-search">
     <input class="gobutton" type="submit" value="SUBMIT" />

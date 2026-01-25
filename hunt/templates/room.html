@@ -24,12 +24,13 @@
             <input class="input"
                    type="text"
                    placeholder="Message"
-                   id="chat-message-input">
+                   id="chat-message-input"
+                   aria-label="Chat message">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <a class="button is-info" id="chat-message-submit">Submit</a>
+            <button class="button is-info" type="button" id="chat-message-submit">Submit</button>
           </div>
         </div>
       </div>
@@ -38,12 +39,12 @@
       <div id="username">
         <div class="field">
           <div class="control">
-            <input class="input" type="text" placeholder="Username" id="username-input">
+            <input class="input" type="text" placeholder="Username" id="username-input" aria-label="Enter username">
           </div>
         </div>
         <div class="field">
           <div class="control">
-            <a class="button is-info" id="username-submit">Set Username</a>
+            <button class="button is-info" type="button" id="username-submit">Set Username</button>
           </div>
         </div>
       </div>
@@ -51,80 +52,3 @@
     </div>
   </div>
 </div>
-<script>
-    var ws_scheme = window.location.protocol === "https:" ? "wss" : "ws";
-    var userName = "";
-
-    const chatSocket = new WebSocket(
-        ws_scheme
-        + '://'
-        + window.location.host
-        + '/level/{{ level_number }}/'
-    );
-
-    chatSocket.onclose = function(e) {
-        console.error('The socket closed unexpectedly');
-    };
-
-    chatSocket.onmessage = function(e) {
-        const data = JSON.parse(e.data);
-
-        var name = document.createElement('b');
-        name.innerText = data.username;
-
-        var message = document.createTextNode(': ' + data.message)
-        var linebreak = document.createElement('br')
-
-        var messages = document.querySelector('#chat-messages');
-        messages.appendChild(name);
-        messages.appendChild(message);
-        messages.appendChild(linebreak);
-
-        scrollToBottom();
-    };
-
-    document.querySelector('#username-input').focus();
-    document.querySelector('#chat-message-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {
-            document.querySelector('#chat-message-submit').click();
-        }
-    };
-    document.querySelector('#username-input').onkeyup = function(e) {
-        if (e.keyCode === 13) {
-            document.querySelector('#username-submit').click();
-        }
-    };
-
-    document.querySelector('#chat-message-submit').onclick = function(e) {
-        const messageInputDom = document.querySelector('#chat-message-input');
-        const message = messageInputDom.value;
-
-        if (message) {
-            chatSocket.send(JSON.stringify({
-                'message': message,
-                'username': userName,
-            }));
-        }
-
-        messageInputDom.value = '';
-    };
-
-    document.querySelector('#username-submit').onclick = function(e) {
-        const value = document.querySelector('#username-input').value;
-        if ((value.length === 0) || (value.length > 32)) {
-            return;
-        }
-        userName = value;
-        document.querySelector('#chat').removeAttribute("hidden");
-        document.querySelector('#username').setAttribute("hidden", true);
-        document.querySelector('#username-display').textContent = "Your username: " + userName
-        document.querySelector('#chat-message-input').focus();
-    };
-
-    scrollToBottom();
-
-    function scrollToBottom() {
-        let objDiv = document.getElementById("chat-messages");
-        objDiv.scrollTop = objDiv.scrollHeight;
-    }
-</script>

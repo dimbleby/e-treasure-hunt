@@ -1,16 +1,26 @@
 {% extends "mgmt-base.html" %}
 {% block content %}
+<h1>Create New Level</h1>
 <form action="{% url 'new-level' %}"
       method="post"
       enctype="multipart/form-data">
   {% csrf_token %}
-  <div class="label">Level number</div>
-  <input class="numinput" name="lvl-num" type="number" value="{{ next }}" />
-  <div class="label">Level files</div>
-  <input name="files"
-         type="file"
-         accept="image/jpeg, image/png, .txt, .json"
-         multiple />
+  <fieldset>
+    <legend class="visually-hidden">Level Details</legend>
+    <div>
+      <label for="lvl-num">Level number</label>
+      <input class="numinput" id="lvl-num" name="lvl-num" type="number"
+             value="{{ next }}"
+             required />
+    </div>
+    <div>
+      <label for="files">Level files</label>
+      <input id="files" name="files"
+             type="file"
+             accept="image/jpeg, image/png, .txt, .json"
+             multiple />
+    </div>
+  </fieldset>
   <div>
     <input class="gobutton" type="submit" value="SUBMIT" />
   </div>
