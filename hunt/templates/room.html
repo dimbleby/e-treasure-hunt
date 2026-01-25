@@ -118,7 +118,7 @@
         userName = value;
         document.querySelector('#chat').removeAttribute("hidden");
         document.querySelector('#username').setAttribute("hidden", true);
-        document.querySelector('#username-display').innerHTML = "Your username: " + userName
+        document.querySelector('#username-display').textContent = "Your username: " + userName
         document.querySelector('#chat-message-input').focus();
     };
 
