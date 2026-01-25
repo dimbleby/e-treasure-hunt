@@ -7,8 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http.response import HttpResponse
-from django.shortcuts import redirect
-from django.template import loader
+from django.shortcuts import redirect, render
 
 from hunt.hint_request import maybe_release_hint, prepare_next_hint, request_hint
 from hunt.level_mgr import upload_new_level
@@ -55,14 +54,12 @@ def get_hunt_events(_request: HttpRequest) -> HttpResponse:
 @login_required
 @no_players_during_lockout
 def home(request: AuthenticatedHttpRequest) -> HttpResponse:
-    template = loader.get_template("welcome.html")
-
     # Staff can see all levels.
     user = request.user
     team_level = max_level() if user.is_staff else user.huntinfo.level
 
     context = {"display_name": user.get_username(), "team_level": team_level}
-    return HttpResponse(template.render(context, request))
+    return render(request, "welcome.html", context)
 
 
 # Level page.
@@ -79,7 +76,7 @@ def level(request: AuthenticatedHttpRequest, level: int) -> HttpResponse:
         prepare_next_hint(hunt_info)
 
     # Show the level.
-    return HttpResponse(maybe_load_level(request, level))
+    return maybe_load_level(request, level)
 
 
 # Error page.
@@ -87,11 +84,8 @@ def level(request: AuthenticatedHttpRequest, level: int) -> HttpResponse:
 @no_players_during_lockout
 def oops(request: AuthenticatedHttpRequest) -> HttpResponse:
     # Shouldn't be here. Show an error page.
-    template = loader.get_template("oops.html")
     context = {"team_level": request.user.huntinfo.level}
-
-    # Return the rendered template.
-    return HttpResponse(template.render(context, request))
+    return render(request, "oops.html", context)
 
 
 # Map (or alt map).
@@ -113,27 +107,24 @@ def default_map(request: AuthenticatedHttpRequest) -> HttpResponse:
         return alt_map(request)
 
     # Use the Google map.
-    template = loader.get_template("google-map.html")
     context = {"api_key": gm_api_key, "lvl": request.GET.get("lvl")}
-
-    return HttpResponse(template.render(context, request))
+    return render(request, "google-map.html", context)
 
 
 # Alt map.
 @login_required
 @no_players_during_lockout
 def alt_map(request: AuthenticatedHttpRequest) -> HttpResponse:
-    template = loader.get_template("alternate-map.html")
     arcgis_api_key = os.environ.get("ARCGIS_API_KEY")
     context = {"api_key": arcgis_api_key, "lvl": request.GET.get("lvl")}
-    return HttpResponse(template.render(context, request))
+    return render(request, "alternate-map.html", context)
 
 
 # Level list.
 @login_required
 @no_players_during_lockout
 def levels(request: AuthenticatedHttpRequest) -> HttpResponse:
-    return HttpResponse(list_levels(request))
+    return list_levels(request)
 
 
 # Search request endpoint.
@@ -148,25 +139,20 @@ def do_search(request: AuthenticatedHttpRequest) -> HttpResponse:
 @no_players_during_lockout
 def search(request: AuthenticatedHttpRequest) -> HttpResponse:
     lvl = request.GET.get("lvl")
-
-    template = loader.get_template("search.html")
     context = {"lvl": lvl}
-
-    return HttpResponse(template.render(context, request))
+    return render(request, "search.html", context)
 
 
 # Nothing here.
 @login_required
 @no_players_during_lockout
 def nothing(request: AuthenticatedHttpRequest) -> HttpResponse:
-    template = loader.get_template("nothing.html")
-
     team_level = request.user.huntinfo.level
     lvl = request.GET.get("lvl")
     search_level = None if lvl is None else int(lvl)
 
     context = {"team_level": team_level, "search_level": search_level}
-    return HttpResponse(template.render(context, request))
+    return render(request, "nothing.html", context)
 
 
 # Request a hint.
@@ -179,20 +165,16 @@ def hint(request: AuthenticatedHttpRequest) -> HttpResponse:
 # Management home.
 @user_passes_test(lambda u: u.is_staff)
 def mgmt(request: HttpRequest) -> HttpResponse:
-    template = loader.get_template("mgmt.html")
-
     context = {"success": request.GET.get("success")}
-    return HttpResponse(template.render(context, request))
+    return render(request, "mgmt.html", context)
 
 
 # Level uploader page.
 @user_passes_test(lambda u: u.is_staff)
 def level_mgmt(request: HttpRequest) -> HttpResponse:
-    template = loader.get_template("level-mgmt.html")
     next_level = request.GET.get("next", 1)
-
     context = {"success": request.GET.get("success"), "next": next_level}
-    return HttpResponse(template.render(context, request))
+    return render(request, "level-mgmt.html", context)
 
 
 # Upload level endpoint.
