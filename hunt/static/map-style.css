@@ -2,17 +2,13 @@
 
 html,
 body {
-  background: #222;
   overflow: hidden;
-}
-
-body {
   height: 100%;
 }
 
 .top {
   position: fixed;
-  border-bottom: 1px solid #888;
+  border-bottom: 1px solid var(--color-text-light);
 }
 
 .gobutton {
@@ -20,17 +16,15 @@ body {
   z-index: 20;
 }
 
-.gobutton.alt-gobutton {
+.gobutton.alt-gobutton,
+.gobutton.google-gobutton {
   font-size: 0.9rem;
   position: fixed;
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   margin: 0;
-}
-
-.gobutton.google-gobutton {
-  margin: var(--spacing-md);
+  z-index: 20;
 }
 
 .gobutton.disabled {
@@ -40,10 +34,16 @@ body {
 
 section.special {
   height: 100%;
-  padding-top: 101px;
+  padding-top: calc(var(--header-height) + 1px);
 }
 
-#map {
+section.special #map {
+  height: 100%;
+  width: 100%;
+}
+
+/* Alt map uses fixed positioning */
+body > #map {
   position: fixed;
   top: var(--header-height);
   left: 0;
@@ -84,7 +84,7 @@ input#autocomplete {
   width: 500px;
   max-width: 95%;
   border-radius: var(--radius-sm);
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-border);
   margin: 10px auto 0 auto;
 }
 

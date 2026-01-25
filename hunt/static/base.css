@@ -169,3 +169,15 @@ html body {
 .label {
   margin-top: var(--spacing-sm);
 }
+
+/* ==========================================================================
+   Layout Components
+   ========================================================================== */
+
+.heading {
+  padding: 0 5vw;
+  margin-top: clamp(40px, 8vh, 80px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
