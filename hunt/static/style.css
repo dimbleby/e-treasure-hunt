@@ -1,128 +1,70 @@
-body {
-  color: #567;
-  font-family: "Montserrat", sans-serif;
-  width: 100%;
-  margin: 0;
-  text-align: center;
-  overflow-x: hidden;
+/* Page-specific styles - requires base.css */
+
+/* Responsive typography using clamp for fluid sizing */
+h1 {
+  font-size: clamp(2.5rem, 8vw, 4rem);
+  margin-top: clamp(50px, 8vh, 100px);
+  margin-bottom: 15px;
+}
+
+h2 {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+
+h3 {
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  color: #aaa;
+  font-style: italic;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.content h3 {
+  font-size: 1rem;
 }
 
 @media only screen and (max-width: 500px) {
   .level-list .gobutton {
-    padding: 10px 15px !important;
+    padding: 10px 15px;
     border-radius: 25px;
     justify-content: center;
     display: flex;
   }
 }
 
-@media only screen and (max-height: 800px) {
-  h1 {
-    margin-top: 50px !important;
-    font-size: 2.5rem !important;
-  }
-
-  h2 {
-    font-size: 1.8rem !important;
-  }
-}
-
 @media only screen and (max-height: 700px) {
-  h1 {
-    margin-top: 40px !important;
-    font-size: 2rem !important;
-  }
-
-  h2 {
-    font-size: 1.5rem !important;
-  }
-
   .story p {
-    margin-bottom: 0 !important;
+    margin-bottom: 0;
   }
-}
-
-@media only screen and (max-height: 600px) {
-  h1 {
-    margin-top: 30px !important;
-    font-size: 1.8rem !important;
-  }
-
-  h2 {
-    font-size: 1.2rem !important;
-  }
-
-  h3 {
-    font-size: 0.9rem !important;
-  }
-}
-
-.top {
-  z-index: 1;
-  position: absolute;
-  width: 100%;
-  height: 100px;
-  background-color: #fdb;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: left;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  white-space: nowrap;
-}
-
-.top a {
-  color: #fff;
-  text-decoration: none;
-}
-
-.left {
-  display: flex;
-  flex-direction: row;
-  padding-left: 30px;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-}
-
-.logout-form {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  padding-right: 30px;
-  justify-content: flex-end;
-}
-
-.logout-form button {
-  color: #fff;
-  text-decoration: none;
-  font-family: inherit;
-  font-size: inherit;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
 }
 
 .banner {
-  padding: 2vh 0;
+  padding: 2vh 1rem;
   width: 100%;
-  background-color: #dfe2f2;
-  display: flex;
-  justify-content: center;
+  align-self: stretch;
+  box-sizing: border-box;
+  background-color: var(--color-banner-bg);
+  text-align: center;
+}
+
+@media only screen and (max-width: 500px) {
+  .banner {
+    font-size: 0.85rem;
+  }
 }
 
 .banner a {
   margin-left: 0.6rem;
   text-decoration: none;
-  color: #d9184e;
+  color: var(--color-primary);
   font-weight: bold;
 }
 
 .content {
-  padding-top: 100px;
+  padding-top: var(--header-height);
   padding-bottom: 6vh;
-  box-sizing: border-box;
   height: fit-content;
   min-height: 100%;
   width: 100%;
@@ -138,39 +80,30 @@ body {
 
 .chat-messages {
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   text-align: left;
   overflow-wrap: anywhere;
 }
 
 .heading {
   padding: 0 5vw;
+  margin-top: clamp(40px, 8vh, 80px);
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-h1 {
-  font-size: 2rem;
-  margin-top: 70px;
-  margin-bottom: 10px;
-}
-
 .heading h1 {
-  font-size: 2.8rem;
+  font-size: clamp(1.4rem, 3.5vw, 2rem);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .heading h2 {
   margin-top: 0;
   margin-bottom: 5px;
-  font-size: 2rem;
-  color: #789;
-}
-
-h3 {
-  font-size: 1rem;
-  color: #aaa;
-  font-style: italic;
+  font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+  color: var(--color-text);
 }
 
 .v-center {
@@ -186,112 +119,67 @@ h3 {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: var(--spacing-sm);
   padding: 0 10vw;
-}
-
-.gobutton {
-  margin: 15px;
-  padding: 25px;
-  border-radius: 10px;
-  background-color: #d9184e;
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #fff;
-  cursor: pointer;
-  text-decoration: none;
-  letter-spacing: 0.2em;
-  border: none;
 }
 
 .level-list .gobutton {
   padding: 10px 20px;
-  margin: 10px;
+  margin: 0;
 }
 
 .coord-search .gobutton {
-  padding: 15px;
-}
-
-.gobutton:hover {
-  background-color: #e63768;
-}
-
-.gobutton-disabled {
-  margin: 15px;
-  padding: 25px;
-  border-radius: 10px;
-  background-color: #ddd;
-  font-size: 0.8em;
-  font-weight: bold;
-  color: #fff;
-  letter-spacing: 0.2em;
-  cursor: default;
+  padding: var(--spacing-md);
 }
 
 .story {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 20px 0 40px 0;
+  margin: 10px 0 20px 0;
   font-size: 1rem;
   width: 850px;
   max-width: 88vw;
-  line-height: 2rem;
+  line-height: 1;
   text-align: center;
   text-indent: 0;
 }
 
 .story p {
   width: 100%;
-  margin-bottom: 10px;
+  margin: 0;
 }
 
 .story a {
   margin-left: 0.2rem;
   text-decoration: none;
-  color: #d9184e;
+  color: var(--color-primary);
   font-weight: bold;
 }
 
 .oops .story {
-    text-align: left;
+  text-align: left;
 }
 
 .hints {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: var(--spacing-sm);
   padding-bottom: 4vh;
 }
 
 .hint {
-  width: 900px;
-  max-width: 88vw;
+  width: var(--content-width-lg);
+  max-width: var(--content-max-width);
   max-height: 66vw;
-  padding: 10px 0;
+  padding: var(--spacing-sm) 0;
   object-fit: contain;
   border-bottom: 1px solid black;
 }
 
-.label {
-  margin-top: 10px;
-}
-
-.numinput {
-  border: 2px solid #bbb;
-  height: 1.8em;
-  width: 10em;
-  border-radius: 5px;
-  background-color: #fff;
-  padding-left: 1em;
-  text-align: center;
-  color: #345;
-  font-size: 1.2em;
-  margin-bottom: 20px;
-}
-
 .reason {
   font-style: italic;
-  color: #999;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }

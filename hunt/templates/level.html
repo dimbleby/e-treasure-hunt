@@ -11,27 +11,25 @@
     <h2>Level {{ level_number }}</h2>
   </div>
   {% if level_number > 1 %}<h3>{{ latitude }}, {{ longitude }}</h3>{% endif %}
-  <div class="content">
-    <div class="story">
-      {% for para in desc_paras %}<p>{{ para }}</p>{% endfor %}
-    </div>
-    <div class="hints">
-      {% for hint in hints %}<img class="hint" src="{{ hint }}" alt="Hint" />{% endfor %}
-    </div>
-    {% if not is_last %}
-      <a class="gobutton" href="{% url 'map' %}?lvl={{ level_number }}">SEARCH MAP</a>
-      <a class="gobutton" href="{% url 'search' %}?lvl={{ level_number }}">SEARCH CO-ORDINATES</a>
-      {% if level_number != team_level %}
-        <a class="gobutton" href="{% url 'level' level=level_number|add:'1' %}">NEXT LEVEL</a>
-      {% elif allow_hint %}
-        <a class="gobutton"
-           href="{% url 'hint' %}?lvl={{ level_number }}&hint={{ hints|length }}"
-           onclick="return confirm(' Are you sure you want to request a hint?')">REQUEST HINT</a>
-      {% else %}
-        <div class="gobutton-disabled" title="{{ reason }}">REQUEST HINT</div>
-        <p class="reason">{{ reason }}</p>
-      {% endif %}
-    {% endif %}
+  <div class="story">
+    {% for para in desc_paras %}<p>{{ para }}</p>{% endfor %}
   </div>
+  <div class="hints">
+    {% for hint in hints %}<img class="hint" src="{{ hint }}" alt="Hint" />{% endfor %}
+  </div>
+  {% if not is_last %}
+    <a class="gobutton" href="{% url 'map' %}?lvl={{ level_number }}">SEARCH MAP</a>
+    <a class="gobutton" href="{% url 'search' %}?lvl={{ level_number }}">SEARCH CO-ORDINATES</a>
+    {% if level_number != team_level %}
+      <a class="gobutton" href="{% url 'level' level=level_number|add:'1' %}">NEXT LEVEL</a>
+    {% elif allow_hint %}
+      <a class="gobutton"
+         href="{% url 'hint' %}?lvl={{ level_number }}&hint={{ hints|length }}"
+         onclick="return confirm(' Are you sure you want to request a hint?')">REQUEST HINT</a>
+    {% else %}
+      <div class="gobutton-disabled" title="{{ reason }}">REQUEST HINT</div>
+      <p class="reason">{{ reason }}</p>
+    {% endif %}
+  {% endif %}
   {% include "room.html" %}
 {% endblock content %}
