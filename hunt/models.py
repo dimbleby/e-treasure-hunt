@@ -113,26 +113,22 @@ class AppSetting(models.Model):
 
 # Event log for the hunt.
 class HuntEvent(models.Model):
-    HINT_REQ = "REQ"
-    HINT_REL = "REL"
-    CLUE_ADV = "ADV"
-    EVENT_KINDS = (
-        (HINT_REQ, "Hint requested"),
-        (HINT_REL, "Hints released"),
-        (CLUE_ADV, "Advanced level"),
-    )
+    class EventKind(models.TextChoices):
+        HINT_REQ = "REQ", "Hint requested"
+        HINT_REL = "REL", "Hints released"
+        CLUE_ADV = "ADV", "Advanced level"
 
     time = models.DateTimeField()
-    kind = models.CharField(max_length=3, choices=EVENT_KINDS)
+    kind = models.CharField(max_length=3, choices=EventKind.choices)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     level = models.IntegerField()
 
     @override
     def __str__(self) -> str:
         actions = {
-            HuntEvent.HINT_REQ: "requested a hint on",
-            HuntEvent.HINT_REL: "saw a hint on",
-            HuntEvent.CLUE_ADV: "progressed to",
+            str(HuntEvent.EventKind.HINT_REQ): "requested a hint on",
+            str(HuntEvent.EventKind.HINT_REL): "saw a hint on",
+            str(HuntEvent.EventKind.CLUE_ADV): "progressed to",
         }
         user = self.user.get_username()
         return f"At {self.time} {user} {actions[self.kind]} level {self.level}"

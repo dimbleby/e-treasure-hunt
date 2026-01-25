@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+from django.urls import reverse
 from django.utils import timezone
 
 from hunt.constants import HINTS_PER_LEVEL
@@ -23,42 +24,42 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     # Check that this is a request for the user's current level.
     lvl = request.GET.get("lvl")
     if lvl is None:
-        return "/oops"
+        return reverse("oops")
 
     if int(lvl) != hunt_info.level:
-        return "/oops"
+        return reverse("oops")
 
     # Check that this request is for the expected hint.
     hint = request.GET.get("hint")
     if hint is None:
-        return "/oops"
+        return reverse("oops")
 
     if int(hint) != hunt_info.hints_shown:
-        return f"/level/{lvl}"
+        return reverse("level", args=[lvl])
 
     # Prevent requesting more hints than there are.
     if hunt_info.hints_shown >= HINTS_PER_LEVEL:
-        return "/oops"
+        return reverse("oops")
 
     # If a hint request is already in progress, there's nothing to do here.
     # Just send the user back to the level they're on.
     if hunt_info.hint_requested:
-        return f"/level/{lvl}"
+        return reverse("level", args=[lvl])
 
     # Log an event to say there's been a hint request.
-    event = HuntEvent()
-    event.time = timezone.now()
-    event.kind = HuntEvent.HINT_REQ
-    event.user = request.user
-    event.level = hunt_info.level
-    event.save()
+    HuntEvent.objects.create(
+        time=timezone.now(),
+        kind=HuntEvent.EventKind.HINT_REQ,
+        user=request.user,
+        level=hunt_info.level,
+    )
 
     # Record that a hint has been requested.
     hunt_info.hint_requested = True
     hunt_info.save()
 
     # Redirect back to the level in question.
-    return f"/level/{lvl}"
+    return reverse("level", args=[lvl])
 
 
 def determine_hint_delay(hunt_info: HuntInfo) -> timedelta:
@@ -123,12 +124,12 @@ def maybe_release_hint(user: User) -> None:
         return
 
     # Record the event.
-    event = HuntEvent()
-    event.time = now
-    event.user = user
-    event.kind = HuntEvent.HINT_REL
-    event.level = hunt_info.level
-    event.save()
+    HuntEvent.objects.create(
+        time=now,
+        user=user,
+        kind=HuntEvent.EventKind.HINT_REL,
+        level=hunt_info.level,
+    )
 
     # Release this hint.
     hunt_info.hints_shown += 1
