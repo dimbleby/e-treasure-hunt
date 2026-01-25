@@ -91,7 +91,6 @@ function initAutocomplete() {
   search_button = document.getElementById("search-button");
   search_button.classList.add("disabled");
   search_button.disabled = true;
-  map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(search_button);
 
   map.addListener("click", moveToPlace);
 }
