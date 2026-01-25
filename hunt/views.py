@@ -148,8 +148,12 @@ def search(request: AuthenticatedHttpRequest) -> HttpResponse:
 @no_players_during_lockout
 def nothing(request: AuthenticatedHttpRequest) -> HttpResponse:
     team_level = request.user.huntinfo.level
+    search_level = None
+
     lvl = request.GET.get("lvl")
-    search_level = None if lvl is None else int(lvl)
+    if lvl is not None:
+        with contextlib.suppress(ValueError):
+            search_level = int(lvl)
 
     context = {"team_level": team_level, "search_level": search_level}
     return render(request, "nothing.html", context)

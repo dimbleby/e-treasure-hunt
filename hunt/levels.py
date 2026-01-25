@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 from typing import TYPE_CHECKING
 
 from django.shortcuts import render
@@ -49,8 +50,12 @@ def look_for_level(request: AuthenticatedHttpRequest) -> str:
     # current level.
     user = request.user
     team_level = max_level() if user.is_staff else user.huntinfo.level
+    search_level = team_level
+
     lvl = request.GET.get("lvl")
-    search_level = team_level if lvl is None else int(lvl)
+    if lvl is not None:
+        with contextlib.suppress(ValueError):
+            search_level = int(lvl)
 
     # Prevent searching for later levels.
     if search_level > team_level:
