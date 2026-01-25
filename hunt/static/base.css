@@ -1,0 +1,171 @@
+/* ==========================================================================
+   CSS Custom Properties
+   ========================================================================== */
+
+:root {
+  /* Colors */
+  --color-primary: #d9184e;
+  --color-primary-hover: #e63768;
+  --color-text: #567;
+  --color-text-light: #789;
+  --color-text-muted: #999;
+  --color-text-dark: #345;
+  --color-white: #fff;
+  --color-header-bg: #fdb;
+  --color-banner-bg: #dfe2f2;
+  --color-disabled: #ddd;
+  --color-border: #bbb;
+
+  /* Typography */
+  --font-primary: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-secondary: "Roboto", sans-serif;
+
+  /* Spacing */
+  --header-height: 100px;
+  --spacing-sm: 10px;
+  --spacing-md: 15px;
+  --spacing-lg: 30px;
+
+  /* Border radius */
+  --radius-sm: 5px;
+  --radius-md: 10px;
+
+  /* Content widths */
+  --content-width: 850px;
+  --content-width-lg: 900px;
+  --content-max-width: 88vw;
+}
+
+/* ==========================================================================
+   CSS Reset / Base Styles
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+html body {
+  margin: 0;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  color: var(--color-text);
+  font-family: var(--font-primary);
+  font-weight: 400;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Header / Top Bar
+   ========================================================================== */
+
+.top {
+  z-index: 1;
+  position: absolute;
+  width: 100%;
+  height: var(--header-height);
+  background-color: var(--color-header-bg);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  white-space: nowrap;
+}
+
+.top a {
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.left {
+  display: flex;
+  padding-left: var(--spacing-lg);
+  font-weight: bold;
+  letter-spacing: 0.2em;
+}
+
+/* ==========================================================================
+   Logout Form
+   ========================================================================== */
+
+.logout-form {
+  display: flex;
+  width: 100%;
+  padding-right: var(--spacing-lg);
+  justify-content: flex-end;
+}
+
+.logout-form button {
+  color: var(--color-white);
+  text-decoration: none;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.gobutton {
+  margin: var(--spacing-md);
+  padding: 25px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-primary);
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--color-white);
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.2em;
+  border: none;
+}
+
+.gobutton:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.gobutton--disabled,
+.gobutton-disabled {
+  margin: var(--spacing-md);
+  padding: 25px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-disabled);
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--color-white);
+  letter-spacing: 0.2em;
+  cursor: default;
+  border: none;
+}
+
+/* ==========================================================================
+   Form Elements
+   ========================================================================== */
+
+.numinput {
+  border: 2px solid var(--color-border);
+  height: 1.8em;
+  width: 10em;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-white);
+  padding-left: 1em;
+  text-align: center;
+  color: var(--color-text-dark);
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+.label {
+  margin-top: var(--spacing-sm);
+}
