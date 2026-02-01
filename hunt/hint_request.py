@@ -5,56 +5,45 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils import timezone
 
 from hunt.constants import HINTS_PER_LEVEL
 from hunt.models import HuntEvent, HuntInfo
-from hunt.utils import max_level
+from hunt.utils import get_int_param, max_level
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
+    from django.http import HttpResponse
 
     from hunt.utils import AuthenticatedHttpRequest
 
 
-def request_hint(request: AuthenticatedHttpRequest) -> str:
+def request_hint(request: AuthenticatedHttpRequest) -> HttpResponse:
     hunt_info = request.user.huntinfo
 
     # Check that this is a request for the user's current level.
-    lvl = request.GET.get("lvl")
-    if lvl is None:
-        return reverse("oops")
-
-    try:
-        lvl_int = int(lvl)
-    except ValueError:
-        return reverse("oops")
-
-    if lvl_int != hunt_info.level:
-        return reverse("oops")
+    lvl = get_int_param(request, "lvl")
+    if lvl is None or lvl != hunt_info.level:
+        return HttpResponseRedirect(reverse("oops"))
 
     # Check that this request is for the expected hint.
-    hint = request.GET.get("hint")
+    hint = get_int_param(request, "hint")
     if hint is None:
-        return reverse("oops")
+        return HttpResponseRedirect(reverse("oops"))
 
-    try:
-        hint_int = int(hint)
-    except ValueError:
-        return reverse("oops")
-
-    if hint_int != hunt_info.hints_shown:
-        return reverse("level", args=[lvl])
+    if hint != hunt_info.hints_shown:
+        return HttpResponseRedirect(reverse("level", args=[lvl]))
 
     # Prevent requesting more hints than there are.
     if hunt_info.hints_shown >= HINTS_PER_LEVEL:
-        return reverse("oops")
+        return HttpResponseRedirect(reverse("oops"))
 
     # If a hint request is already in progress, there's nothing to do here.
     # Just send the user back to the level they're on.
     if hunt_info.hint_requested:
-        return reverse("level", args=[lvl])
+        return HttpResponseRedirect(reverse("level", args=[lvl]))
 
     # Log an event to say there's been a hint request.
     HuntEvent.objects.create(
@@ -69,7 +58,7 @@ def request_hint(request: AuthenticatedHttpRequest) -> str:
     hunt_info.save()
 
     # Redirect back to the level in question.
-    return reverse("level", args=[lvl])
+    return HttpResponseRedirect(reverse("level", args=[lvl]))
 
 
 def determine_hint_delay(hunt_info: HuntInfo) -> timedelta:

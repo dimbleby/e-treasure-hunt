@@ -32,14 +32,14 @@ class TestRequestHint:
         request = make_request("/hint", user=user)
 
         result = request_hint(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_request_hint_with_invalid_level(self, user: User) -> None:
         """request_hint should redirect to oops if level is not an integer."""
         request = make_request("/hint", user=user, data={"lvl": "abc"})
 
         result = request_hint(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_request_hint_for_wrong_level(self, user: User) -> None:
         """request_hint should redirect to oops if not user's current level."""
@@ -49,21 +49,21 @@ class TestRequestHint:
         request = make_request("/hint", user=user, data={"lvl": "1", "hint": "1"})
 
         result = request_hint(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_request_hint_without_hint_param(self, user: User) -> None:
         """request_hint should redirect to oops if hint param is missing."""
         request = make_request("/hint", user=user, data={"lvl": "1"})
 
         result = request_hint(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_request_hint_for_wrong_hint_number(self, user: User) -> None:
         """request_hint should redirect to level if wrong hint number."""
         request = make_request("/hint", user=user, data={"lvl": "1", "hint": "2"})
 
         result = request_hint(request)
-        assert result == "/level/1"
+        assert result["Location"] == "/level/1"
 
     def test_request_hint_already_requested(self, user: User) -> None:
         """request_hint should redirect to level if hint already requested."""
@@ -73,7 +73,7 @@ class TestRequestHint:
         request = make_request("/hint", user=user, data={"lvl": "1", "hint": "1"})
 
         result = request_hint(request)
-        assert result == "/level/1"
+        assert result["Location"] == "/level/1"
 
     def test_request_hint_success(self, user: User) -> None:
         """request_hint should set hint_requested and create event."""
@@ -84,7 +84,7 @@ class TestRequestHint:
         user.huntinfo.refresh_from_db()
         assert user.huntinfo.hint_requested is True
         assert HuntEvent.objects.filter(kind=HuntEvent.EventKind.HINT_REQ).exists()
-        assert result == "/level/1"
+        assert result["Location"] == "/level/1"
 
 
 class TestDetermineHintDelay:

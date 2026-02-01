@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Concatenate
 
 import holidays
 from django.db.models import Max
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 from django.template import loader
 
 from hunt.models import AppSetting, Level
@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from django.contrib.auth.models import User
-    from django.http.request import HttpRequest
+    from django.http import HttpRequest
 
     class AuthenticatedHttpRequest(HttpRequest):
         user: User
@@ -30,6 +30,18 @@ if TYPE_CHECKING:
 def max_level() -> int:
     max_level: int = Level.objects.all().aggregate(Max("number"))["number__max"]
     return max_level
+
+
+def get_int_param(request: HttpRequest, name: str) -> int | None:
+    """Parse an integer query parameter, returning None if missing or invalid."""
+    value = request.GET.get(name)
+    if value is None:
+        return None
+
+    try:
+        return int(value)
+    except ValueError:
+        return None
 
 
 # Should players be locked out?  True before the hunt starts, and during UK working

@@ -10,7 +10,7 @@ from hunt.models import Hint, Level
 
 if TYPE_CHECKING:
     from django.core.files.uploadedfile import UploadedFile
-    from django.http.request import HttpRequest
+    from django.http import HttpRequest
 
     class NamedFile(UploadedFile):
         name: str
