@@ -6,17 +6,17 @@ import os
 from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http.response import HttpResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 
 from hunt.hint_request import maybe_release_hint, prepare_next_hint, request_hint
 from hunt.level_mgr import upload_new_level
 from hunt.levels import list_levels, look_for_level, maybe_load_level
 from hunt.models import AppSetting, HuntEvent
-from hunt.utils import max_level, no_players_during_lockout
+from hunt.utils import get_int_param, max_level, no_players_during_lockout
 
 if TYPE_CHECKING:
-    from django.http.request import HttpRequest
+    from django.http import HttpRequest
 
     from hunt.utils import AuthenticatedHttpRequest
 
@@ -131,7 +131,7 @@ def levels(request: AuthenticatedHttpRequest) -> HttpResponse:
 @login_required
 @no_players_during_lockout
 def do_search(request: AuthenticatedHttpRequest) -> HttpResponse:
-    return redirect(look_for_level(request))
+    return look_for_level(request)
 
 
 # Coordinate search page.
@@ -148,12 +148,7 @@ def search(request: AuthenticatedHttpRequest) -> HttpResponse:
 @no_players_during_lockout
 def nothing(request: AuthenticatedHttpRequest) -> HttpResponse:
     team_level = request.user.huntinfo.level
-    search_level = None
-
-    lvl = request.GET.get("lvl")
-    if lvl is not None:
-        with contextlib.suppress(ValueError):
-            search_level = int(lvl)
+    search_level = get_int_param(request, "lvl")
 
     context = {"team_level": team_level, "search_level": search_level}
     return render(request, "nothing.html", context)
@@ -163,7 +158,7 @@ def nothing(request: AuthenticatedHttpRequest) -> HttpResponse:
 @login_required
 @no_players_during_lockout
 def hint(request: AuthenticatedHttpRequest) -> HttpResponse:
-    return redirect(request_hint(request))
+    return request_hint(request)
 
 
 # Management home.

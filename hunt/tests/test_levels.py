@@ -68,14 +68,14 @@ class TestLookForLevel:
         request = make_request("/do-search", user=user)
 
         result = look_for_level(request)
-        assert result == "/search"
+        assert result["Location"] == "/search"
 
     def test_look_for_level_missing_longitude(self, user: User) -> None:
         """look_for_level should redirect to search if only latitude."""
         request = make_request("/do-search", user=user, data={"lat": "51.5"})
 
         result = look_for_level(request)
-        assert result == "/search"
+        assert result["Location"] == "/search"
 
     def test_look_for_level_future_level(
         self, user: User, create_level: Callable[..., Level]
@@ -89,7 +89,7 @@ class TestLookForLevel:
         )
 
         result = look_for_level(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_look_for_level_invalid_coordinates(
         self, user: User, create_level: Callable[..., Level]
@@ -102,7 +102,7 @@ class TestLookForLevel:
         )
 
         result = look_for_level(request)
-        assert result == "/oops"
+        assert result["Location"] == "/oops"
 
     def test_look_for_level_correct_answer(
         self, user: User, create_level: Callable[..., Level]
@@ -120,7 +120,7 @@ class TestLookForLevel:
 
         user.huntinfo.refresh_from_db()
         assert user.huntinfo.level == 2
-        assert result == "/level/2"
+        assert result["Location"] == "/level/2"
 
     def test_look_for_level_wrong_answer(
         self, user: User, create_level: Callable[..., Level]
@@ -137,7 +137,7 @@ class TestLookForLevel:
 
         user.huntinfo.refresh_from_db()
         assert user.huntinfo.level == 1
-        assert result == "/nothing-here?lvl=1"
+        assert result["Location"] == "/nothing-here?lvl=1"
 
     def test_look_for_level_staff_can_search_any(
         self, staff_user: User, create_level: Callable[..., Level]
@@ -156,7 +156,7 @@ class TestLookForLevel:
         )
 
         result = look_for_level(request)
-        assert result == "/level/4"
+        assert result["Location"] == "/level/4"
 
     def test_look_for_level_previous_level_no_advance(
         self, user: User, create_level: Callable[..., Level]
@@ -179,7 +179,7 @@ class TestLookForLevel:
 
         user.huntinfo.refresh_from_db()
         assert user.huntinfo.level == 2  # Not advanced
-        assert result == "/level/2"
+        assert result["Location"] == "/level/2"
 
 
 class TestListLevels:

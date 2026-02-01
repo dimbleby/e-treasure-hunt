@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import contextlib
 from typing import TYPE_CHECKING
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
@@ -10,11 +10,11 @@ from geopy import Point, distance
 
 from hunt.constants import HINTS_PER_LEVEL
 from hunt.models import ChatMessage, HuntEvent, Level
-from hunt.utils import max_level
+from hunt.utils import get_int_param, max_level
 
 if TYPE_CHECKING:
     from django.contrib.auth.models import User
-    from django.http.response import HttpResponse
+    from django.http import HttpResponse
 
     from hunt.utils import AuthenticatedHttpRequest
 
@@ -39,33 +39,28 @@ def advance_level(user: User) -> None:
     hunt_info.save()
 
 
-def look_for_level(request: AuthenticatedHttpRequest) -> str:
+def look_for_level(request: AuthenticatedHttpRequest) -> HttpResponse:
     # Get latitude and longitude - without these there can be no searching.
     latitude = request.GET.get("lat")
     longitude = request.GET.get("long")
     if latitude is None or longitude is None:
-        return reverse("search")
+        return HttpResponseRedirect(reverse("search"))
 
     # Every search must be for a specific level - by default, assume this is the team's
     # current level.
     user = request.user
     team_level = max_level() if user.is_staff else user.huntinfo.level
-    search_level = team_level
-
-    lvl = request.GET.get("lvl")
-    if lvl is not None:
-        with contextlib.suppress(ValueError):
-            search_level = int(lvl)
+    search_level = get_int_param(request, "lvl") or team_level
 
     # Prevent searching for later levels.
     if search_level > team_level:
-        return reverse("oops")
+        return HttpResponseRedirect(reverse("oops"))
 
     # Make sure we're searching in a valid place.
     try:
         search_point = Point(latitude, longitude)
     except ValueError:
-        return reverse("oops")
+        return HttpResponseRedirect(reverse("oops"))
 
     # Get the distance between the search location and the level solution.
     level = Level.objects.get(number=search_level)
@@ -78,10 +73,10 @@ def look_for_level(request: AuthenticatedHttpRequest) -> str:
             advance_level(user)
 
         # Redirect to the new level.
-        return reverse("level", args=[search_level + 1])
+        return HttpResponseRedirect(reverse("level", args=[search_level + 1]))
 
     # Redirect to a failure page.
-    return f"{reverse('nothing-here')}?lvl={search_level}"
+    return HttpResponseRedirect(f"{reverse('nothing-here')}?lvl={search_level}")
 
 
 def maybe_load_level(request: AuthenticatedHttpRequest, level_num: int) -> HttpResponse:
