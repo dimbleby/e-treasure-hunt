@@ -167,8 +167,6 @@ resource "azurerm_private_endpoint" "sql" {
   }
 }
 
-# NB need manually to grant access to the web app identity
-# <https://github.com/hashicorp/terraform-provider-azurerm/issues/30938>
 resource "azurerm_managed_redis" "treasure" {
   name                      = "${var.app_name}-cache"
   location                  = azurerm_resource_group.treasure.location
@@ -182,6 +180,11 @@ resource "azurerm_managed_redis" "treasure" {
     clustering_policy                  = "EnterpriseCluster"
     eviction_policy                    = "VolatileLRU"
   }
+}
+
+resource "azurerm_managed_redis_access_policy_assignment" "treasure" {
+  managed_redis_id = azurerm_managed_redis.treasure.id
+  object_id        = azurerm_user_assigned_identity.webapp.principal_id
 }
 
 resource "azurerm_private_endpoint" "redis" {
