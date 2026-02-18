@@ -291,7 +291,6 @@ fieldset {
 .banner {
   align-self: stretch;
   background-color: var(--color-banner-bg);
-  box-sizing: border-box;
   padding: 2vh 1rem;
   text-align: center;
   width: 100%;
