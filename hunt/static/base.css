@@ -238,7 +238,7 @@ fieldset {
   display: flex;
   gap: 1em;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .form-row label {
@@ -391,7 +391,7 @@ fieldset {
     border-radius: 25px;
     display: flex;
     justify-content: center;
-    padding: 10px 15px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .banner {
