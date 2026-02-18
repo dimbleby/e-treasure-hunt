@@ -21,7 +21,7 @@ label,
   border-radius: var(--radius-sm);
   border: none;
   color: var(--color-text-dark);
-  font-size: 0.9em;
+  font-size: 0.9rem;
   height: 2.1em;
   margin: 5px 0 20px 0;
   text-align: center;

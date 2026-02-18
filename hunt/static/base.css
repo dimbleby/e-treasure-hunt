@@ -137,7 +137,7 @@ input[type="submit"] {
   border: none;
   color: var(--color-white);
   cursor: pointer;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0.2em;
   margin: var(--spacing-md);
@@ -206,13 +206,13 @@ input[type="number"],
   border-radius: var(--radius-sm);
   border: 2px solid var(--color-border);
   color: var(--color-text-dark);
-  font-size: 1em;
+  font-size: 1rem;
   padding: 0.5em 1em;
   text-align: center;
 }
 
 .numinput {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   height: 1.8em;
   margin-bottom: 20px;
   width: 10em;
@@ -242,7 +242,7 @@ fieldset {
 }
 
 .form-row label {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   min-width: 5em;
   text-align: right;
 }
