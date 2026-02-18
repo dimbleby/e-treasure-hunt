@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
+{% block extra_head %}
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+{% endblock extra_head %}
 {% block content %}
 {% if level_number != team_level %}
 <div class="banner">
