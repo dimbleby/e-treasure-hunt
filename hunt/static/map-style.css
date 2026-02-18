@@ -88,12 +88,15 @@ input#autocomplete {
   font-size: 1.2em !important;
   height: auto !important;
   padding: 5px 30px 5px 5px !important;
+}
+
+.geocoder-control-input,
+.geocoder-control-suggestions {
   width: var(--geocoder-width) !important;
 }
 
 .geocoder-control-suggestions {
   box-sizing: border-box !important;
-  width: var(--geocoder-width) !important;
 }
 
 .leaflet-control-container {
@@ -109,10 +112,7 @@ input#autocomplete {
     padding: 15px;
   }
 
-  .geocoder-control-input {
-    width: var(--geocoder-width-md) !important;
-  }
-
+  .geocoder-control-input,
   .geocoder-control-suggestions {
     width: var(--geocoder-width-md) !important;
   }
@@ -123,10 +123,7 @@ input#autocomplete {
     margin: 30px 10px;
   }
 
-  .geocoder-control-input {
-    width: var(--geocoder-width-sm) !important;
-  }
-
+  .geocoder-control-input,
   .geocoder-control-suggestions {
     width: var(--geocoder-width-sm) !important;
   }
@@ -147,10 +144,7 @@ input#autocomplete {
 }
 
 @media only screen and (max-width: 400px) {
-  .geocoder-control-input {
-    width: var(--geocoder-width-xs) !important;
-  }
-
+  .geocoder-control-input,
   .geocoder-control-suggestions {
     width: var(--geocoder-width-xs) !important;
   }
