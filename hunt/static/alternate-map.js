@@ -20,7 +20,7 @@ const searchControl = new L.esri.Geocoding.geosearch({
       })
   ],
   placeholder: "Begin typing for suggestions",
-  useMapBounds: "false",
+  useMapBounds: false,
 }).addTo(map);
 
 map.zoomControl.setPosition("topright");
