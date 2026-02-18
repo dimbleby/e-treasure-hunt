@@ -45,7 +45,7 @@ section.special #map {
 }
 
 /* Alt map uses fixed positioning */
-body > #map {
+main > #map {
   bottom: 0;
   left: 0;
   position: fixed;
