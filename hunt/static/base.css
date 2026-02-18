@@ -156,18 +156,10 @@ input[type="submit"]:focus-visible {
   outline-offset: 2px;
 }
 
-.gobutton--disabled {
+.gobutton.gobutton--disabled {
   background-color: var(--color-disabled);
-  border-radius: var(--radius-md);
-  border: none;
-  color: var(--color-white);
   cursor: not-allowed;
-  font-size: 0.8em;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-  margin: var(--spacing-md);
   opacity: 0.6;
-  padding: 25px;
   pointer-events: none;
 }
 
