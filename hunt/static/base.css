@@ -50,7 +50,7 @@ html {
   font-size: var(--font-size-base);
 }
 
-html body {
+body {
   color: var(--color-text);
   font-family: var(--font-primary);
   font-weight: 400;
