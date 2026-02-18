@@ -28,7 +28,7 @@
       </form>
     </header>
     <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
-    <button id="searchbutton"
+    <button id="search-button"
             class="gobutton alt-gobutton"
             aria-label="Search at current map location">SEARCH HERE</button>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -42,9 +42,5 @@
     </script>
     <script>const api_key = "{{ api_key }}";</script>
     <script src="{% static "alternate-map.js" %}"></script>
-    <script>
-      // Attach event listener unobtrusively
-      document.getElementById('searchbutton').addEventListener('click', searchHere);
-    </script>
   </body>
 </html>

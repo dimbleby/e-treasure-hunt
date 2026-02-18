@@ -1,112 +1,114 @@
-window.gm_authFailure = function () {
-  if (
-    confirm(
-      "Google Maps doesn't seem to be working right now. Do you want to try the alternative map instead?"
-    )
-  ) {
-    let href = "/alt-map";
-    const url = new URL(window.location);
-    const lvl = url.searchParams.get("lvl");
+(function () {
+  "use strict";
 
-    if (lvl !== null) {
-      href += "?lvl=" + lvl;
+  window.gm_authFailure = function () {
+    if (
+      confirm(
+        "Google Maps doesn't seem to be working right now. Do you want to try the alternative map instead?"
+      )
+    ) {
+      const params = new URLSearchParams(window.location.search);
+      const lvl = params.get("lvl");
+      let href = "/alt-map";
+
+      if (lvl !== null) {
+        href += "?lvl=" + lvl;
+      }
+
+      window.location.href = href;
     }
+  };
 
-    window.location.href = href;
-  }
-};
+  let marker = null;
+  let map;
+  let searchButton;
+  let autocomplete;
 
-let marker = null;
-let map;
-let search_button;
-let autocomplete;
-
-function createOrMoveMarker(latLng) {
-  if (marker === null) {
-    marker = new google.maps.Marker({
-      map: map,
-      position: latLng,
-    });
-  } else {
-    marker.setPosition(latLng);
-  }
-
-  search_button.disabled = false;
-  search_button.classList.remove("disabled");
-}
-
-function setMarkerToResult() {
-  // Get the place details from the autocomplete object.
-  const place = autocomplete.getPlace();
-
-  if (place.geometry) {
-    const bounds = new google.maps.LatLngBounds();
-
-    createOrMoveMarker(place.geometry.location);
-
-    if (place.geometry.viewport) {
-      // Only geocodes have viewport.
-      bounds.union(place.geometry.viewport);
+  function createOrMoveMarker(latLng) {
+    if (marker === null) {
+      marker = new google.maps.Marker({
+        map: map,
+        position: latLng,
+      });
     } else {
-      bounds.extend(place.geometry.location);
-    }
-    map.fitBounds(bounds);
-  }
-}
-
-function moveToPlace(event) {
-  if (event.latLng !== null) {
-    createOrMoveMarker(event.latLng);
-  }
-}
-
-function initAutocomplete() {
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 20, lng: 8 },
-    zoom: 2,
-    streetViewControl: false,
-    rotateControl: false,
-    zoomControl: true,
-    zoomControlOptions: {
-      position: google.maps.ControlPosition.RIGHT_CENTER,
-    },
-    fullscreenControl: true,
-    fullscreenControlOptions: {
-      position: google.maps.ControlPosition.RIGHT_BOTTOM,
-    },
-    mapTypeControl: false,
-  });
-
-  // Create the search box and link it to the UI element.
-  const input = document.getElementById("autocomplete");
-
-  // Create the autocomplete object, restricting the search predictions to
-  // geographical location types.
-  autocomplete = new google.maps.places.Autocomplete(input);
-  autocomplete.setOptions({ fields: ["geometry"] });
-  autocomplete.addListener("place_changed", setMarkerToResult);
-
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-
-  search_button = document.getElementById("search-button");
-  search_button.classList.add("disabled");
-  search_button.disabled = true;
-
-  map.addListener("click", moveToPlace);
-}
-
-function searchHere() {
-  if (marker !== null && marker.getPosition() !== null) {
-    const searchPos = marker.getPosition();
-
-    const url = new URL(window.location);
-    const lvl = url.searchParams.get("lvl");
-    let href = "/do-search?lat=" + searchPos.lat() + "&long=" + searchPos.lng();
-
-    if (lvl !== null) {
-      href += "&lvl=" + lvl;
+      marker.setPosition(latLng);
     }
 
-    window.location.href = href;
+    searchButton.disabled = false;
+    searchButton.classList.remove("disabled");
   }
-}
+
+  function setMarkerToResult() {
+    const place = autocomplete.getPlace();
+
+    if (place.geometry) {
+      const bounds = new google.maps.LatLngBounds();
+
+      createOrMoveMarker(place.geometry.location);
+
+      if (place.geometry.viewport) {
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+      map.fitBounds(bounds);
+    }
+  }
+
+  function moveToPlace(event) {
+    if (event.latLng !== null) {
+      createOrMoveMarker(event.latLng);
+    }
+  }
+
+  function searchHere() {
+    if (marker !== null && marker.getPosition() !== null) {
+      const searchPos = marker.getPosition();
+      const params = new URLSearchParams({
+        lat: searchPos.lat(),
+        long: searchPos.lng(),
+      });
+      const lvl = new URL(window.location).searchParams.get("lvl");
+
+      if (lvl !== null) {
+        params.set("lvl", lvl);
+      }
+
+      window.location.href = "/do-search?" + params;
+    }
+  }
+
+  // Exposed as global for Google Maps API callback
+  window.initAutocomplete = function () {
+    map = new google.maps.Map(document.getElementById("map"), {
+      center: { lat: 20, lng: 8 },
+      zoom: 2,
+      streetViewControl: false,
+      rotateControl: false,
+      zoomControl: true,
+      zoomControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_CENTER,
+      },
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_BOTTOM,
+      },
+      mapTypeControl: false,
+    });
+
+    const input = document.getElementById("autocomplete");
+
+    autocomplete = new google.maps.places.Autocomplete(input);
+    autocomplete.setOptions({ fields: ["geometry"] });
+    autocomplete.addListener("place_changed", setMarkerToResult);
+
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+    searchButton = document.getElementById("search-button");
+    searchButton.classList.add("disabled");
+    searchButton.disabled = true;
+    searchButton.addEventListener("click", searchHere);
+
+    map.addListener("click", moveToPlace);
+  };
+})();
