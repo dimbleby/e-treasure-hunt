@@ -20,9 +20,9 @@
     </header>
     <main id="main-content" class="content">
       {% if success == "True" %}
-        <div class="success">Operation completed successfully</div>
+        <div class="alert alert--success">Operation completed successfully</div>
       {% elif success == "False" %}
-        <div class="fail">Operation failed</div>
+        <div class="alert alert--error">Operation failed</div>
       {% endif %}
       {% block content %}
       {% endblock content %}
