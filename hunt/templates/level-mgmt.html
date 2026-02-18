@@ -1,5 +1,5 @@
 {% extends "mgmt-base.html" %}
-{% block content %}
+{% block mgmt_content %}
 <h1>Create New Level</h1>
 <form action="{% url 'new-level' %}"
       method="post"
@@ -25,4 +25,4 @@
     <input class="gobutton" type="submit" value="SUBMIT" />
   </div>
 </form>
-{% endblock content %}
+{% endblock mgmt_content %}

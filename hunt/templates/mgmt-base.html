@@ -1,31 +1,11 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eTreasure Hunt - Management</title>
-    <link rel="stylesheet" href="{% static "base.css" %}">
-  </head>
-  <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <header class="top" style="--top-bg: url({% static "colors.png" %})">
-      <div class="left">
-        <a href="{% url 'go-home' %}">HOME</a>
-      </div>
-      <form class="logout-form" method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log out</button>
-      </form>
-    </header>
-    <main id="main-content" class="content">
-      {% if success == "True" %}
-        <div class="alert alert--success">Operation completed successfully</div>
-      {% elif success == "False" %}
-        <div class="alert alert--error">Operation failed</div>
-      {% endif %}
-      {% block content %}
-      {% endblock content %}
-    </main>
-  </body>
-</html>
+{% extends "base.html" %}
+{% block title %}eTreasure Hunt - Management{% endblock title %}
+{% block content %}
+  {% if success == "True" %}
+    <div class="alert alert--success">Operation completed successfully</div>
+  {% elif success == "False" %}
+    <div class="alert alert--error">Operation failed</div>
+  {% endif %}
+  {% block mgmt_content %}
+  {% endblock mgmt_content %}
+{% endblock content %}

@@ -4,16 +4,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eTreasure Hunt</title>
+    <title>{% block title %}eTreasure Hunt{% endblock title %}</title>
     {% block extra_head %}{% endblock extra_head %}
     <link rel="stylesheet" href="{% static "base.css" %}">
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="top" style="--top-bg: url({% static "colors.png" %})">
+      {% block header_nav %}
       <div class="left">
         <a href="{% url 'go-home' %}">HOME</a>
       </div>
+      {% endblock header_nav %}
       <form class="logout-form" method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Log out</button>
