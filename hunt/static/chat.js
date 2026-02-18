@@ -38,7 +38,8 @@
   };
 
   chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
+    let data;
+    try { data = JSON.parse(e.data); } catch { return; }
 
     const name = document.createElement('b');
     name.textContent = data.username;
