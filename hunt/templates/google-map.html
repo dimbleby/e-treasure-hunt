@@ -33,9 +33,7 @@
       <button id="search-button"
               class="gobutton google-gobutton"
               aria-label="Search at current map location">SEARCH HERE</button>
-      <section class="special">
-        <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
-      </section>
+      <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
     </main>
     <script src="{% static "google-map.js" %}"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{ api_key }}&amp;libraries=places&amp;callback=initAutocomplete"

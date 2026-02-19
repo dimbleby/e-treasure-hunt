@@ -8,8 +8,7 @@
 }
 
 html,
-body,
-main {
+body {
   height: 100%;
   overflow: hidden;
 }
@@ -35,18 +34,7 @@ main {
   z-index: 20;
 }
 
-section.special {
-  height: 100%;
-  padding-top: calc(var(--header-height) + 1px);
-}
-
-section.special #map {
-  height: 100%;
-  width: 100%;
-}
-
-/* Alt map uses fixed positioning */
-main > #map {
+#map {
   bottom: 0;
   left: 0;
   position: fixed;
