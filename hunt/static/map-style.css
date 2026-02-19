@@ -18,6 +18,14 @@ body {
   position: fixed;
 }
 
+main {
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: var(--header-height);
+}
+
 .gobutton {
   font-size: 1.2rem;
   z-index: 20;
@@ -35,12 +43,8 @@ body {
 }
 
 #map {
-  bottom: 0;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: var(--header-height);
-  z-index: 0;
+  height: 100%;
+  width: 100%;
 }
 
 /* Third-party overrides (Google Maps, Leaflet) - !important required */
