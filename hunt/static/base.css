@@ -288,7 +288,6 @@ fieldset {
   background-color: var(--color-banner-bg);
   padding: 2vh 1rem;
   text-align: center;
-  width: 100%;
 }
 
 .banner a {
@@ -340,7 +339,6 @@ fieldset {
   margin: 10px 0 20px 0;
   max-width: var(--content-max-width);
   text-align: center;
-  text-indent: 0;
   width: var(--content-width);
 }
 
