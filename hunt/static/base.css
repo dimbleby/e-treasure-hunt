@@ -55,7 +55,6 @@ html {
 body {
   color: var(--color-text);
   font-family: var(--font-primary);
-  font-weight: 400;
   margin: 0;
   overflow-x: hidden;
   text-align: center;
@@ -73,7 +72,6 @@ body {
   background-size: 100%;
   display: flex;
   height: var(--header-height);
-  justify-content: flex-start;
   position: absolute;
   white-space: nowrap;
   width: 100%;
@@ -255,7 +253,6 @@ fieldset {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   min-height: 100%;
   padding: var(--header-height) 0 6vh 0;
 }
