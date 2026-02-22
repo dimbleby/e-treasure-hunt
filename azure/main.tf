@@ -29,7 +29,7 @@ provider "azurerm" {
 }
 
 # NB force new password by:
-# terraform taint random_password.azuread_password
+# terraform apply -replace=random_password.azuread_password
 resource "random_password" "azuread_password" {
   length      = 16
   min_lower   = 1
@@ -217,7 +217,7 @@ resource "azurerm_service_plan" "treasure" {
 }
 
 resource "random_password" "secret_key" {
-  length      = 16
+  length      = 50
   min_lower   = 1
   min_upper   = 1
   min_numeric = 1
