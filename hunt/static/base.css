@@ -298,11 +298,14 @@ fieldset {
 }
 
 .chat-container {
-  max-width: 100%;
+  margin-top: var(--spacing-lg);
+  max-width: var(--content-max-width);
+  width: var(--content-width);
 }
 
 .chat-container input[type="text"] {
   text-align: left;
+  width: 100%;
 }
 
 .chat-messages {
