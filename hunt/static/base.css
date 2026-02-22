@@ -28,6 +28,9 @@
   --spacing-md: 15px;
   --spacing-lg: 30px;
 
+  /* Chat */
+  --color-chat-header: #3273dc;
+
   /* Border radius */
   --radius-sm: 5px;
   --radius-md: 10px;
@@ -409,7 +412,7 @@ fieldset {
    ========================================================================== */
 
 .chat-header {
-  background-color: var(--color-primary);
+  background-color: var(--color-chat-header);
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   color: var(--color-white);
   padding: 0.75rem 1rem;
