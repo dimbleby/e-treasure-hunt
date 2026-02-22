@@ -18,7 +18,7 @@
   {% for para in desc_paras %}<p>{{ para }}</p>{% endfor %}
 </div>
 <div class="hints">
-  {% for hint in hints %}<img class="hint" src="{{ hint }}" alt="Puzzle hint image {{ forloop.counter }}" />{% endfor %}
+  {% for hint in hints %}<img class="hint" src="{{ hint }}" alt="Puzzle hint image {{ forloop.counter }}"{% if not forloop.first %} loading="lazy"{% endif %} />{% endfor %}
 </div>
 {% if not is_last %}
 <a class="gobutton" href="{% url 'map' %}?lvl={{ level_number }}">SEARCH MAP</a>
