@@ -7,12 +7,11 @@
         "Google Maps doesn't seem to be working right now. Do you want to try the alternative map instead?"
       )
     ) {
-      const params = new URLSearchParams(window.location.search);
-      const lvl = params.get("lvl");
+      const lvl = new URLSearchParams(window.location.search).get("lvl");
       let href = "/alt-map";
 
       if (lvl !== null) {
-        href += "?lvl=" + lvl;
+        href += "?" + new URLSearchParams({ lvl });
       }
 
       window.location.href = href;
