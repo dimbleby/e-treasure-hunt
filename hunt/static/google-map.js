@@ -34,7 +34,6 @@
     }
 
     searchButton.disabled = false;
-    searchButton.classList.remove("disabled");
   }
 
   function setMarkerToResult() {
@@ -104,7 +103,6 @@
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
 
     searchButton = document.getElementById("search-button");
-    searchButton.classList.add("disabled");
     searchButton.disabled = true;
     searchButton.addEventListener("click", searchHere);
 
