@@ -4,17 +4,18 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eTreasure Hunt</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css">
+    <title>{% block title %}eTreasure Hunt{% endblock title %}</title>
     <link rel="stylesheet" href="{% static "base.css" %}">
+    {% block extra_head %}{% endblock extra_head %}
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <header class="top" style="--top-bg: url({% static "colors.png" %})">
+      {% block header_nav %}
       <div class="left">
         <a href="{% url 'go-home' %}">HOME</a>
       </div>
+      {% endblock header_nav %}
       <form class="logout-form" method="post" action="{% url 'logout' %}">
         {% csrf_token %}
         <button type="submit">Log out</button>

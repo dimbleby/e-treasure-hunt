@@ -22,7 +22,7 @@
   // WebSocket setup
   const wsScheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
   const chatSocket = new WebSocket(
-    wsScheme + '://' + window.location.host + '/level/' + levelNumber + '/'
+    `${wsScheme}://${window.location.host}/level/${levelNumber}/`
   );
 
   chatSocket.onopen = function() {
@@ -38,7 +38,8 @@
   };
 
   chatSocket.onmessage = function(e) {
-    const data = JSON.parse(e.data);
+    let data;
+    try { data = JSON.parse(e.data); } catch { return; }
 
     const name = document.createElement('b');
     name.textContent = data.username;
@@ -85,8 +86,8 @@
       return;
     }
     userName = value;
-    elements.chat.removeAttribute('hidden');
-    elements.username.setAttribute('hidden', true);
+    elements.chat.hidden = false;
+    elements.username.hidden = true;
     elements.usernameDisplay.textContent = 'Your username: ' + userName;
     elements.messageInput.focus();
   });

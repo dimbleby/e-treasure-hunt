@@ -1,54 +1,25 @@
-<div class="container chat-container">
-  <div class="columns is-multiline">
-    <div class="column is-full">
-      <section class="hero is-primary">
-        <div class="hero-body">
-          <p class="title">Chat</p>
-        </div>
-      </section>
-    </div>
-    <div class="column is-full">
-      <div class="box">
-        <div id="chat-messages" class="chat-messages">
-          {% for message in messages %}
-            <b>{{ message.name }}</b>: {{ message.content }}
-            <br>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    <div class="column is-full">
-      <div id="chat" hidden>
-        <div class="field">
-          <div class="control">
-            <input class="input"
-                   type="text"
-                   placeholder="Message"
-                   id="chat-message-input"
-                   aria-label="Chat message">
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <button class="button is-info" type="button" id="chat-message-submit">Submit</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="column is-full">
-      <div id="username">
-        <div class="field">
-          <div class="control">
-            <input class="input" type="text" placeholder="Username" id="username-input" aria-label="Enter username">
-          </div>
-        </div>
-        <div class="field">
-          <div class="control">
-            <button class="button is-info" type="button" id="username-submit">Set Username</button>
-          </div>
-        </div>
-      </div>
-      <small id="username-display" class="has-text-grey-light">Your username: Unknown</small>
+<div class="chat-container">
+  <div class="chat-header">
+    <p class="chat-title">Chat</p>
+  </div>
+  <div class="chat-body">
+    <div id="chat-messages" class="chat-messages">
+      {% for message in messages %}
+        <b>{{ message.name }}</b>: {{ message.content }}
+        <br>
+      {% endfor %}
     </div>
   </div>
+  <div id="chat" hidden>
+    <input type="text"
+           placeholder="Message"
+           id="chat-message-input"
+           aria-label="Chat message">
+    <button class="chat-button" type="button" id="chat-message-submit">Submit</button>
+  </div>
+  <div id="username">
+    <input type="text" placeholder="Username" id="username-input" aria-label="Enter username">
+    <button class="chat-button" type="button" id="username-submit">Set Username</button>
+  </div>
+  <small id="username-display" class="chat-muted">Your username: Unknown</small>
 </div>

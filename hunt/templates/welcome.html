@@ -1,30 +1,16 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>eTreasure Hunt</title>
-    <link rel="stylesheet" href="{% static "base.css" %}">
-    <link rel="stylesheet" href="{% static "welcome-style.css" %}">
-    <style>
-      body {
-        background-image: url("{% static "colors.png" %}");
-      }
-    </style>
-  </head>
-  <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
-    <header class="top" style="--top-bg: url({% static "colors.png" %})">
-      <form class="logout-form" method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log out</button>
-      </form>
-    </header>
-    <main id="main-content" class="content">
-      <h1>{{ display_name }}</h1>
-      <a class="gobutton" href="{% url 'level' level=team_level %}">LATEST LEVEL</a>
-      <a class="gobutton" href="{% url 'levels' %}">LEVEL LIST</a>
-    </main>
-  </body>
-</html>
+{% block extra_head %}
+<link rel="stylesheet" href="{% static "welcome-style.css" %}">
+<style>
+  body {
+    background-image: url("{% static "colors.png" %}");
+  }
+</style>
+{% endblock extra_head %}
+{% block header_nav %}{% endblock header_nav %}
+{% block content %}
+<h1>{{ display_name }}</h1>
+<a class="gobutton" href="{% url 'level' level=team_level %}">LATEST LEVEL</a>
+<a class="gobutton" href="{% url 'levels' %}">LEVEL LIST</a>
+{% endblock content %}

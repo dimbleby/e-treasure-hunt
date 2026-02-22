@@ -15,7 +15,7 @@
   --color-error: #dc3545;
 
   /* Typography */
-  --font-primary: BlinkMacSystemFont, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-secondary: "Roboto", sans-serif;
   --font-size-h1: clamp(1.4rem, 3.5vw, 2rem);
   --font-size-h2: clamp(1.1rem, 2.8vw, 1.5rem);
@@ -28,6 +28,9 @@
   --spacing-md: 15px;
   --spacing-lg: 30px;
 
+  /* Chat */
+  --color-chat-header: #3273dc;
+
   /* Border radius */
   --radius-sm: 5px;
   --radius-md: 10px;
@@ -36,7 +39,6 @@
   --content-width: 850px;
   --content-width-lg: 900px;
   --content-max-width: 88vw;
-  --top-bg: url("/static/colors.png");
 }
 
 *,
@@ -50,15 +52,12 @@ html {
   font-size: var(--font-size-base);
 }
 
-html body {
+body {
   color: var(--color-text);
   font-family: var(--font-primary);
-  font-weight: 400;
   margin: 0;
-  max-width: 100vw;
   overflow-x: hidden;
   text-align: center;
-  width: 100%;
 }
 
 /* ==========================================================================
@@ -73,7 +72,6 @@ html body {
   background-size: 100%;
   display: flex;
   height: var(--header-height);
-  justify-content: flex-start;
   position: absolute;
   white-space: nowrap;
   width: 100%;
@@ -137,7 +135,7 @@ input[type="submit"] {
   border: none;
   color: var(--color-white);
   cursor: pointer;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   font-weight: bold;
   letter-spacing: 0.2em;
   margin: var(--spacing-md);
@@ -156,18 +154,10 @@ input[type="submit"]:focus-visible {
   outline-offset: 2px;
 }
 
-.gobutton--disabled {
+.gobutton.gobutton--disabled {
   background-color: var(--color-disabled);
-  border-radius: var(--radius-md);
-  border: none;
-  color: var(--color-white);
+  color: var(--color-text-muted);
   cursor: not-allowed;
-  font-size: 0.8em;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-  margin: var(--spacing-md);
-  opacity: 0.6;
-  padding: 25px;
   pointer-events: none;
 }
 
@@ -187,22 +177,18 @@ input[type="submit"]:focus-visible {
    Message/Alert Styles
    ========================================================================== */
 
-.success {
-  color: var(--color-success);
+.alert {
   font-size: 1.2rem;
   font-weight: bold;
   padding-top: 40px;
-  text-align: center;
-  width: 100%;
 }
 
-.fail {
+.alert--success {
+  color: var(--color-success);
+}
+
+.alert--error {
   color: var(--color-error);
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding-top: 40px;
-  text-align: center;
-  width: 100%;
 }
 
 /* ==========================================================================
@@ -217,22 +203,19 @@ input[type="number"],
   border-radius: var(--radius-sm);
   border: 2px solid var(--color-border);
   color: var(--color-text-dark);
-  font-size: 1em;
+  font-size: 1rem;
   padding: 0.5em 1em;
   text-align: center;
 }
 
 .numinput {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   height: 1.8em;
   margin-bottom: 20px;
   width: 10em;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-.numinput:focus {
+:is(input[type="text"], input[type="password"], input[type="number"], .numinput):focus {
   border-color: var(--color-primary);
   outline: 2px solid var(--color-primary);
   outline-offset: 1px;
@@ -249,11 +232,11 @@ fieldset {
   display: flex;
   gap: 1em;
   justify-content: center;
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .form-row label {
-  font-size: 1.2em;
+  font-size: 1.2rem;
   min-width: 5em;
   text-align: right;
 }
@@ -266,10 +249,8 @@ fieldset {
   align-items: center;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   min-height: 100%;
   padding: var(--header-height) 0 6vh 0;
-  width: 100%;
 }
 
 .heading {
@@ -280,29 +261,29 @@ fieldset {
   padding: 0 5vw;
 }
 
+.heading h1,
+.heading h2,
+.heading h3 {
+  margin: 0;
+}
+
 .heading h1 {
   font-size: var(--font-size-h1);
-  margin: 0;
 }
 
 .heading h2 {
   font-size: var(--font-size-h2);
-  margin: 0;
 }
 
 .heading h3 {
   font-size: var(--font-size-h3);
   font-style: italic;
-  margin: 0;
 }
 
 .banner {
   align-self: stretch;
   background-color: var(--color-banner-bg);
-  box-sizing: border-box;
   padding: 2vh 1rem;
-  text-align: center;
-  width: 100%;
 }
 
 .banner a {
@@ -313,11 +294,14 @@ fieldset {
 }
 
 .chat-container {
-  max-width: 100%;
+  margin-top: var(--spacing-lg);
+  max-width: var(--content-max-width);
+  width: var(--content-width);
 }
 
 .chat-container input[type="text"] {
   text-align: left;
+  width: 100%;
 }
 
 .chat-messages {
@@ -350,11 +334,9 @@ fieldset {
   display: flex;
   flex-direction: column;
   font-size: 1rem;
-  line-height: 1;
+  line-height: 1.5;
   margin: 10px 0 20px 0;
   max-width: var(--content-max-width);
-  text-align: center;
-  text-indent: 0;
   width: var(--content-width);
 }
 
@@ -403,7 +385,7 @@ fieldset {
     border-radius: 25px;
     display: flex;
     justify-content: center;
-    padding: 10px 15px;
+    padding: var(--spacing-sm) var(--spacing-md);
   }
 
   .banner {
@@ -411,24 +393,48 @@ fieldset {
   }
 }
 
-@media only screen and (max-height: 700px) {
-  .story p {
-    margin-bottom: 0;
-  }
-}
-
 /* ==========================================================================
-   Chat Component Overrides (Bulma)
+   Chat Component
    ========================================================================== */
 
-/* Make the chat hero header more compact */
-.hero.is-primary .hero-body {
-  padding: 1rem 1.5rem;
+.chat-header {
+  background-color: var(--color-chat-header);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--color-white);
+  padding: 0.75rem 1rem;
 }
 
-.hero.is-primary .title {
+.chat-title {
   font-size: 1.25rem;
-  margin-bottom: 0;
+  font-weight: bold;
+  margin: 0;
+}
+
+.chat-body {
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 0.75rem;
+}
+
+.chat-button {
+  background-color: var(--color-chat-header);
+  border-radius: var(--radius-sm);
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.chat-button:hover {
+  opacity: 0.85;
+}
+
+.chat-muted {
+  color: var(--color-text-muted);
 }
 
 /* ==========================================================================

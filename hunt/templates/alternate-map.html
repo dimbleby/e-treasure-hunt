@@ -11,6 +11,10 @@
           crossorigin="" />
     <link rel="stylesheet" href="{% static "base.css" %}">
     <link rel="stylesheet" href="{% static "map-style.css" %}">
+    <link rel="stylesheet"
+          href="https://unpkg.com/esri-leaflet-geocoder@3.1.4/dist/esri-leaflet-geocoder.css"
+          integrity="sha512-BkZKghR9DV2LpDgmb/Uvl8bdoQj9O6OkkgbfXVpFfHTGcrHGqJIk1J5t+ZY5E3peLfTBazzjScnBguwthKvC1g=="
+          crossorigin="" />
   </head>
   <body>
     <a href="#map" class="skip-link">Skip to map</a>
@@ -23,10 +27,13 @@
         <button type="submit">Log out</button>
       </form>
     </header>
-    <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
-    <button id="searchbutton"
-            class="gobutton alt-gobutton"
-            aria-label="Search at current map location">SEARCH HERE</button>
+    <main>
+      <div id="map" role="application" aria-label="Interactive treasure hunt map"></div>
+      <button id="search-button"
+              class="gobutton alt-gobutton gobutton--disabled"
+              disabled
+              aria-label="Search at current map location">SEARCH HERE</button>
+    </main>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
@@ -34,17 +41,9 @@
     <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js" integrity="sha384-twf8YFpk0FSzm0AmW2GRJjjnqIuQ2y86vZXh2roYI8O+kFbEBjSUDUT6U72w8shL" crossorigin="">
     </script>
     <!-- Load Esri Leaflet Geocoder from CDN -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/esri-leaflet-geocoder@3.1.4/dist/esri-leaflet-geocoder.css"
-          integrity="sha512-BkZKghR9DV2LpDgmb/Uvl8bdoQj9O6OkkgbfXVpFfHTGcrHGqJIk1J5t+ZY5E3peLfTBazzjScnBguwthKvC1g=="
-          crossorigin="" />
     <script src="https://unpkg.com/esri-leaflet-geocoder@3.1.4/dist/esri-leaflet-geocoder.js" integrity="sha512-ODcrBUbBplqiGXL2S0tWNVYStUTTWYyQcSrCLjIW8vL+CEb758m7Dm0v5vyl8qrT8stBwKaYVWZTGymf7vj9jg==" crossorigin="">
     </script>
     <script>const api_key = "{{ api_key }}";</script>
     <script src="{% static "alternate-map.js" %}"></script>
-    <script>
-      // Attach event listener unobtrusively
-      document.getElementById('searchbutton').addEventListener('click', searchHere);
-    </script>
   </body>
 </html>

@@ -1,7 +1,9 @@
 /* Page-specific styles for welcome/login pages - requires base.css */
 
 body {
-  background: no-repeat center/cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: var(--color-white);
 }
 
@@ -21,7 +23,7 @@ label,
   border-radius: var(--radius-sm);
   border: none;
   color: var(--color-text-dark);
-  font-size: 0.9em;
+  font-size: 0.9rem;
   height: 2.1em;
   margin: 5px 0 20px 0;
   text-align: center;
