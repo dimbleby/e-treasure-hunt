@@ -9,6 +9,7 @@
   let latlng = null;
   const searchButton = document.getElementById("search-button");
   searchButton.disabled = true;
+  searchButton.classList.add("gobutton--disabled");
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -35,6 +36,7 @@
     latlng = ll;
     results.addLayer(L.marker(latlng, { draggable: true }));
     searchButton.disabled = false;
+    searchButton.classList.remove("gobutton--disabled");
   }
 
   searchControl.on("results", function (data) {
