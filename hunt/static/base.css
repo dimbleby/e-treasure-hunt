@@ -181,7 +181,6 @@ input[type="submit"]:focus-visible {
   font-size: 1.2rem;
   font-weight: bold;
   padding-top: 40px;
-  text-align: center;
 }
 
 .alert--success {
@@ -288,7 +287,6 @@ fieldset {
   align-self: stretch;
   background-color: var(--color-banner-bg);
   padding: 2vh 1rem;
-  text-align: center;
 }
 
 .banner a {
@@ -342,7 +340,6 @@ fieldset {
   line-height: 1.5;
   margin: 10px 0 20px 0;
   max-width: var(--content-max-width);
-  text-align: center;
   width: var(--content-width);
 }
 
