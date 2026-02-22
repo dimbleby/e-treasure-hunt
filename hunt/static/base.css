@@ -215,10 +215,7 @@ input[type="number"],
   width: 10em;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-.numinput:focus {
+:is(input[type="text"], input[type="password"], input[type="number"], .numinput):focus {
   border-color: var(--color-primary);
   outline: 2px solid var(--color-primary);
   outline-offset: 1px;
