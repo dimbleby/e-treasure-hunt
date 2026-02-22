@@ -258,7 +258,6 @@ fieldset {
   justify-content: flex-start;
   min-height: 100%;
   padding: var(--header-height) 0 6vh 0;
-  width: 100%;
 }
 
 .heading {
@@ -269,20 +268,23 @@ fieldset {
   padding: 0 5vw;
 }
 
+.heading h1,
+.heading h2,
+.heading h3 {
+  margin: 0;
+}
+
 .heading h1 {
   font-size: var(--font-size-h1);
-  margin: 0;
 }
 
 .heading h2 {
   font-size: var(--font-size-h2);
-  margin: 0;
 }
 
 .heading h3 {
   font-size: var(--font-size-h3);
   font-style: italic;
-  margin: 0;
 }
 
 .banner {
