@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eTreasure Hunt - Map Search</title>
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
     <link rel="stylesheet" href="{% static "base.css" %}">
     <link rel="stylesheet" href="{% static "map-style.css" %}">
   </head>
   <body>
     <a href="#map" class="skip-link">Skip to map</a>
-    <header class="top" style="--top-bg: url({% static "colors.png" %})">
+    <header class="top" style="--top-bg: url({% static "colors.webp" %})">
       <div class="left">
         <a href="{% url 'go-home' %}">HOME</a>
       </div>

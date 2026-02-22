@@ -1,4 +1,5 @@
 /.coverage
+/dummy/
 /media/
 /static/
 /treasure.sqlite
