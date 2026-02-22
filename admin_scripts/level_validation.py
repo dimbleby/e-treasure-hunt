@@ -128,6 +128,12 @@ def validate_format() -> None:
 
 
 def check_coord(coord: str, coord_name: str, filename: str) -> None:
+    lat = float(coord)
+    if not lat:
+        print("No", coord_name, "for level", filename)
+    elif lat == 0.0:
+        print("  warning: 0", coord_name, "for level", filename)
+
     numbers_and_dp_only = re.sub(r"[^0-9.]", "", coord)
     a, b = numbers_and_dp_only.split(".") if "." in coord else (coord, "")
     if len(b) > 5:

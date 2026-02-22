@@ -406,17 +406,47 @@ fieldset {
 }
 
 /* ==========================================================================
-   Chat Component Overrides (Bulma)
+   Chat Component
    ========================================================================== */
 
-/* Make the chat hero header more compact */
-.hero.is-primary .hero-body {
-  padding: 1rem 1.5rem;
+.chat-header {
+  background-color: var(--color-primary);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  color: var(--color-white);
+  padding: 0.75rem 1rem;
 }
 
-.hero.is-primary .title {
+.chat-title {
   font-size: 1.25rem;
-  margin-bottom: 0;
+  font-weight: bold;
+  margin: 0;
+}
+
+.chat-body {
+  border: 1px solid var(--color-border);
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+  padding: 0.75rem;
+}
+
+.chat-button {
+  background-color: var(--color-primary);
+  border-radius: var(--radius-sm);
+  border: none;
+  color: var(--color-white);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.chat-button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+.chat-muted {
+  color: var(--color-text-muted);
 }
 
 /* ==========================================================================
