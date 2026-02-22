@@ -8,8 +8,6 @@
 
   let latlng = null;
   const searchButton = document.getElementById("search-button");
-  searchButton.disabled = true;
-  searchButton.classList.add("gobutton--disabled");
 
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:

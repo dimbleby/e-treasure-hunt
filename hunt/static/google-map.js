@@ -104,8 +104,6 @@
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
 
     searchButton = document.getElementById("search-button");
-    searchButton.disabled = true;
-    searchButton.classList.add("gobutton--disabled");
     searchButton.addEventListener("click", searchHere);
 
     map.addListener("click", moveToPlace);
