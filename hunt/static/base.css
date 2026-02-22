@@ -432,7 +432,7 @@ fieldset {
 }
 
 .chat-button {
-  background-color: var(--color-primary);
+  background-color: var(--color-chat-header);
   border-radius: var(--radius-sm);
   border: none;
   color: var(--color-white);
@@ -444,7 +444,7 @@ fieldset {
 }
 
 .chat-button:hover {
-  background-color: var(--color-primary-hover);
+  opacity: 0.85;
 }
 
 .chat-muted {
