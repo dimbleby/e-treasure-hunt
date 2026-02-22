@@ -55,10 +55,8 @@ body {
   font-family: var(--font-primary);
   font-weight: 400;
   margin: 0;
-  max-width: 100vw;
   overflow-x: hidden;
   text-align: center;
-  width: 100%;
 }
 
 /* ==========================================================================
