@@ -1,7 +1,9 @@
 /* Page-specific styles for welcome/login pages - requires base.css */
 
 body {
-  background: no-repeat center/cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   color: var(--color-white);
 }
 
