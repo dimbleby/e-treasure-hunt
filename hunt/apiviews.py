@@ -65,7 +65,7 @@ class LevelViewSet(AllowPUTAsCreateMixin[Level], viewsets.ModelViewSet[Level]):
             data = request.data["data"]
             details = json.loads(data)
             number = details["number"]
-        except (KeyError, ValueError):
+        except KeyError, ValueError:
             return Response(
                 "Hint number not provided", status=status.HTTP_400_BAD_REQUEST
             )
