@@ -252,7 +252,7 @@ resource "azurerm_linux_web_app" "treasure" {
     minimum_tls_version = "1.3"
     ftps_state          = "Disabled"
     http2_enabled       = true
-    app_command_line    = "daphne -b 0.0.0.0 treasure.asgi:application"
+    app_command_line    = "bash $APP_PATH/startup.sh"
     application_stack {
       python_version = "3.14"
     }
