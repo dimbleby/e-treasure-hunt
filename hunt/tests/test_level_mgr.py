@@ -2,12 +2,12 @@
 
 from __future__ import annotations
 
-import io
 import json
 from typing import TYPE_CHECKING
 
 import pytest
 from django.contrib.auth.models import Permission, User
+from django.core.files.base import ContentFile
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import RequestFactory
 
@@ -180,7 +180,7 @@ class TestUploadNewLevel:
         existing = create_level(number=1, name="Old Level")
         for i in range(5):
             hint = Hint(level=existing, number=i)
-            hint.image.save(f"old{i}.jpg", io.BytesIO(b"old"))
+            hint.image.save(f"old{i}.jpg", ContentFile(b"old"))
 
         factory = RequestFactory()
         about = json.dumps(
