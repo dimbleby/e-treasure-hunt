@@ -105,6 +105,7 @@ class TestHint:
         image_name = hint.image.name
         hint.delete()
         # The image should no longer exist
+        assert image_name is not None
         assert not default_storage.exists(image_name)
 
 
