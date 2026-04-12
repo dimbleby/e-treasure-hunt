@@ -113,3 +113,7 @@ required-imports = ["from __future__ import annotations"]
 [tool.pytest]
 DJANGO_SETTINGS_MODULE = "treasure.test_settings"
 python_files = ["test_*.py"]
+
+[tool.coverage.run]
+source = ["hunt", "treasure"]
+omit = ["hunt/tests/*", "hunt/migrations/*"]

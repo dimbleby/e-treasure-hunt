@@ -2,17 +2,14 @@
 
 from __future__ import annotations
 
-from datetime import timedelta
 from decimal import Decimal
 from typing import TYPE_CHECKING
 
 import pytest
 from django.contrib.auth.models import User
-from django.core.files.base import ContentFile
 from django.test import RequestFactory
-from django.utils import timezone
 
-from hunt.models import AppSetting, Hint, Level
+from hunt.models import AppSetting, Level
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -97,29 +94,8 @@ def level(create_level: Callable[..., Level]) -> Level:
 
 
 @pytest.fixture
-def level_with_hints(level: Level) -> Level:
-    """Create a level with hints."""
-    for i in range(5):
-        hint = Hint(level=level, number=i)
-        hint.image.save(f"hint_{i}.jpg", ContentFile(b"fake image content"))
-    return level
-
-
-@pytest.fixture
 def app_setting(db: None) -> AppSetting:
     """Create an app setting."""
     _ = db
 
     return AppSetting.objects.create(active=True, use_alternative_map=False)
-
-
-@pytest.fixture
-def app_setting_with_start_time(db: None) -> AppSetting:
-    """Create an app setting with a start time in the past."""
-    _ = db
-
-    return AppSetting.objects.create(
-        active=True,
-        use_alternative_map=False,
-        start_time=timezone.now() - timedelta(hours=1),
-    )

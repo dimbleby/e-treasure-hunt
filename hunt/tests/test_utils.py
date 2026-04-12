@@ -9,15 +9,20 @@ from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 import pytest
+from django.http import HttpResponse
 from django.utils import timezone
 
 from hunt.models import AppSetting
-from hunt.utils import max_level, players_are_locked_out
+from hunt.tests.conftest import make_request
+from hunt.utils import max_level, no_players_during_lockout, players_are_locked_out
 
 if TYPE_CHECKING:
     from collections.abc import Callable
 
+    from django.contrib.auth.models import User
+
     from hunt.models import Level
+    from hunt.utils import AuthenticatedHttpRequest
 
 
 class TestMaxLevel:
@@ -131,3 +136,42 @@ class TestPlayersLockedOut:
             # Jan 1st is a holiday
             mock_holidays.return_value = {holiday_time.date()}
             assert players_are_locked_out() is False
+
+
+@pytest.mark.django_db
+class TestNoPlayersDuringLockout:
+    """Tests for no_players_during_lockout decorator."""
+
+    def test_lockout_shows_work_time_page(self, user: User) -> None:
+        """Non-staff user should see work-time page when locked out."""
+
+        @no_players_during_lockout
+        def dummy_view(
+            request: AuthenticatedHttpRequest,  # noqa: ARG001
+        ) -> HttpResponse:
+            return HttpResponse("OK")
+
+        request = make_request("/home", user=user)
+
+        with patch("hunt.utils.players_are_locked_out", return_value=True):
+            response = dummy_view(request)
+
+        assert response.status_code == 200
+        assert b"OK" not in response.content
+
+    def test_lockout_does_not_affect_staff(self, staff_user: User) -> None:
+        """Staff user should bypass lockout."""
+
+        @no_players_during_lockout
+        def dummy_view(
+            request: AuthenticatedHttpRequest,  # noqa: ARG001
+        ) -> HttpResponse:
+            return HttpResponse("OK")
+
+        request = make_request("/home", user=staff_user)
+
+        with patch("hunt.utils.players_are_locked_out", return_value=True):
+            response = dummy_view(request)
+
+        assert response.status_code == 200
+        assert response.content == b"OK"

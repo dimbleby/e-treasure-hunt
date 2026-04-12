@@ -86,6 +86,16 @@ class TestRequestHint:
         assert HuntEvent.objects.filter(kind=HuntEvent.EventKind.HINT_REQ).exists()
         assert result["Location"] == "/level/1"
 
+    def test_request_hint_at_max_hints(self, user: User) -> None:
+        """request_hint should redirect to oops when all hints already shown."""
+        user.huntinfo.hints_shown = 5
+        user.huntinfo.save()
+
+        request = make_request("/hint", user=user, data={"lvl": "1", "hint": "5"})
+
+        result = request_hint(request)
+        assert result["Location"] == "/oops"
+
 
 class TestDetermineHintDelay:
     """Tests for determine_hint_delay function."""

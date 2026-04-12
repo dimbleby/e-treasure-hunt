@@ -8,8 +8,9 @@ import pytest
 from django.core.files.base import ContentFile
 from django.test import Client
 from django.urls import reverse
+from django.utils import timezone
 
-from hunt.models import AppSetting, Hint
+from hunt.models import AppSetting, Hint, HuntEvent
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -230,6 +231,25 @@ class TestHuntEvents:
         assert response.status_code == 200
         assert response["Content-Type"] == "text/csv"
 
+    @pytest.mark.django_db
+    def test_events_csv_contains_event_data(
+        self, staff_client: Client, staff_user: User
+    ) -> None:
+        """CSV export should include HuntEvent rows."""
+        HuntEvent.objects.create(
+            time=timezone.now(),
+            kind=HuntEvent.EventKind.CLUE_ADV,
+            user=staff_user,
+            level=1,
+        )
+
+        response = staff_client.get(reverse("events"))
+        assert response.status_code == 200
+
+        content = response.content.decode()
+        lines = content.strip().split("\n")
+        assert len(lines) == 2  # header + 1 event row
+
 
 @pytest.mark.django_db
 class TestMaps:
@@ -294,4 +314,20 @@ class TestHint:
     def test_hint_redirects(self, logged_in_client: Client) -> None:
         """Hint view should redirect."""
         response = logged_in_client.get(reverse("hint"))
+        assert response.status_code == 302
+
+
+@pytest.mark.django_db
+class TestAddNewLevel:
+    """Tests for add_new_level view."""
+
+    def test_add_new_level_requires_staff(self, logged_in_client: Client) -> None:
+        """add_new_level should reject non-staff users."""
+        response = logged_in_client.post(reverse("new-level"))
+        assert response.status_code == 302
+        assert "/accounts/login/" in response.url  # type: ignore[attr-defined]
+
+    def test_add_new_level_redirects(self, staff_client: Client) -> None:
+        """add_new_level should redirect to the upload result."""
+        response = staff_client.post(reverse("new-level"))
         assert response.status_code == 302

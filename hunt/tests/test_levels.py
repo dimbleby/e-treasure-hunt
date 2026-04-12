@@ -6,9 +6,10 @@ from decimal import Decimal
 from typing import TYPE_CHECKING
 
 import pytest
+from django.core.files.base import ContentFile
 
-from hunt.levels import advance_level, list_levels, look_for_level
-from hunt.models import HuntEvent
+from hunt.levels import advance_level, list_levels, look_for_level, maybe_load_level
+from hunt.models import Hint, HuntEvent
 from hunt.tests.conftest import make_request
 
 if TYPE_CHECKING:
@@ -219,3 +220,51 @@ class TestListLevels:
 
         response = list_levels(request)
         assert response.status_code == 200
+
+
+class TestMaybeLoadLevel:
+    """Tests for maybe_load_level hint-availability branches."""
+
+    @pytest.mark.django_db
+    def test_hint_disabled_when_already_requested(
+        self,
+        user: User,
+        create_level: Callable[..., Level],
+    ) -> None:
+        """Level page should disable hints when a hint is already requested."""
+        create_level(number=0, name="Level 0")
+        level = create_level(number=1)
+        create_level(number=2, name="Level 2")
+        for i in range(5):
+            hint = Hint(level=level, number=i)
+            hint.image.save(f"hint_{i}.jpg", ContentFile(b"fake"))
+
+        user.huntinfo.hint_requested = True
+        user.huntinfo.save()
+
+        request = make_request("/level/1", user=user)
+        response = maybe_load_level(request, 1)
+        assert response.status_code == 200
+        assert b"already requested a hint" in response.content
+
+    @pytest.mark.django_db
+    def test_hint_disabled_when_max_hints_shown(
+        self,
+        user: User,
+        create_level: Callable[..., Level],
+    ) -> None:
+        """Level page should disable hints when all hints are shown."""
+        create_level(number=0, name="Level 0")
+        level = create_level(number=1)
+        create_level(number=2, name="Level 2")
+        for i in range(5):
+            hint = Hint(level=level, number=i)
+            hint.image.save(f"hint_{i}.jpg", ContentFile(b"fake"))
+
+        user.huntinfo.hints_shown = 5
+        user.huntinfo.save()
+
+        request = make_request("/level/1", user=user)
+        response = maybe_load_level(request, 1)
+        assert response.status_code == 200
+        assert b"No more hints are available" in response.content
