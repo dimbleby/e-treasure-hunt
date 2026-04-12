@@ -117,6 +117,17 @@ class TestLevelAPI:
         assert response.status_code == 201
         assert Level.objects.filter(number=99).exists()
 
+    def test_patch_nonexistent_level_returns_404(
+        self, staff_api_client: APIClient
+    ) -> None:
+        """PATCH to a non-existent level should return 404."""
+        response = staff_api_client.patch(
+            "/api/levels/999",
+            {"name": "Updated Name"},
+            format="json",
+        )
+        assert response.status_code == 404
+
 
 class TestHintAPI:
     """Tests for Hint API endpoint."""

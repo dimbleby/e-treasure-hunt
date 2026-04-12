@@ -58,6 +58,17 @@ class TestUploadNewLevel:
         result = upload_new_level(request)
         assert result == "/level-mgmt?success=False"
 
+    def test_upload_with_post_data_but_no_level_number(
+        self, user_with_add_level_perm: User
+    ) -> None:
+        """Upload should fail when POST has data but no lvl-num key."""
+        factory = RequestFactory()
+        request = factory.post("/add-level", {"other-field": "value"})
+        request.user = user_with_add_level_perm
+
+        result = upload_new_level(request)
+        assert result == "/level-mgmt?success=False"
+
     def test_upload_without_json_file(self, user_with_add_level_perm: User) -> None:
         """Upload should fail without JSON config file."""
         factory = RequestFactory()
