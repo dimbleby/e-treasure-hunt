@@ -17,6 +17,20 @@ if TYPE_CHECKING:
     from hunt.utils import AuthenticatedHttpRequest
 
 
+@pytest.fixture(autouse=True)
+def _disable_lockout(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Disable the lockout decorator by default.
+
+    The real ``players_are_locked_out`` consults the wall clock and returns
+    ``True`` during configured work hours, which makes view tests depend on
+    the time of day. Tests that want to exercise lockout behaviour patch
+    this name explicitly with ``unittest.mock.patch(...)``; that patch will
+    take precedence over this fixture for the duration of its ``with``
+    block.
+    """
+    monkeypatch.setattr("hunt.utils.players_are_locked_out", lambda: False)
+
+
 def make_request(
     path: str,
     user: User,
