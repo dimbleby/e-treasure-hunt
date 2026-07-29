@@ -62,7 +62,7 @@ class LevelViewSet(AllowPUTAsCreateMixin[Level], viewsets.ModelViewSet[Level]):
         parser_classes=[MultiPartParser],
     )
     def save_hint(self, request: Request, pk: str) -> Response:
-        request_data = request.data
+        request_data: object = request.data
         if not isinstance(request_data, Mapping):
             return Response("Invalid request data", status=status.HTTP_400_BAD_REQUEST)
 
