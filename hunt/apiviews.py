@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from typing import TYPE_CHECKING
 from uuid import uuid4
 
@@ -61,8 +62,12 @@ class LevelViewSet(AllowPUTAsCreateMixin[Level], viewsets.ModelViewSet[Level]):
         parser_classes=[MultiPartParser],
     )
     def save_hint(self, request: Request, pk: str) -> Response:
+        request_data = request.data
+        if not isinstance(request_data, Mapping):
+            return Response("Invalid request data", status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            data = request.data["data"]
+            data = request_data["data"]
             details = json.loads(data)
             number = details["number"]
         except KeyError, ValueError:
@@ -82,7 +87,7 @@ class LevelViewSet(AllowPUTAsCreateMixin[Level], viewsets.ModelViewSet[Level]):
 
         # Check that we have a file, and that it seems to be an image.
         try:
-            upload = request.data["file"]
+            upload = request_data["file"]
         except KeyError:
             return Response("No file attached", status=status.HTTP_400_BAD_REQUEST)
 
