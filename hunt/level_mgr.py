@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 from uuid import uuid4
 
 from hunt.constants import HINTS_PER_LEVEL
@@ -11,9 +11,6 @@ from hunt.models import Hint, Level
 if TYPE_CHECKING:
     from django.core.files.uploadedfile import UploadedFile
     from django.http import HttpRequest
-
-    class NamedFile(UploadedFile):
-        name: str
 
 
 def upload_new_level(request: HttpRequest) -> str:
@@ -37,17 +34,23 @@ def upload_new_level(request: HttpRequest) -> str:
     except Level.DoesNotExist:
         level = Level(number=lvl_num)
 
-    def suffix(file: NamedFile) -> str:
+    def suffix(name: str) -> str:
         """Return normalized filename suffix."""
-        return Path(file.name).suffix.lower()
+        return Path(name).suffix.lower()
 
     # Gather up the needed information.
-    uploaded_files: list[UploadedFile] = request.FILES.getlist("files", default=[])
-    files = [cast("NamedFile", f) for f in uploaded_files if f.name is not None]
-    about_file = next((f for f in files if suffix(f) == ".json"), None)
-    blurb = next((f for f in files if suffix(f) == ".txt"), None)
-    images = [f for f in files if suffix(f) in {".jpeg", ".jpg", ".png"}]
-    images.sort(key=lambda f: f.name.lower())
+    uploaded_files: list[UploadedFile[bytes]] = request.FILES.getlist(
+        "files", default=[]
+    )
+    files = [(file.name, file) for file in uploaded_files if file.name is not None]
+    about_file = next((file for name, file in files if suffix(name) == ".json"), None)
+    blurb = next((file for name, file in files if suffix(name) == ".txt"), None)
+    images = [
+        (name, file)
+        for name, file in files
+        if suffix(name) in {".jpeg", ".jpg", ".png"}
+    ]
+    images.sort(key=lambda named_file: named_file[0].lower())
 
     # Level info and images are mandatory, we can manage without a description.
     if about_file is None or len(images) != HINTS_PER_LEVEL:
@@ -74,9 +77,9 @@ def upload_new_level(request: HttpRequest) -> str:
     old_hints.delete()
 
     # Create new hints.
-    for number, file in enumerate(images):
+    for number, (name, file) in enumerate(images):
         hint = Hint(level=level, number=number)
-        filename = f"{uuid4()}{suffix(file)}"
+        filename = f"{uuid4()}{suffix(name)}"
         hint.image.save(filename, file)
 
     return f"/level-mgmt?success=True&next={int(lvl_num) + 1}"
