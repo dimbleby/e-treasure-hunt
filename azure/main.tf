@@ -23,9 +23,16 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
-  storage_use_azuread = true
-  subscription_id     = var.subscription_id
+  features {
+    enhanced_validation {
+      locations          = true
+      resource_providers = true
+      preflight_enabled  = true
+    }
+  }
+  resource_provider_registrations = "none"
+  storage_use_azuread             = true
+  subscription_id                 = var.subscription_id
 }
 
 # NB force new password by:
@@ -106,6 +113,7 @@ resource "azurerm_storage_account" "treasure" {
   account_tier                    = "Standard"
   min_tls_version                 = "TLS1_2"
   https_traffic_only_enabled      = true
+  public_network_access           = "Enabled"
   shared_access_key_enabled       = false
   allow_nested_items_to_be_public = false
   default_to_oauth_authentication = true
@@ -177,6 +185,7 @@ resource "azurerm_managed_redis" "treasure" {
 
   default_database {
     access_keys_authentication_enabled = false
+    client_protocol                    = "Encrypted"
     clustering_policy                  = "EnterpriseCluster"
     eviction_policy                    = "VolatileLRU"
   }
@@ -224,11 +233,13 @@ resource "random_password" "secret_key" {
 }
 
 resource "azurerm_linux_web_app" "treasure" {
-  name                      = var.app_name
-  resource_group_name       = azurerm_resource_group.treasure.name
-  location                  = azurerm_resource_group.treasure.location
-  service_plan_id           = azurerm_service_plan.treasure.id
-  virtual_network_subnet_id = azurerm_subnet.treasure.id
+  name                                     = var.app_name
+  resource_group_name                      = azurerm_resource_group.treasure.name
+  location                                 = azurerm_resource_group.treasure.location
+  service_plan_id                          = azurerm_service_plan.treasure.id
+  virtual_network_subnet_id                = azurerm_subnet.treasure.id
+  end_to_end_tls_encryption_enabled        = true
+  ftp_publish_basic_authentication_enabled = false
 
   app_settings = {
     APP_URL            = "${var.app_name}.azurewebsites.net"
@@ -248,11 +259,12 @@ resource "azurerm_linux_web_app" "treasure" {
   https_only = true
 
   site_config {
-    always_on           = false
-    minimum_tls_version = "1.3"
-    ftps_state          = "Disabled"
-    http2_enabled       = true
-    app_command_line    = "bash $APP_PATH/startup.sh"
+    always_on               = false
+    minimum_tls_version     = "1.3"
+    scm_minimum_tls_version = "1.3"
+    ftps_state              = "Disabled"
+    http2_enabled           = true
+    app_command_line        = "bash $APP_PATH/startup.sh"
     application_stack {
       python_version = "3.14"
     }
