@@ -13,7 +13,7 @@ def set_chat_message_levels(
     chat_message = apps.get_model("hunt", "ChatMessage")
     level = apps.get_model("hunt", "Level")
     for message in chat_message.objects.all():
-        _, number = message.room.rsplit("_", 1)
+        _, number = message.room.rsplit("_", 1)  # type: ignore[attr-defined]
         message.level = level.objects.get(number=number)
         message.save()
 

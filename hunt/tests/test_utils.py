@@ -157,7 +157,7 @@ class TestNoPlayersDuringLockout:
             response = dummy_view(request)
 
         assert response.status_code == 200
-        assert b"OK" not in response.content
+        assert b"<h1>TIME TO WORK!</h1>" in response.content
 
     def test_lockout_does_not_affect_staff(self, staff_user: User) -> None:
         """Staff user should bypass lockout."""
