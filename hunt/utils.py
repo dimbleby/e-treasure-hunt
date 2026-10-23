@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import contextlib
-import datetime
+import datetime as dt
 import zoneinfo
 from functools import wraps
 from typing import TYPE_CHECKING, Concatenate
@@ -48,7 +48,7 @@ def get_int_param(request: HttpRequest, name: str) -> int | None:
 # hours.
 def players_are_locked_out() -> bool:
     london = zoneinfo.ZoneInfo("Europe/London")
-    now = datetime.datetime.now(tz=london)
+    now = dt.datetime.now(tz=london)
 
     # Prevent access before the start time, if configured.
     start = None
@@ -69,10 +69,10 @@ def players_are_locked_out() -> bool:
 
     # Prevent access 9:00 - 12:30, and 13:30 - 17:30.
     clock = now.time()
-    if datetime.time(9, 0) < clock < datetime.time(12, 30):
+    if dt.time(9, 0) < clock < dt.time(12, 30):
         return True
 
-    if datetime.time(13, 30) < clock < datetime.time(17, 30):  # noqa: SIM103
+    if dt.time(13, 30) < clock < dt.time(17, 30):  # noqa: SIM103
         return True
 
     # Allow access.

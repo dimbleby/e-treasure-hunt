@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import csv
-import datetime
+import datetime as dt
 import zoneinfo
 from collections import Counter
 from dataclasses import dataclass
@@ -39,7 +39,7 @@ COLORS = {
 @dataclass
 class Event:
     identity: int
-    time: datetime.datetime
+    time: dt.datetime
     kind: EventType
     team: Team
     level: int
@@ -66,7 +66,7 @@ def team_advance_times(events: list[Event]) -> dict[Team, list[float]]:
     at which the team advanced to each level.
     """
     london = zoneinfo.ZoneInfo("Europe/London")
-    start = datetime.datetime(2024, 7, 10, 12, 30, tzinfo=london)
+    start = dt.datetime(2024, 7, 10, 12, 30, tzinfo=london)
     advances = [event for event in events if event.kind is EventType.ADVANCE]
     return {
         team: [
