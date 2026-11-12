@@ -16,6 +16,12 @@ uv run pytest hunt/tests/test_views.py::test_name # run a single test
 
 Django management commands use `uv run python manage.py <command>`.
 
+## GitHub Actions
+
+Use full version tags in workflows and run `gh actions-lock` after changing
+actions. Commit `.github/workflows/actions.lock`; do not edit it by hand.
+Verify with `gh actions-lock --verify`.
+
 ## Architecture
 
 This is a **Django 6** application for running location-based treasure hunts. Teams log in, view clue images, and submit GPS coordinates to advance through levels.
